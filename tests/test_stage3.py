@@ -118,8 +118,8 @@ def test_high_risk_experiment_must_be_simulation_only():
     assert any("simulation_only" in e for e in errors)
 
 
-def test_all_seven_templates_exist():
-    for name in ("principle", "phenomenon", "experiment", "theory", "what_if", "engineering", "misconception"):
+def test_all_templates_exist():
+    for name in ("principle", "phenomenon", "experiment", "chemistry_experiment", "theory", "what_if", "engineering", "misconception"):
         assert "required_fields" in tm.load_template(str(ROOT), name)
 
 
@@ -128,6 +128,8 @@ def test_next_topic_and_status_update(tmp_path):
     repo = make_copy(tmp_path)
     assert tm.select_next_topic(str(repo))["id"] == "physics-001"
     tm.set_status(str(repo), "physics-001", "researched")
+    assert tm.select_next_topic(str(repo))["id"] == "chem-001"
+    tm.set_status(str(repo), "chem-001", "researched")
     assert tm.select_next_topic(str(repo)) is None
 
 
@@ -136,6 +138,7 @@ def test_already_produced_topic_is_skipped(tmp_path):
     path = repo / "records" / "production_history.json"
     data = json.loads(path.read_text())
     data["productions"].append({"topic_id": "physics-001"})
+    data["productions"].append({"topic_id": "chem-001"})
     path.write_text(json.dumps(data))
     assert tm.select_next_topic(str(repo)) is None
 

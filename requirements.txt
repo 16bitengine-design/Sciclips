@@ -1,0 +1,3 @@
+# Stage 1 keeps this minimal. Later stages add pinned packages
+# (manim, numpy, requests, pytest...) as each one is needed.
+pytest==8.3.4

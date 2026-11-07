@@ -1,0 +1,27 @@
+{
+  "short": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "min_duration_seconds": 30,
+    "max_duration_seconds": 90
+  },
+  "long": {
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "min_duration_seconds": 300,
+    "max_duration_seconds": 720
+  },
+  "video_codec": "libx264",
+  "audio_codec": "aac",
+  "container": "mp4",
+  "cpu_only": true,
+  "animation_complexity_default": "low",
+  "max_render_minutes_per_job": 60,
+  "max_output_size_mb": 200,
+  "narration": {
+    "provider": "subtitles_only_fallback",
+    "speaking_speed": 1.0
+  }
+}

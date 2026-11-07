@@ -1,16 +1,19 @@
-## Hi there 👋
+# SCIENCE ANIMATION STUDIO
 
-<!--
-**SciClips/Sciclips** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+An automated, cloud-only, zero-budget system that researches, animates and
+publishes science education videos, running entirely on GitHub Actions.
 
-Here are some ideas to get you started:
+## Status
+Stage 1 of 12: repository structure and configuration.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## Safety defaults
+- Operating mode is TEST: nothing is published.
+- Automatic publishing is disabled until explicitly enabled.
+- Paid services are never used.
+
+## Secrets (set later, under Settings > Secrets and variables > Actions)
+- ZERNIO_API_KEY
+- ZERNIO_YOUTUBE_ACCOUNT_ID
+- ZERNIO_TIKTOK_ACCOUNT_ID
+
+Never paste credentials into any file in this repository.

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "topics": [
+    {
+      "id": "physics-001",
+      "title": "Why do objects fall at the same rate in a vacuum?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
+    }
+  ]
+}

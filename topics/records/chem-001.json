@@ -1,0 +1,195 @@
+{
+  "id": "chem-001",
+  "title": "What happens when baking soda meets vinegar?",
+  "category": "chemistry",
+  "subject_area": "acid-carbonate reactions",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "secondary school"
+  ],
+  "central_question": "Why does baking soda fizz in vinegar, and where do the bubbles come from?",
+  "template": "chemistry_experiment",
+  "reaction_type": "acid-carbonate (neutralisation) reaction producing a gas",
+  "scientific_explanation": {
+    "level_1": "Baking soda and vinegar react and make new substances. One of them is carbon dioxide gas, and the bubbles you see are that gas escaping.",
+    "level_2": "Ethanoic (acetic) acid in vinegar reacts with sodium hydrogencarbonate. The products are sodium ethanoate, water and carbon dioxide. This is a chemical change because new substances form.",
+    "level_3": "CH3COOH + NaHCO3 -> CH3COONa + H2O + CO2. The equation is balanced: each atom appears the same number of times on both sides, which is conservation of mass at the atomic level. In an open vessel the measured mass falls because gas leaves; in a sealed vessel it does not."
+  },
+  "supporting_evidence": [
+    "The Royal Society of Chemistry describes a very visible fizzing reaction when sodium hydrogencarbonate is mixed with ethanoic acid (vinegar).",
+    "RSC teaching materials show that a balloon over the vessel captures the gas, so no mass is lost in a sealed system."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Bubble volcanoes",
+      "publisher": "Royal Society of Chemistry (Education)",
+      "url": "https://edu.rsc.org/resources/bubble-volcanoes/2026.article",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-07",
+      "kind": "education_resource"
+    },
+    {
+      "id": "s2",
+      "title": "P031S: Bubble volcanoes (student and teacher sheets)",
+      "publisher": "Royal Society of Chemistry (Education)",
+      "url": "https://edu.rsc.org/download?ac=15271",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-07",
+      "kind": "education_resource"
+    },
+    {
+      "id": "s3",
+      "title": "Popping good chemistry (11-14 years)",
+      "publisher": "Royal Society of Chemistry (Education)",
+      "url": "https://edu.rsc.org/download?ac=537130",
+      "date_published": "2024-01-01",
+      "date_updated": null,
+      "date_accessed": "2026-11-07",
+      "kind": "education_resource",
+      "note": "Publication date is the copyright year printed on the document; exact date unknown."
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "experimental_observation",
+      "text": "Mixing sodium hydrogencarbonate with ethanoic acid (vinegar) produces a very visible fizzing reaction as carbon dioxide gas forms bubbles.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Ethanoic acid reacts with sodium hydrogencarbonate to form sodium ethanoate, water and carbon dioxide.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    },
+    {
+      "id": "c3",
+      "kind": "law",
+      "text": "Mass is conserved: in a sealed vessel the total mass stays the same, while in an open vessel the mass appears to fall because the gas escapes.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "experimental_observation",
+      "text": "In a sealed tube, carbon dioxide from sodium hydrogencarbonate and an acid raises the pressure until the lid pops off, so eye protection is advised.",
+      "source_ids": [
+        "s3"
+      ],
+      "equation_ids": []
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Vinegar and baking soda",
+      "type": "chemical",
+      "equation": "CH3COOH + NaHCO3 -> CH3COONa + H2O + CO2"
+    }
+  ],
+  "assumptions": [
+    "Everyday-purity reagents at room conditions.",
+    "The container is open so gas can escape.",
+    "The balance used is accurate enough to show small changes in mass."
+  ],
+  "variables": [
+    {
+      "symbol": "n",
+      "name": "amount of substance",
+      "unit": "mol"
+    },
+    {
+      "symbol": "m",
+      "name": "mass of the whole system",
+      "unit": "kg"
+    },
+    {
+      "symbol": "T",
+      "name": "temperature",
+      "unit": "K"
+    }
+  ],
+  "practical_applications": [
+    "Baking: sodium hydrogencarbonate with an acid releases carbon dioxide that makes mixtures rise.",
+    "Effervescent tablets use the same type of reaction."
+  ],
+  "misconceptions": [
+    {
+      "statement": "The mass disappears when the fizzing happens.",
+      "correction": "The gas escapes into the air. In a sealed system the mass stays the same."
+    },
+    {
+      "statement": "The fizzing is just the powder dissolving.",
+      "correction": "New substances form, including a gas, so it is a chemical change that cannot be simply reversed."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the container is sealed tightly?",
+      "summary": "Gas builds pressure and can push the lid off suddenly. Show this only as an animation and warn viewers to keep containers open."
+    },
+    {
+      "title": "What if we weigh an open container before and after?",
+      "summary": "The scale reading falls because gas leaves. Compare with a balloon-sealed vessel where it does not."
+    }
+  ],
+  "safety_considerations": "Low hazard with everyday materials, but still use an open container on a tray, wear eye protection and have an adult supervise children. Never seal the container.",
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Where do the bubbles come from? Fizzing explained in 45 seconds."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "The reaction, the balanced equation, conservation of mass, and the sealed-container what-if."
+  },
+  "hazards": [
+    "Mixture fizzes and can overflow.",
+    "Possible eye irritation: wear eye protection.",
+    "Sealing the container allows pressure to build up."
+  ],
+  "safety_equipment": [
+    "eye protection",
+    "tray to catch spills"
+  ],
+  "supervision_required": true,
+  "risk_level": "low",
+  "simulation_only": false,
+  "reagents": [
+    {
+      "name": "sodium hydrogencarbonate (baking soda)",
+      "formula": "NaHCO3",
+      "hazard_class": "low"
+    },
+    {
+      "name": "ethanoic acid (white vinegar)",
+      "formula": "CH3COOH",
+      "hazard_class": "low"
+    }
+  ],
+  "procedure_steps": [
+    "Stand an open container on a tray.",
+    "Add a small amount of sodium hydrogencarbonate to the container.",
+    "Add vinegar slowly and watch the fizzing.",
+    "Do not seal the container."
+  ],
+  "expected_results": [
+    "Vigorous fizzing as carbon dioxide forms.",
+    "In an open vessel the measured mass falls slightly because gas escapes."
+  ],
+  "disposal": "Rinse away with plenty of water.",
+  "production_status": "queued"
+}

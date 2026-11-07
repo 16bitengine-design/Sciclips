@@ -7,6 +7,7 @@ ALLOWED_STATUSES = (
     "queued", "researched", "scripted", "storyboarded", "rendered",
     "awaiting_approval", "published", "failed",
 )
+EXPERIMENT_TEMPLATES = ("experiment", "chemistry_experiment")
 LIST_FIELDS = ("sources", "claims", "equations", "assumptions", "variables",
                "practical_applications", "misconceptions", "what_if_scenarios")
 
@@ -36,9 +37,18 @@ def validate_topic_record(record, template):
         errors.append(f"production_status must be one of {ALLOWED_STATUSES}.")
     if record.get("template") == "theory" and record.get("theory_status") not in ("theory", "hypothesis"):
         errors.append("theory_status must be 'theory' or 'hypothesis'.")
-    if record.get("template") == "experiment" and record.get("risk_level") == "high" \
-            and record.get("simulation_only") is not True:
-        errors.append("High-risk experiments must be simulation_only.")
+    if record.get("template") in EXPERIMENT_TEMPLATES:
+        risk = record.get("risk_level")
+        sim_only = record.get("simulation_only") is True
+        if risk not in ("low", "medium", "high"):
+            errors.append("risk_level must be low, medium or high.")
+        if not sim_only and not record.get("procedure_steps"):
+            errors.append("procedure_steps are required unless simulation_only is true.")
+        if risk == "high":
+            if not sim_only:
+                errors.append("High-risk experiments must be simulation_only.")
+            if record.get("procedure_steps"):
+                errors.append("High-risk experiments must not include procedure_steps (animate only).")
     return errors
 
 

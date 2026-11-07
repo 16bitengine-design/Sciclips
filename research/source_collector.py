@@ -13,7 +13,7 @@ REQUIRED_FIELDS = ("id", "title", "publisher", "url", "date_accessed")
 PREFERRED_SUFFIXES = (
     "nasa.gov", "nist.gov", "noaa.gov", "cern.ch", "home.cern", "esa.int",
     "nature.com", "science.org", "aps.org", "iop.org", "royalsociety.org",
-    "nobelprize.org", ".edu", ".gov", ".ac.uk",
+    "nobelprize.org", "rsc.org", "acs.org", "iupac.org", ".edu", ".gov", ".ac.uk",
 )
 
 DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")

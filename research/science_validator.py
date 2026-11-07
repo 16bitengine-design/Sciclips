@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from content.topic_manager import load_template, load_topic_record, validate_topic_record  # noqa: E402
 from research.claim_checker import check_claims  # noqa: E402
 from research.equation_checker import check_equations  # noqa: E402
+from research.safety_checker import check_safety  # noqa: E402
 from research.source_collector import validate_sources  # noqa: E402
 
 DISCLAIMER = "Automated checks only. This is not expert peer review."
@@ -35,6 +36,10 @@ def validate_topic_science(record, template):
     eq_result = check_equations(record.get("equations", []))
     errors += eq_result["errors"]
     needs_approval += eq_result["needs_approval"]
+
+    safety = check_safety(record)
+    errors += safety["errors"]
+    needs_approval += safety["needs_approval"]
 
     if not record.get("assumptions"):
         errors.append("No assumptions stated.")
@@ -64,6 +69,8 @@ def format_report(result):
     lines = [f"Topic {result['topic_id']}: {result['status']}"]
     for key in ("errors", "needs_approval", "warnings"):
         for item in result[key]:
+            if key == "warnings" and item in result["needs_approval"]:
+                continue
             lines.append(f"  [{key}] {item}")
     lines.append(f"  Unit-checked equations: {', '.join(result['equations_unit_checked']) or 'none'}")
     lines.append(f"  {result['disclaimer']} Human review is still required.")

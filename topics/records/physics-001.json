@@ -1,1 +1,236 @@
-
+{
+  "id": "physics-001",
+  "title": "Why do objects fall at the same rate in a vacuum?",
+  "category": "physics",
+  "subject_area": "classical mechanics / gravitation",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "secondary school",
+    "university"
+  ],
+  "central_question": "If a heavier object is pulled harder by gravity, why does it not fall faster when there is no air?",
+  "template": "principle",
+  "principle_statement": "Where air resistance is negligible, all objects released together at the same place fall with the same acceleration, regardless of their mass.",
+  "domain_of_validity": "Small objects near a much larger body, negligible air resistance, no other significant forces.",
+  "scientific_explanation": {
+    "level_1": "A heavier object is pulled harder by gravity, but it is also harder to get moving. These two effects cancel exactly. On Earth, air pushes back much more on a feather than on a hammer, which is why the feather falls slowly. Take the air away and they fall together.",
+    "level_2": "Near a planet, the acceleration caused by gravity depends on the planet's mass and the distance from its centre. It does not depend on the mass of the falling object. Air resistance is a separate force that depends on shape and speed, so it affects a feather far more than a hammer.",
+    "level_3": "Newton's law of gravitation gives F = G M m / r^2 and Newton's second law gives F = m a. Combining them gives a = G M / r^2, in which the falling object's mass m cancels. This assumes the inertial mass in F = m a equals the gravitational mass in the law of gravitation, an equality that is tested experimentally (the equivalence principle)."
+  },
+  "supporting_evidence": [
+    "Apollo 15 (1971): Commander David Scott dropped a geologic hammer and a feather together on the Moon, where there is almost no air, as a live television demonstration.",
+    "NASA describes the Moon as a good place, free of air resistance, to test whether objects fall equivalently."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "The Apollo 15 Hammer-Feather Drop",
+      "publisher": "NASA NSSDCA, Goddard Space Flight Center",
+      "url": "https://nssdc.gsfc.nasa.gov/planetary/lunar/apollo_15_feather_drop.html",
+      "date_published": null,
+      "date_updated": "2023-03-31",
+      "date_accessed": "2026-11-07",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Hammer Versus Feather on the Moon (Astronomy Picture of the Day)",
+      "publisher": "NASA APOD",
+      "url": "https://apod.nasa.gov/rjn/apod/ap111101.html",
+      "date_published": "2011-11-01",
+      "date_updated": null,
+      "date_accessed": "2026-11-07",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s3",
+      "title": "The NIST Reference on Constants, Units and Uncertainty: Newtonian constant of gravitation",
+      "publisher": "NIST",
+      "url": "https://www.physics.nist.gov/cgi-bin/cuu/Value?bg",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-07",
+      "kind": "reference_database"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "experimental_observation",
+      "text": "At the end of the last Apollo 15 moonwalk, Commander David Scott dropped a geologic hammer and a feather at the same time as a live demonstration for the television cameras.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "The Moon is a good place, free of air resistance, to test whether objects of different composition fall equivalently.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "mathematical_model",
+      "text": "Under Newtonian gravity, the acceleration of a small object near a large body is a = G M / r^2, independent of the small object's mass.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1",
+        "e2",
+        "e3"
+      ]
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "The recommended value of the Newtonian constant of gravitation is about 6.674 x 10^-11 m^3 kg^-1 s^-2, with a small stated uncertainty.",
+      "source_ids": [
+        "s3"
+      ],
+      "equation_ids": []
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Newton's law of universal gravitation",
+      "latex": "F = G M m / r^2",
+      "dimension_check": {
+        "lhs": "N",
+        "rhs": "m^3 kg^-1 s^-2 kg kg m^-2"
+      }
+    },
+    {
+      "id": "e2",
+      "name": "Newton's second law",
+      "latex": "F = m a",
+      "dimension_check": {
+        "lhs": "N",
+        "rhs": "kg m s^-2"
+      }
+    },
+    {
+      "id": "e3",
+      "name": "Gravitational acceleration (mass cancels)",
+      "latex": "a = G M / r^2",
+      "dimension_check": {
+        "lhs": "m s^-2",
+        "rhs": "m^3 kg^-1 s^-2 kg m^-2"
+      },
+      "numeric_checks": [
+        {
+          "type": "independence",
+          "function": "gravity_acceleration",
+          "vary": "m",
+          "values": [
+            0.0003,
+            0.03,
+            1.0,
+            1000.0
+          ],
+          "fixed": {
+            "G": 6.6743e-11,
+            "M": 5.972e+24,
+            "r": 6371000.0
+          },
+          "max_relative_spread": 1e-12
+        },
+        {
+          "type": "expected_value",
+          "function": "gravity_acceleration",
+          "inputs": {
+            "G": 6.6743e-11,
+            "M": 5.972e+24,
+            "m": 1.0,
+            "r": 6371000.0
+          },
+          "expected": 9.8,
+          "tolerance": 0.1,
+          "note": "Illustrative: Earth mass and radius here are rounded textbook values with no source recorded. Used only as a sanity check."
+        }
+      ]
+    }
+  ],
+  "assumptions": [
+    "Air resistance and other forces are negligible.",
+    "The falling object is small compared with the attracting body, so the body's own motion can be ignored.",
+    "Gravity is treated as uniform over the height of the drop.",
+    "Inertial mass and gravitational mass are equal (tested experimentally, assumed in the derivation)."
+  ],
+  "variables": [
+    {
+      "symbol": "F",
+      "name": "gravitational force",
+      "unit": "N"
+    },
+    {
+      "symbol": "G",
+      "name": "gravitational constant",
+      "unit": "m^3 kg^-1 s^-2"
+    },
+    {
+      "symbol": "M",
+      "name": "mass of the large body",
+      "unit": "kg"
+    },
+    {
+      "symbol": "m",
+      "name": "mass of the falling object",
+      "unit": "kg"
+    },
+    {
+      "symbol": "r",
+      "name": "distance from the centre of the large body",
+      "unit": "m"
+    },
+    {
+      "symbol": "a",
+      "name": "acceleration",
+      "unit": "m s^-2"
+    }
+  ],
+  "practical_applications": [
+    "Predicting the fall of objects and spacecraft trajectories.",
+    "Designing drop-tower and vacuum-chamber experiments.",
+    "Understanding why parachutes and streamlining matter."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Heavier objects always fall faster.",
+      "correction": "Without air resistance they fall together. In air, drag changes the result, and mass is only part of that story."
+    },
+    {
+      "statement": "There is no gravity on the Moon, so things float.",
+      "correction": "The Moon has gravity, weaker than Earth's. The feather fell because the Moon has almost no air."
+    },
+    {
+      "statement": "The Apollo 15 drop proved the law for all objects.",
+      "correction": "It was one demonstration. It supports the principle, and precision tests are done in dedicated experiments."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if we ignore air resistance when predicting a drop on Earth?",
+      "summary": "Predicting that a feather and hammer land together in air is wrong. Compare a vacuum-model animation with a drag-model animation."
+    },
+    {
+      "title": "What if we assume mass changes the acceleration?",
+      "summary": "Show how a mass-dependent model would give different fall times and contradict the observed Moon drop."
+    }
+  ],
+  "safety_considerations": "Low risk when shown as animation. Do not encourage dropping heavy objects from heights or entering vacuum chambers without supervision.",
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Hammer and feather on the Moon: why do they land together?"
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Full derivation, the Apollo 15 demonstration, and a vacuum versus air comparison."
+  },
+  "production_status": "queued"
+}

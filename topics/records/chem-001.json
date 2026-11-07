@@ -140,11 +140,30 @@
   "what_if_scenarios": [
     {
       "title": "What if the container is sealed tightly?",
-      "summary": "Gas builds pressure and can push the lid off suddenly. Show this only as an animation and warn viewers to keep containers open."
+      "summary": "Gas builds pressure and can push the lid off suddenly.",
+      "correct": "Keep the container open so the carbon dioxide can escape.",
+      "overlooked": "Sealing the container tightly.",
+      "what_changes": "The gas can no longer leave, so the pressure builds up.",
+      "consequences": "In a sealed tube the pressure can pop the lid off, so eye protection is advised.",
+      "why": "The reaction keeps producing carbon dioxide gas in a fixed space.",
+      "prevention": "Use an open container, wear eye protection, and never seal the mixture.",
+      "claim_ids": [
+        "c2",
+        "c4"
+      ]
     },
     {
       "title": "What if we weigh an open container before and after?",
-      "summary": "The scale reading falls because gas leaves. Compare with a balloon-sealed vessel where it does not."
+      "summary": "The scale reading falls because gas leaves.",
+      "correct": "To check conservation of mass, weigh a sealed system, such as a balloon fitted over the vessel.",
+      "overlooked": "Weighing an open container before and after, and concluding that mass disappeared.",
+      "what_changes": "In an open vessel the carbon dioxide escapes into the air.",
+      "consequences": "The scale reading falls, which can be misread as mass being destroyed.",
+      "why": "The missing mass is the gas that left the vessel.",
+      "prevention": "Measure a sealed system, or account for the escaping gas.",
+      "claim_ids": [
+        "c3"
+      ]
     }
   ],
   "safety_considerations": "Low hazard with everyday materials, but still use an open container on a tray, wear eye protection and have an adult supervise children. Never seal the container.",
@@ -191,5 +210,15 @@
     "In an open vessel the measured mass falls slightly because gas escapes."
   ],
   "disposal": "Rinse away with plenty of water.",
-  "production_status": "queued"
+  "production_status": "queued",
+  "visual_hints": {
+    "hook": [
+      "close-up of fizzing in a clear open container on a tray"
+    ],
+    "demonstration": [
+      "particles of sodium hydrogencarbonate and ethanoic acid reacting",
+      "carbon dioxide bubbles leaving the container",
+      "open container and balloon-sealed container on balances"
+    ]
+  }
 }

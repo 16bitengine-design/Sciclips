@@ -216,11 +216,30 @@
   "what_if_scenarios": [
     {
       "title": "What if we ignore air resistance when predicting a drop on Earth?",
-      "summary": "Predicting that a feather and hammer land together in air is wrong. Compare a vacuum-model animation with a drag-model animation."
+      "summary": "Predicting that a feather and a hammer land together in air is wrong.",
+      "correct": "Treat air resistance as a separate force. In air, a feather is slowed far more than a hammer.",
+      "overlooked": "Assuming air does not matter and predicting that a feather and a hammer land together on Earth.",
+      "what_changes": "The prediction leaves out the drag force, which depends on shape and speed rather than only on mass.",
+      "consequences": "The prediction is wrong in air: the hammer lands first.",
+      "why": "Gravity gives both objects the same acceleration, but drag is a second force that affects the feather far more.",
+      "prevention": "State the assumption that air resistance is negligible, and check that it holds before using the model.",
+      "claim_ids": [
+        "c3"
+      ]
     },
     {
       "title": "What if we assume mass changes the acceleration?",
-      "summary": "Show how a mass-dependent model would give different fall times and contradict the observed Moon drop."
+      "summary": "A mass-dependent model would contradict the Moon drop.",
+      "correct": "Use a = G M / r^2, in which the falling object's mass cancels.",
+      "overlooked": "Assuming that a heavier object has a larger acceleration.",
+      "what_changes": "A mass-dependent model would predict different fall times for a hammer and a feather.",
+      "consequences": "It would contradict the Apollo 15 demonstration, where the hammer and feather were seen landing together.",
+      "why": "The larger pull on a heavier object is cancelled by its larger inertia, so the acceleration is the same.",
+      "prevention": "Check a model against observations such as the Apollo 15 demonstration, and keep the unit and assumption checks.",
+      "claim_ids": [
+        "c1",
+        "c3"
+      ]
     }
   ],
   "safety_considerations": "Low risk when shown as animation. Do not encourage dropping heavy objects from heights or entering vacuum chambers without supervision.",
@@ -232,5 +251,16 @@
     "suitable": true,
     "angle": "Full derivation, the Apollo 15 demonstration, and a vacuum versus air comparison."
   },
-  "production_status": "queued"
+  "production_status": "queued",
+  "visual_hints": {
+    "hook": [
+      "a hammer and a feather held above a grey lunar surface",
+      "split screen: air-filled lab on the left, vacuum on the right"
+    ],
+    "demonstration": [
+      "both objects released at the same moment",
+      "side-by-side chambers: air on the left, vacuum on the right",
+      "simple velocity-time graph for each object"
+    ]
+  }
 }

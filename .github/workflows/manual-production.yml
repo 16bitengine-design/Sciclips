@@ -1,1 +1,78 @@
+name: Manual production
 
+on:
+  workflow_dispatch:
+    inputs:
+      topic_id:
+        description: "Topic ID from topics/topic_queue.json"
+        required: true
+        default: "physics-001"
+        type: string
+      video_format:
+        description: "Which video format to produce"
+        required: true
+        default: "short"
+        type: choice
+        options:
+          - short
+          - long
+          - both
+      animation_complexity:
+        description: "Animation complexity"
+        required: true
+        default: "low"
+        type: choice
+        options:
+          - low
+          - medium
+          - high
+      output_mode:
+        description: "TEST = no publishing (only TEST works for now)"
+        required: true
+        default: "TEST"
+        type: choice
+        options:
+          - TEST
+          - APPROVAL
+          - AUTOMATIC
+
+permissions:
+  contents: read
+
+jobs:
+  produce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run automated tests
+        run: python -m pytest tests -v
+
+      - name: Validate configuration
+        run: python scripts/validate_config.py
+
+      - name: Check topic records
+        run: python content/topic_manager.py validate
+
+      - name: Check science records for the chosen topic
+        env:
+          TOPIC_ID: ${{ inputs.topic_id }}
+        run: python research/science_validator.py "$TOPIC_ID"
+
+      - name: Run production request
+        env:
+          TOPIC_ID: ${{ inputs.topic_id }}
+          VIDEO_FORMAT: ${{ inputs.video_format }}
+          ANIMATION_COMPLEXITY: ${{ inputs.animation_complexity }}
+          OUTPUT_MODE: ${{ inputs.output_mode }}
+        run: python scripts/run_production.py

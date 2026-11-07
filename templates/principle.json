@@ -1,0 +1,31 @@
+{
+  "template": "principle",
+  "description": "A scientific principle or law",
+  "schema_version": 1,
+  "required_fields": [
+    "id",
+    "title",
+    "category",
+    "subject_area",
+    "difficulty_level",
+    "target_audience",
+    "central_question",
+    "template",
+    "scientific_explanation",
+    "supporting_evidence",
+    "sources",
+    "claims",
+    "equations",
+    "assumptions",
+    "variables",
+    "practical_applications",
+    "misconceptions",
+    "what_if_scenarios",
+    "safety_considerations",
+    "short_video_potential",
+    "long_video_potential",
+    "production_status",
+    "principle_statement",
+    "domain_of_validity"
+  ]
+}

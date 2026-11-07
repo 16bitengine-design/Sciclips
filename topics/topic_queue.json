@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "topics": [
+    {
+      "id": "physics-001",
+      "title": "Why do objects fall at the same rate in a vacuum?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "chem-001",
+      "title": "What happens when baking soda meets vinegar?",
+      "category": "chemistry",
+      "template": "chemistry_experiment",
+      "status": "queued"
+    }
+  ]
+}

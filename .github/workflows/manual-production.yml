@@ -69,6 +69,19 @@ jobs:
           TOPIC_ID: ${{ inputs.topic_id }}
         run: python research/science_validator.py "$TOPIC_ID"
 
+      - name: Generate script and storyboard
+        env:
+          TOPIC_ID: ${{ inputs.topic_id }}
+          VIDEO_FORMAT: ${{ inputs.video_format }}
+        run: python scripts/generate_content.py
+
+      - name: Save script and storyboard files
+        uses: actions/upload-artifact@v4
+        with:
+          name: script-and-storyboard
+          path: output/
+          retention-days: 7
+
       - name: Run production request
         env:
           TOPIC_ID: ${{ inputs.topic_id }}

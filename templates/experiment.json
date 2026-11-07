@@ -1,6 +1,6 @@
 {
   "template": "experiment",
-  "description": "A practical experiment (high-risk ones must be simulation_only)",
+  "description": "A practical experiment. procedure_steps is required unless simulation_only is true. High-risk experiments must be simulation_only and must not contain procedure_steps.",
   "schema_version": 1,
   "required_fields": [
     "id",
@@ -25,9 +25,11 @@
     "short_video_potential",
     "long_video_potential",
     "production_status",
-    "procedure_steps",
-    "expected_results",
+    "hazards",
+    "safety_equipment",
+    "supervision_required",
     "risk_level",
-    "simulation_only"
+    "simulation_only",
+    "expected_results"
   ]
 }

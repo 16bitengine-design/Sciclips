@@ -61,6 +61,14 @@ jobs:
       - name: Validate configuration
         run: python scripts/validate_config.py
 
+      - name: Check topic records
+        run: python content/topic_manager.py validate
+
+      - name: Check science records for the chosen topic
+        env:
+          TOPIC_ID: ${{ inputs.topic_id }}
+        run: python research/science_validator.py "$TOPIC_ID"
+
       - name: Run production request
         env:
           TOPIC_ID: ${{ inputs.topic_id }}

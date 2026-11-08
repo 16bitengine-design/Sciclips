@@ -51,7 +51,7 @@ def _panel(c, box, title, color, sims, t_sim, accent_note=None, wrong=False):
     c.rect(box, fill="panel", radius=18)
     c.label(((x0 + x1) / 2, y0 + c.px(22)), title, 28, color, kind="bold", anchor="ma")
     ground = y1 - c.px(46)
-    top = y0 + c.px(130)
+    top = y0 + c.px(160)
     c.rect((x0 + c.px(14), ground, x1 - c.px(14), ground + c.px(8)), fill="muted")
     positions = {"hammer": x0 + (x1 - x0) * 0.32, "feather": x0 + (x1 - x0) * 0.68}
     done = True
@@ -63,10 +63,10 @@ def _panel(c, box, title, color, sims, t_sim, accent_note=None, wrong=False):
         landed = sim["t_land"] is not None and t_sim >= sim["t_land"]
         done = done and landed
         c.label((positions[name], ground + c.px(20)), name, 24, "muted", anchor="ma")
-    times = [f"{n} {sims[n]['t_land']:.2f} s" for n in ("hammer", "feather")
+    times = [f"{n} lands at {sims[n]['t_land']:.2f} s" for n in ("hammer", "feather")
              if sims[n]["t_land"] is not None and t_sim >= sims[n]["t_land"]]
-    if times:
-        c.label(((x0 + x1) / 2, y0 + c.px(100)), "lands at:  " + "   ".join(times), 22, "text", anchor="ma")
+    for i, line in enumerate(times):
+        c.label(((x0 + x1) / 2, y0 + c.px(98) + i * c.px(26)), line, 22, "text", anchor="ma")
     if done:
         result = ff.landing_summary(sims["hammer"], sims["feather"])
         if result == "together":

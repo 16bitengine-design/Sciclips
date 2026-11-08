@@ -2,6 +2,7 @@
 import re
 
 from animation.two_d.canvas import appear, clamp, pretty_math
+from animation.simulations import gas_release as gas
 from animation.two_d import sim_draw
 from research.equation_checker import _side_atoms
 
@@ -32,26 +33,39 @@ def text_card(c, t, ctx):
     c.paragraph(x0, start, text, size, "text", x1 - x0, kind="bold", alpha=a)
 
 
+def _hook_preview(c, t, ctx, top, bottom):
+    """A small still picture for the opening card (the 3D version arrives in Stage 6)."""
+    kind = (ctx["record"].get("simulation") or {}).get("kind")
+    if bottom - top < c.px(300):
+        return
+    a = appear(t, 0.3, 0.25)
+    drop = (1 - a) * c.px(40)
+    if kind == "free_fall":
+        for name, x in (("hammer", c.w * 0.35), ("feather", c.w * 0.65)):
+            held = top + c.px(110) - drop
+            for k in range(8):
+                y = held + c.px(30) + k * c.px(34)
+                if y < bottom - c.px(20):
+                    c.line((x, y), (x, y + c.px(16)), "muted", 4, alpha=a * 0.8)
+            (sim_draw._draw_hammer if name == "hammer" else sim_draw._draw_feather)(c, x, held)
+        c.rect((c.w * 0.12, bottom - c.px(14), c.w * 0.88, bottom - c.px(6)), fill="muted", alpha=a)
+    elif kind == "gas_release":
+        width, height = c.px(300), min(c.px(340), bottom - top - c.px(40))
+        box = (c.w / 2 - width / 2, bottom - height - drop, c.w / 2 + width / 2, bottom - drop)
+        sim_draw._draw_beaker(c, box, 0.35, 0.6, "open", gas.make_bubbles())
+
+
 def hook_card(c, t, ctx):
-    """Opening card. A lightweight 3D version arrives in Stage 6; this is the 2D stand-in."""
+    """Opening card: the title plus a still picture. A lightweight 3D version arrives in Stage 6."""
     scene = ctx["scene"]
     x0, y0, x1, y1 = c.content_box()
     a = appear(t, 0.0, 0.2)
     c.label((x0, y0), "SCIENCE ANIMATION STUDIO", 26, "muted", kind="bold", alpha=a)
     text = _text(scene)
-    size = c.fit_size(text, x1 - x0, (y1 - y0) * 0.5, 84, 40, "bold")
+    size = c.fit_size(text, x1 - x0, (y1 - y0) * 0.4, 84, 40, "bold")
     bottom = c.paragraph(x0, y0 + c.px(120) + (1 - a) * c.px(40), text, size, "text", x1 - x0, kind="bold", alpha=a)
-    y = bottom + c.px(50)
-    for i, item in enumerate(scene.get("visual_elements", [])[:3]):
-        b = appear(t, 0.25 + 0.2 * i)
-        if b <= 0:
-            continue
-        h = c.px(70)
-        c.rect((x0, y, x1, y + h), fill="panel", radius=16, alpha=b)
-        c.rect((x0, y, x0 + c.px(10), y + h), fill="accent", alpha=b)
-        font_size = c.fit_size(item, x1 - x0 - c.px(60), h * 0.8, 30, 20)
-        c.paragraph(x0 + c.px(30), y + (h - font_size * c.u * 1.3) / 2, item, font_size, "muted", x1 - x0 - c.px(60), alpha=b)
-        y += h + c.px(16)
+    c.rect((x0, bottom + c.px(24), x0 + c.px(120), bottom + c.px(30)), fill="accent", alpha=a)
+    _hook_preview(c, t, ctx, bottom + c.px(50), y1)
 
 
 # ---------------------------------------------------------------- equation

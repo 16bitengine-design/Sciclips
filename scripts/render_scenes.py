@@ -23,7 +23,7 @@ from research.science_validator import validate_topic_id  # noqa: E402
 
 
 def run(root, topic_id, video_format, out_dir, quality="draft", narration=None):
-    """Returns (ok, report_lines). narration is espeak, piper or none (the default here)."""
+    """Returns (ok, report_lines). narration is kokoro or none (none is the default here)."""
     lines, ok = [], True
     try:
         record = load_topic_record(root, topic_id)

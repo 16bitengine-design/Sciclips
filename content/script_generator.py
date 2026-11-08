@@ -111,6 +111,20 @@ def _equation_narration(eq):
     return f"The key relationship, {eq['name']}: {_eq_text(eq)}."
 
 
+def _diagram_for(record, kind, scenario=None):
+    chosen = ((scenario or {}).get("diagram") or {}).get(kind)
+    return chosen or (record.get("diagrams") or {}).get(kind)
+
+
+def _source_cards(record):
+    return [{"title": x["title"], "publisher": x["publisher"]} for x in record.get("sources", [])]
+
+
+def _term_cards(record, limit=None):
+    cards = [{"term": v["name"], "symbol": v["symbol"], "unit": v["unit"]} for v in record.get("variables", [])]
+    return cards[:limit] if limit else cards
+
+
 def _terminology(record):
     return [{"term": v["name"],
              "definition": f"{v['name']}, symbol {v['symbol']}, measured in {v['unit']}."}
@@ -149,12 +163,14 @@ def _source_line(record):
 
 
 def _add_sources(s, record):
-    s.add("sources", "Sources", "Sources are listed in the description.", on_screen=_source_line(record))
+    s.add("sources", "Sources", "Sources are listed in the description.", on_screen=_source_line(record),
+          data={"sources": _source_cards(record)})
 
 
 def _add_safety(s, record):
     if record.get("template") in EXPERIMENT_TEMPLATES and record.get("safety_considerations"):
-        s.add("safety", "Safety", record["safety_considerations"], lead="Safety.")
+        s.add("safety", "Safety", record["safety_considerations"], lead="Safety.",
+              data={"items": record.get("hazards", [])})
 
 
 def _need(record, field):
@@ -170,12 +186,13 @@ def _short_explainer(record):
     angle = (record.get("short_video_potential") or {}).get("angle") or record["title"]
     s.add("hook", "Opening question", _need(record, "central_question"), on_screen=angle)
     s.add("intro", "Introduction", f"A quick look at {_need(record, 'subject_area')}.")
-    s.add("answer", "Simple explanation", expl["level_1"], _model_claim_ids(record))
+    s.add("answer", "Simple explanation", expl["level_1"], _model_claim_ids(record),
+          data={"diagram": _diagram_for(record, "answer")})
     evidence = _need(record, "supporting_evidence")
     s.add("demonstration", "Demonstration", evidence[0], _evidence_claim_ids(record),
           data={"simulation_variant": _default_variant(record)})
     terms = [v["name"] for v in _need(record, "variables")][:3]
-    s.add("terminology", "Key terms", f"Key terms: {join_names(terms)}.")
+    s.add("terminology", "Key terms", f"Key terms: {join_names(terms)}.", data={"terms": _term_cards(record, 3)})
     key = _key_equation(record)
     if key:
         s.add("equation", key["name"], _equation_narration(key),
@@ -183,7 +200,8 @@ def _short_explainer(record):
     apps = _need(record, "practical_applications")
     s.add("application", "Real-world use", f"You see this in practice: {apps[0]}")
     assumptions = _need(record, "assumptions")
-    s.add("limitation", "Limits", "Remember the limits of this explanation. " + " ".join(assumptions[:2]))
+    s.add("limitation", "Limits", "Remember the limits of this explanation. " + " ".join(assumptions[:2]),
+          data={"items": assumptions[:2]})
     _add_safety(s, record)
     closing = record.get("principle_statement") or first_sentence(expl["level_2"])
     s.add("conclusion", "Conclusion", closing, lead="In short:")
@@ -201,8 +219,10 @@ def _long_explainer(record):
           "explanation, then add the science, then the technical details, and finish with applications and limits.")
     s.add("question", "The question", record["central_question"], lead="Let us state the question clearly.")
     model_ids = _model_claim_ids(record)
-    s.add("answer", "Simple explanation", expl["level_1"], model_ids, lead="Simple explanation.")
-    s.add("explanation_l2", "Scientific explanation", expl["level_2"], model_ids, lead="Now the scientific explanation.")
+    s.add("answer", "Simple explanation", expl["level_1"], model_ids, lead="Simple explanation.",
+          data={"diagram": _diagram_for(record, "answer")})
+    s.add("explanation_l2", "Scientific explanation", expl["level_2"], model_ids, lead="Now the scientific explanation.",
+          data={"diagram": _diagram_for(record, "explanation_l2")})
     s.add("explanation_l3", "Technical explanation", expl["level_3"], model_ids, lead="Now the technical explanation.")
     for item in _need(record, "supporting_evidence"):
         s.add("demonstration", "Evidence", item, _evidence_claim_ids(record),
@@ -211,7 +231,7 @@ def _long_explainer(record):
     if not terms:
         raise ScriptError("Topic record has no variables to define.")
     s.add("terminology", "Key terms", "Key terms. " + " ".join(t["definition"] for t in terms),
-          on_screen="Key terms and units")
+          on_screen="Key terms and units", data={"terms": _term_cards(record)})
     for eq in record.get("equations", []):
         s.add("equation", eq["name"], f"{eq['name']}: {_eq_text(eq)}.", _equation_claim_ids(record, eq["id"]),
               on_screen=_eq_text(eq))
@@ -220,7 +240,8 @@ def _long_explainer(record):
         s.add("misconception", "Common misconception",
               f'A common misconception is: "{m["statement"]}" Here is the correction. {m["correction"]}',
               on_screen=m["statement"], data={"statement": m["statement"], "correction": m["correction"]})
-    s.add("limitation", "Assumptions and limits", " ".join(_need(record, "assumptions")), lead="Assumptions and limits.")
+    s.add("limitation", "Assumptions and limits", " ".join(_need(record, "assumptions")), lead="Assumptions and limits.",
+          data={"items": list(record["assumptions"])})
     _add_safety(s, record)
     closing = record.get("principle_statement") or first_sentence(expl["level_2"])
     s.add("conclusion", "Conclusion", closing, lead="To summarise:")
@@ -233,7 +254,8 @@ def _add_what_if_parts(s, scenario, record):
     for kind, lead, key in WHAT_IF_PARTS:
         data = {"scenario_title": scenario["title"], "correct": scenario["correct"],
                 "overlooked": scenario["overlooked"],
-                "simulation_variant": _scenario_variant(record, scenario, kind)}
+                "simulation_variant": _scenario_variant(record, scenario, kind),
+                "diagram": _diagram_for(record, kind, scenario)}
         s.add(kind, lead.rstrip("."), scenario[key], scenario["claim_ids"], data=data, lead=lead)
 
 
@@ -261,7 +283,8 @@ def _long_what_if(record):
     for scenario in scenarios:
         s.add("scenario_intro", "Scenario", scenario["title"])
         _add_what_if_parts(s, scenario, record)
-    s.add("limitation", "Assumptions and limits", " ".join(_need(record, "assumptions")), lead="Assumptions and limits.")
+    s.add("limitation", "Assumptions and limits", " ".join(_need(record, "assumptions")), lead="Assumptions and limits.",
+          data={"items": list(record["assumptions"])})
     _add_safety(s, record)
     s.add("conclusion", "Conclusion", scenarios[-1]["prevention"], lead="To summarise:")
     _add_sources(s, record)

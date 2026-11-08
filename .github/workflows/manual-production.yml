@@ -42,7 +42,7 @@ permissions:
 jobs:
   produce:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -51,6 +51,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Install video tools and fonts
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
 
       - name: Install requirements
         run: pip install -r requirements.txt
@@ -75,10 +78,17 @@ jobs:
           VIDEO_FORMAT: ${{ inputs.video_format }}
         run: python scripts/generate_content.py
 
-      - name: Save script and storyboard files
+      - name: Render 2D scenes (draft quality)
+        env:
+          TOPIC_ID: ${{ inputs.topic_id }}
+          VIDEO_FORMAT: ${{ inputs.video_format }}
+          RENDER_QUALITY: draft
+        run: python scripts/render_scenes.py
+
+      - name: Save scripts, storyboards and scene clips
         uses: actions/upload-artifact@v4
         with:
-          name: script-and-storyboard
+          name: scripts-and-scene-clips
           path: output/
           retention-days: 7
 

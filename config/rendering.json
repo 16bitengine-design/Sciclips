@@ -21,8 +21,9 @@
   "max_render_minutes_per_job": 60,
   "max_output_size_mb": 200,
   "narration": {
-    "provider": "espeak",
-    "voice": "en-us",
+    "provider": "kokoro",
+    "voice": "af_heart",
+    "language": "en-us",
     "speaking_speed": 1.0,
     "music": true,
     "music_volume_db": -26,

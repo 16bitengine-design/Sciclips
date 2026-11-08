@@ -57,3 +57,10 @@ def landing_summary(first, second, tolerance=0.03):
     if abs(first["t_land"] - second["t_land"]) <= tolerance:
         return "together"
     return "first" if first["t_land"] < second["t_land"] else "second"
+
+
+def drag_to_weight(name, speed, g=GRAVITY):
+    """Drag force divided by weight for an object at a given speed (model values)."""
+    obj = OBJECTS[name]
+    drag = 0.5 * AIR_DENSITY * obj["cd"] * obj["area"] * speed * speed
+    return drag / (obj["mass"] * g)

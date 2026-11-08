@@ -5,7 +5,9 @@ import re
 from animation.two_d.canvas import appear, clamp, pretty_math
 from animation.simulations import gas_release as gas
 from animation.two_d import diagrams, sim_draw
+from animation.three_d.scenes3d import render_viewport
 from animation.two_d.icons import draw_icon
+from PIL import Image, ImageDraw
 from research.equation_checker import _side_atoms
 
 
@@ -114,17 +116,37 @@ def _hook_preview(c, t, ctx, top, bottom):
         sim_draw._draw_beaker(c, box, 0.35, 0.6, "open", gas.make_bubbles())
 
 
+def _hook_3d(c, t, ctx, top, bottom):
+    """Paste the topic's 3D opening shot into a rounded window. Returns False if the topic has none."""
+    x0, _, x1, _ = c.content_box()
+    width, height = int(x1 - x0), int(bottom - top)
+    if height < c.px(300) or width < 50:
+        return False
+    ss = 2 if width * height < 1_200_000 else 1
+    image = render_viewport(ctx["record"], t, width, height, ss)
+    if image is None:
+        return False
+    mask = Image.new("L", (width, height), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, width - 1, height - 1), radius=int(c.px(26)), fill=255)
+    a = appear(t, 0.0, 0.15)
+    c.img.paste(image, (int(x0), int(top)), mask.point(lambda v: int(v * a)))
+    c.label((x0 + c.px(20), bottom - c.px(14)), "Illustrative 3D model", 22, "muted", anchor="lb", alpha=a)
+    return True
+
+
 def hook_card(c, t, ctx):
-    """Opening card: the title plus a still picture. A lightweight 3D version arrives in Stage 6."""
+    """Opening card: the title plus a lightweight 3D shot (a 2D picture if the topic has no 3D scene)."""
     scene = ctx["scene"]
     x0, y0, x1, y1 = c.content_box()
     a = appear(t, 0.0, 0.2)
     c.label((x0, y0), "SCIENCE ANIMATION STUDIO", 26, "muted", kind="bold", alpha=a)
     text = _text(scene)
-    size = c.fit_size(text, x1 - x0, (y1 - y0) * 0.4, 84, 40, "bold")
-    bottom = c.paragraph(x0, y0 + c.px(120) + (1 - a) * c.px(40), text, size, "text", x1 - x0, kind="bold", alpha=a)
-    c.rect((x0, bottom + c.px(24), x0 + c.px(120), bottom + c.px(30)), fill="accent", alpha=a)
-    _hook_preview(c, t, ctx, bottom + c.px(50), y1)
+    size = c.fit_size(text, x1 - x0, (y1 - y0) * 0.32, 76, 36, "bold")
+    bottom = c.paragraph(x0, y0 + c.px(100) + (1 - a) * c.px(40), text, size, "text", x1 - x0, kind="bold", alpha=a)
+    c.rect((x0, bottom + c.px(20), x0 + c.px(120), bottom + c.px(26)), fill="accent", alpha=a)
+    top = bottom + c.px(50)
+    if not _hook_3d(c, t, ctx, top, y1):
+        _hook_preview(c, t, ctx, top, y1)
 
 
 # ---------------------------------------------------------------- equation

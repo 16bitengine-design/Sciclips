@@ -95,6 +95,22 @@ def _key_equation(record):
     return eqs[-1]
 
 
+def _default_variant(record):
+    return (record.get("simulation") or {}).get("default_variant")
+
+
+def _scenario_variant(record, scenario, kind):
+    chosen = (scenario.get("simulation") or {}).get(kind)
+    return chosen or _default_variant(record)
+
+
+def _equation_narration(eq):
+    """Spoken form of an equation. Chemical arrows are spoken as 'gives'."""
+    if eq.get("type") == "chemical":
+        return "The reaction: " + eq["equation"].replace("->", "gives") + "."
+    return f"The key relationship, {eq['name']}: {_eq_text(eq)}."
+
+
 def _terminology(record):
     return [{"term": v["name"],
              "definition": f"{v['name']}, symbol {v['symbol']}, measured in {v['unit']}."}
@@ -107,17 +123,20 @@ class _Sections:
         self.items = []
         self.counts = {}
 
-    def add(self, kind, title, narration, claim_ids=None, on_screen=None):
+    def add(self, kind, title, narration, claim_ids=None, on_screen=None, data=None, lead=""):
+        """`lead` is a spoken lead-in ("The consequences."). It is spoken but not shown as the caption."""
         number = self.counts.get(kind, 0) + 1
         self.counts[kind] = number
-        narration = " ".join(narration.split())
+        content = " ".join(narration.split())
+        narration = (lead + " " + content).strip() if lead else content
         self.items.append({
             "id": f"{kind}-{number}",
             "kind": kind,
             "title": title,
             "narration": narration,
-            "on_screen_text": on_screen if on_screen is not None else first_sentence(narration),
+            "on_screen_text": on_screen if on_screen is not None else first_sentence(content),
             "claim_ids": list(claim_ids or []),
+            "data": dict(data or {}),
         })
 
 
@@ -135,7 +154,7 @@ def _add_sources(s, record):
 
 def _add_safety(s, record):
     if record.get("template") in EXPERIMENT_TEMPLATES and record.get("safety_considerations"):
-        s.add("safety", "Safety", "Safety. " + record["safety_considerations"])
+        s.add("safety", "Safety", record["safety_considerations"], lead="Safety.")
 
 
 def _need(record, field):
@@ -153,12 +172,13 @@ def _short_explainer(record):
     s.add("intro", "Introduction", f"A quick look at {_need(record, 'subject_area')}.")
     s.add("answer", "Simple explanation", expl["level_1"], _model_claim_ids(record))
     evidence = _need(record, "supporting_evidence")
-    s.add("demonstration", "Demonstration", evidence[0], _evidence_claim_ids(record))
+    s.add("demonstration", "Demonstration", evidence[0], _evidence_claim_ids(record),
+          data={"simulation_variant": _default_variant(record)})
     terms = [v["name"] for v in _need(record, "variables")][:3]
     s.add("terminology", "Key terms", f"Key terms: {join_names(terms)}.")
     key = _key_equation(record)
     if key:
-        s.add("equation", key["name"], f"The key relationship is {key['name']}: {_eq_text(key)}.",
+        s.add("equation", key["name"], _equation_narration(key),
               _equation_claim_ids(record, key["id"]), on_screen=_eq_text(key))
     apps = _need(record, "practical_applications")
     s.add("application", "Real-world use", f"You see this in practice: {apps[0]}")
@@ -166,7 +186,7 @@ def _short_explainer(record):
     s.add("limitation", "Limits", "Remember the limits of this explanation. " + " ".join(assumptions[:2]))
     _add_safety(s, record)
     closing = record.get("principle_statement") or first_sentence(expl["level_2"])
-    s.add("conclusion", "Conclusion", f"In short: {closing}")
+    s.add("conclusion", "Conclusion", closing, lead="In short:")
     _add_sources(s, record)
     return s.items
 
@@ -179,13 +199,14 @@ def _long_explainer(record):
     s.add("intro", "Introduction",
           f"In this video we answer one question from {_need(record, 'subject_area')}. We start with a simple "
           "explanation, then add the science, then the technical details, and finish with applications and limits.")
-    s.add("question", "The question", "Let us state the question clearly. " + record["central_question"])
+    s.add("question", "The question", record["central_question"], lead="Let us state the question clearly.")
     model_ids = _model_claim_ids(record)
-    s.add("answer", "Simple explanation", "Simple explanation. " + expl["level_1"], model_ids)
-    s.add("explanation_l2", "Scientific explanation", "Now the scientific explanation. " + expl["level_2"], model_ids)
-    s.add("explanation_l3", "Technical explanation", "Now the technical explanation. " + expl["level_3"], model_ids)
+    s.add("answer", "Simple explanation", expl["level_1"], model_ids, lead="Simple explanation.")
+    s.add("explanation_l2", "Scientific explanation", expl["level_2"], model_ids, lead="Now the scientific explanation.")
+    s.add("explanation_l3", "Technical explanation", expl["level_3"], model_ids, lead="Now the technical explanation.")
     for item in _need(record, "supporting_evidence"):
-        s.add("demonstration", "Evidence", "Evidence. " + item, _evidence_claim_ids(record))
+        s.add("demonstration", "Evidence", item, _evidence_claim_ids(record),
+              data={"simulation_variant": _default_variant(record)}, lead="Evidence.")
     terms = _terminology(record)
     if not terms:
         raise ScriptError("Topic record has no variables to define.")
@@ -194,23 +215,26 @@ def _long_explainer(record):
     for eq in record.get("equations", []):
         s.add("equation", eq["name"], f"{eq['name']}: {_eq_text(eq)}.", _equation_claim_ids(record, eq["id"]),
               on_screen=_eq_text(eq))
-    s.add("application", "Real-world use", "Where this matters. " + " ".join(_need(record, "practical_applications")))
+    s.add("application", "Real-world use", " ".join(_need(record, "practical_applications")), lead="Where this matters.")
     for m in record.get("misconceptions", []):
         s.add("misconception", "Common misconception",
               f'A common misconception is: "{m["statement"]}" Here is the correction. {m["correction"]}',
-              on_screen=m["statement"])
-    s.add("limitation", "Assumptions and limits", "Assumptions and limits. " + " ".join(_need(record, "assumptions")))
+              on_screen=m["statement"], data={"statement": m["statement"], "correction": m["correction"]})
+    s.add("limitation", "Assumptions and limits", " ".join(_need(record, "assumptions")), lead="Assumptions and limits.")
     _add_safety(s, record)
     closing = record.get("principle_statement") or first_sentence(expl["level_2"])
-    s.add("conclusion", "Conclusion", f"To summarise: {closing}")
+    s.add("conclusion", "Conclusion", closing, lead="To summarise:")
     _add_sources(s, record)
     return s.items
 
 
 # ---- what-if scripts ------------------------------------------------------
-def _add_what_if_parts(s, scenario):
+def _add_what_if_parts(s, scenario, record):
     for kind, lead, key in WHAT_IF_PARTS:
-        s.add(kind, lead.rstrip("."), f"{lead} {scenario[key]}", scenario["claim_ids"])
+        data = {"scenario_title": scenario["title"], "correct": scenario["correct"],
+                "overlooked": scenario["overlooked"],
+                "simulation_variant": _scenario_variant(record, scenario, kind)}
+        s.add(kind, lead.rstrip("."), scenario[key], scenario["claim_ids"], data=data, lead=lead)
 
 
 def _short_what_if(record):
@@ -220,7 +244,7 @@ def _short_what_if(record):
     scenario = scenarios[0]
     s = _Sections()
     s.add("hook", "What if we overlook this?", scenario["title"], on_screen="What happens if we overlook this?")
-    _add_what_if_parts(s, scenario)
+    _add_what_if_parts(s, scenario, record)
     _add_safety(s, record)
     _add_sources(s, record)
     return s.items
@@ -236,10 +260,10 @@ def _long_what_if(record):
           on_screen="What happens if we overlook something?")
     for scenario in scenarios:
         s.add("scenario_intro", "Scenario", scenario["title"])
-        _add_what_if_parts(s, scenario)
-    s.add("limitation", "Assumptions and limits", "Assumptions and limits. " + " ".join(_need(record, "assumptions")))
+        _add_what_if_parts(s, scenario, record)
+    s.add("limitation", "Assumptions and limits", " ".join(_need(record, "assumptions")), lead="Assumptions and limits.")
     _add_safety(s, record)
-    s.add("conclusion", "Conclusion", "To summarise: " + scenarios[-1]["prevention"])
+    s.add("conclusion", "Conclusion", scenarios[-1]["prevention"], lead="To summarise:")
     _add_sources(s, record)
     return s.items
 

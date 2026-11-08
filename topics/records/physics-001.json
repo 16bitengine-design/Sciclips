@@ -225,7 +225,12 @@
       "prevention": "State the assumption that air resistance is negligible, and check that it holds before using the model.",
       "claim_ids": [
         "c3"
-      ]
+      ],
+      "simulation": {
+        "correct_procedure": "with_air",
+        "overlooked": "vacuum",
+        "consequences": "air_vs_vacuum"
+      }
     },
     {
       "title": "What if we assume mass changes the acceleration?",
@@ -239,7 +244,12 @@
       "claim_ids": [
         "c1",
         "c3"
-      ]
+      ],
+      "simulation": {
+        "correct_procedure": "vacuum",
+        "overlooked": "wrong_mass_model",
+        "consequences": "vacuum"
+      }
     }
   ],
   "safety_considerations": "Low risk when shown as animation. Do not encourage dropping heavy objects from heights or entering vacuum chambers without supervision.",
@@ -262,5 +272,9 @@
       "side-by-side chambers: air on the left, vacuum on the right",
       "simple velocity-time graph for each object"
     ]
+  },
+  "simulation": {
+    "kind": "free_fall",
+    "default_variant": "air_vs_vacuum"
   }
 }

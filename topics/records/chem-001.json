@@ -150,7 +150,12 @@
       "claim_ids": [
         "c2",
         "c4"
-      ]
+      ],
+      "simulation": {
+        "correct_procedure": "open",
+        "overlooked": "sealed",
+        "consequences": "sealed_pop"
+      }
     },
     {
       "title": "What if we weigh an open container before and after?",
@@ -163,13 +168,18 @@
       "prevention": "Measure a sealed system, or account for the escaping gas.",
       "claim_ids": [
         "c3"
-      ]
+      ],
+      "simulation": {
+        "correct_procedure": "balance_sealed",
+        "overlooked": "balance_open",
+        "consequences": "balance_open"
+      }
     }
   ],
   "safety_considerations": "Low hazard with everyday materials, but still use an open container on a tray, wear eye protection and have an adult supervise children. Never seal the container.",
   "short_video_potential": {
     "suitable": true,
-    "angle": "Where do the bubbles come from? Fizzing explained in 45 seconds."
+    "angle": "Where do the bubbles come from? Fizzing explained."
   },
   "long_video_potential": {
     "suitable": true,
@@ -220,5 +230,9 @@
       "carbon dioxide bubbles leaving the container",
       "open container and balloon-sealed container on balances"
     ]
+  },
+  "simulation": {
+    "kind": "gas_release",
+    "default_variant": "open"
   }
 }

@@ -27,14 +27,13 @@ on:
           - medium
           - high
       narration:
-        description: "Voice: espeak (default), none (subtitles only) or piper (testing only, licence unresolved)"
+        description: "Voice: kokoro (natural voice) or none (subtitles only)"
         required: true
-        default: "espeak"
+        default: "kokoro"
         type: choice
         options:
-          - espeak
+          - kokoro
           - none
-          - piper
       output_mode:
         description: "TEST = no publishing (only TEST works for now)"
         required: true
@@ -61,21 +60,28 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install video tools, fonts and voice
+      - name: Install video tools and fonts (espeak-ng is only a pronunciation helper for Kokoro, never used as a voice)
         run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core espeak-ng
 
-      - name: Download Piper voice (only when chosen)
-        if: ${{ inputs.narration == 'piper' }}
-        continue-on-error: true
-        run: |
-          mkdir -p tools voices
-          curl -fL -o piper.tar.gz https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_amd64.tar.gz
-          tar -xzf piper.tar.gz -C tools
-          curl -fL -o voices/en_US-lessac-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/lessac/medium/en_US-lessac-medium.onnx
-          curl -fL -o voices/en_US-lessac-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json
+      - name: Cache the Kokoro voice files
+        if: ${{ inputs.narration == 'kokoro' }}
+        uses: actions/cache@v4
+        with:
+          path: models
+          key: kokoro-v1.0-model-files-v1.1
 
       - name: Install requirements
         run: pip install -r requirements.txt
+
+      - name: Install the Kokoro voice (only when chosen)
+        if: ${{ inputs.narration == 'kokoro' }}
+        run: |
+          pip install kokoro-onnx
+          mkdir -p models
+          [ -f models/kokoro-v1.0.onnx ] || curl -fL -o models/kokoro-v1.0.onnx https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1/kokoro-v1.0.onnx
+          [ -f models/voices-v1.0.bin ] || curl -fL -o models/voices-v1.0.bin https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.1/voices-v1.0.bin
+          ls -la models
+          pip show kokoro-onnx | head -3
 
       - name: Run automated tests
         run: python -m pytest tests -v
@@ -103,11 +109,12 @@ jobs:
           VIDEO_FORMAT: ${{ inputs.video_format }}
           RENDER_QUALITY: draft
           NARRATION_PROVIDER: ${{ inputs.narration }}
-          PIPER_BIN: tools/piper/piper
-          PIPER_MODEL: voices/en_US-lessac-medium.onnx
+          KOKORO_MODEL: models/kokoro-v1.0.onnx
+          KOKORO_VOICES: models/voices-v1.0.bin
         run: python scripts/render_scenes.py
 
       - name: Save scripts, audio, subtitles and scene clips
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: scripts-audio-and-clips

@@ -1,0 +1,26 @@
+{
+  "note": "How the voice should say things that are written in symbols. Edit this file to fix mispronunciations.",
+  "phrases": {
+    "measured in m^3 kg^-1 s^-2": "measured in cubic metres per kilogram per second squared",
+    "m^3 kg^-1 s^-2": "cubic metres per kilogram per second squared",
+    "m s^-2": "metres per second squared",
+    "measured in N": "measured in newtons",
+    "measured in kg": "measured in kilograms",
+    "measured in m": "measured in metres",
+    "measured in mol": "measured in moles",
+    "measured in K": "measured in kelvin",
+    "measured in s": "measured in seconds"
+  },
+  "words": {
+    "NaHCO3": "sodium hydrogen carbonate",
+    "CH3COOH": "ethanoic acid",
+    "CH3COONa": "sodium ethanoate",
+    "CO2": "carbon dioxide",
+    "H2O": "water",
+    "NASA": "NASA",
+    "NIST": "N I S T",
+    "NSSDCA": "N S S D C A",
+    "APOD": "A P O D",
+    "RSC": "R S C"
+  }
+}

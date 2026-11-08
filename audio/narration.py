@@ -1,18 +1,19 @@
-"""Narration voices. Every provider turns text into a WAV file. Providers can be swapped by name.
+"""Narration voices. A voice turns text into a WAV file. Voices are chosen by name.
 
-espeak  - eSpeak NG (installed with apt). Plain but reliable voice. The default.
-piper   - Piper neural voice (optional). Sounds better, but the licence of its voices is unresolved for
-          commercial use, so it is marked not publishable.
-none    - no voice: videos get on-screen text and subtitles only.
+kokoro - Kokoro-82M, a natural-sounding open voice model (Apache 2.0 weights) run on the CPU through
+         the kokoro-onnx package. This is the project's voice.
+none   - no voice: videos get on-screen text and subtitles only.
+
+There is deliberately no robotic fallback voice. If Kokoro cannot run, the video is made with
+subtitles only and the run reports a problem, so the failure is never hidden.
 """
+import importlib.util
+import math
 import os
-import shutil
-import subprocess
-import tempfile
+import struct
 import wave
+from array import array
 from pathlib import Path
-
-BASE_WORDS_PER_MINUTE = 150  # matches the timing estimates used when scripts are written
 
 
 class NarrationError(Exception):
@@ -28,6 +29,23 @@ def wav_duration(path):
         raise NarrationError(f"Cannot read audio file {path}: {err}")
 
 
+def write_wav(path, samples, sample_rate):
+    """Save samples (floats from -1 to 1, as a list or array) as a 16-bit mono WAV. No extra packages needed."""
+    values = samples.tolist() if hasattr(samples, "tolist") else list(samples)
+    if not values:
+        raise NarrationError("The voice returned no audio.")
+    if any(not math.isfinite(v) for v in values):
+        raise NarrationError("The voice returned invalid audio values.")
+    pcm = array("h", (max(-32768, min(32767, int(v * 32767))) for v in values))
+    Path(path).parent.mkdir(parents=True, exist_ok=True)
+    with wave.open(str(path), "wb") as handle:
+        handle.setnchannels(1)
+        handle.setsampwidth(2)
+        handle.setframerate(int(sample_rate))
+        handle.writeframes(pcm.tobytes())
+    return Path(path)
+
+
 class Provider:
     name = "base"
     publishable = True
@@ -40,66 +58,51 @@ class Provider:
         raise NotImplementedError
 
 
-class EspeakProvider(Provider):
-    name = "espeak"
-    licence_note = "eSpeak NG is free software (GPL). Check its terms if you have licensing concerns."
+class KokoroProvider(Provider):
+    name = "kokoro"
+    publishable = True
+    licence_note = ("Kokoro-82M weights are released under Apache 2.0 and the kokoro-onnx code under MIT. "
+                    "Read the current model card before earning money from videos: "
+                    "https://huggingface.co/hexgrad/Kokoro-82M")
+    FALLBACK_VOICE = "af_sarah"  # the voice used in Kokoro's own example
 
-    def __init__(self, voice="en-us", binary=None):
+    def __init__(self, model=None, voices=None, voice="af_heart", language="en-us", engine=None):
+        self.model = model or os.environ.get("KOKORO_MODEL")
+        self.voices_file = voices or os.environ.get("KOKORO_VOICES")
         self.voice = voice
-        self.binary = binary or shutil.which("espeak-ng") or shutil.which("espeak")
+        self.language = language
+        self._engine = engine  # a stand-in can be passed in for tests
 
     def available(self):
-        return bool(self.binary)
+        if self._engine is not None:
+            return True
+        files = bool(self.model and self.voices_file and Path(self.model).exists()
+                     and Path(self.voices_file).exists())
+        return files and importlib.util.find_spec("kokoro_onnx") is not None
 
-    def synthesize(self, text, out_path, speed=1.0):
-        if not self.binary:
-            raise NarrationError("espeak-ng is not installed (sudo apt-get install -y espeak-ng).")
-        out_path = Path(out_path)
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as handle:
-            handle.write(text)
-            text_file = handle.name
-        try:
-            command = [self.binary, "-v", self.voice, "-s", str(round(BASE_WORDS_PER_MINUTE * speed)),
-                       "-w", str(out_path), "-f", text_file]
-            result = subprocess.run(command, capture_output=True, text=True, timeout=120)
-        except subprocess.TimeoutExpired:
-            raise NarrationError("espeak-ng timed out.")
-        finally:
-            os.unlink(text_file)
-        if result.returncode != 0 or not out_path.exists() or out_path.stat().st_size == 0:
-            raise NarrationError(f"espeak-ng failed: {result.stderr.strip()[:200]}")
-        return out_path
-
-
-class PiperProvider(Provider):
-    name = "piper"
-    publishable = False
-    licence_note = ("The Piper voice models carry an unresolved licence question for commercial use. "
-                    "Use for testing only, not for published videos.")
-
-    def __init__(self, binary=None, model=None):
-        self.binary = binary or os.environ.get("PIPER_BIN") or shutil.which("piper")
-        self.model = model or os.environ.get("PIPER_MODEL")
-
-    def available(self):
-        return bool(self.binary and self.model and Path(self.binary).exists() and Path(self.model).exists())
+    def _load(self):
+        if self._engine is None:
+            from kokoro_onnx import Kokoro
+            self._engine = Kokoro(self.model, self.voices_file)
+        return self._engine
 
     def synthesize(self, text, out_path, speed=1.0):
         if not self.available():
-            raise NarrationError("Piper or its voice file was not found.")
-        out_path = Path(out_path)
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        command = [self.binary, "--model", self.model, "--output_file", str(out_path)]
-        if abs(speed - 1.0) > 0.01:
-            command += ["--length_scale", f"{1.0 / speed:.3f}"]
+            raise NarrationError("Kokoro is not installed or its voice files were not found.")
         try:
-            result = subprocess.run(command, input=text, capture_output=True, text=True, timeout=180)
-        except subprocess.TimeoutExpired:
-            raise NarrationError("Piper timed out.")
-        if result.returncode != 0 or not out_path.exists() or out_path.stat().st_size == 0:
-            raise NarrationError(f"Piper failed: {result.stderr.strip()[:200]}")
-        return out_path
+            engine = self._load()
+        except Exception as err:  # the library may raise many kinds of error while loading
+            raise NarrationError(f"Kokoro could not start: {err}")
+        last_error = None
+        for voice in dict.fromkeys([self.voice, self.FALLBACK_VOICE]):
+            try:
+                samples, rate = engine.create(text, voice=voice, speed=speed, lang=self.language)
+                return write_wav(out_path, samples, rate)
+            except NarrationError:
+                raise
+            except Exception as err:
+                last_error = err
+        raise NarrationError(f"Kokoro failed: {last_error}")
 
 
 class ToneProvider(Provider):
@@ -113,8 +116,6 @@ class ToneProvider(Provider):
         self.rate = rate
 
     def synthesize(self, text, out_path, speed=1.0):
-        import math
-        import struct
         out_path = Path(out_path)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         seconds = max(0.5, len(text.split()) * self.seconds_per_word / speed)
@@ -128,12 +129,10 @@ class ToneProvider(Provider):
         return out_path
 
 
-def get_provider(name, voice="en-us"):
+def get_provider(name, voice="af_heart", language="en-us"):
     """Provider for a name, or None for 'none'. Unknown names raise NarrationError."""
     if name in (None, "", "none"):
         return None
-    if name == "espeak":
-        return EspeakProvider(voice=voice)
-    if name == "piper":
-        return PiperProvider()
-    raise NarrationError(f"Unknown narration provider '{name}'. Use espeak, piper or none.")
+    if name == "kokoro":
+        return KokoroProvider(voice=voice, language=language)
+    raise NarrationError(f"Unknown narration provider '{name}'. Use kokoro or none.")

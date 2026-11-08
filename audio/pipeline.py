@@ -16,10 +16,10 @@ MIN_SCENE_SECONDS = 3.0
 
 
 def _candidates(requested, provider_object):
+    """Voices to try, in order. The last resort is no voice, never a robotic one."""
     if provider_object is not None:
-        return [provider_object, None]
-    chains = {"piper": ["piper", "espeak", "none"], "espeak": ["espeak", "none"], "none": ["none"]}
-    return [None if name == "none" else name for name in chains.get(requested or "none", ["none"])]
+        return [provider_object]
+    return [] if requested in (None, "", "none") else [requested]
 
 
 def _speak_all(provider, scenes, rendering, out_dir, pronunciations):
@@ -59,24 +59,33 @@ def produce(storyboard, record, rendering, out_dir, provider_name="none", provid
     out_dir.mkdir(parents=True, exist_ok=True)
     pronunciations = load_pronunciations()
     notes, problems = [], []
-    voice = rendering.get("narration", {}).get("voice", "en-us")
+    settings = rendering.get("narration", {})
+    voice, language = settings.get("voice", "af_heart"), settings.get("language", "en-us")
     scenes = storyboard["scenes"]
 
     audio, used, used_object = None, "none", None
     for candidate in _candidates(provider_name, provider):
-        if candidate is None:
-            break
-        impl = candidate if isinstance(candidate, narration.Provider) else narration.get_provider(candidate, voice)
+        try:
+            impl = candidate if isinstance(candidate, narration.Provider) else narration.get_provider(
+                candidate, voice, language)
+        except narration.NarrationError as err:
+            notes.append(str(err))
+            continue
         if not impl.available():
-            notes.append(f"{impl.name}: not available here, trying the next option.")
+            notes.append(f"{impl.name}: not available here (is it installed, and are its voice files downloaded?).")
             continue
         try:
             audio = _speak_all(impl, scenes, rendering, out_dir, pronunciations)
             used, used_object = impl.name, impl
             break
         except narration.NarrationError as err:
-            notes.append(f"{impl.name}: failed ({err}), trying the next option.")
+            notes.append(f"{impl.name}: failed ({err}).")
             audio = None
+
+    requested_name = provider.name if provider is not None else (provider_name or "none")
+    if requested_name != "none" and used == "none":
+        problems.append(f"The requested voice '{requested_name}' could not be used, so this video has subtitles "
+                        "only. No fallback voice is used.")
 
     timed = apply_timing(storyboard, audio)
     limit = rendering[timed["format"]]["max_duration_seconds"]
@@ -118,7 +127,7 @@ def produce(storyboard, record, rendering, out_dir, provider_name="none", provid
 
     impl = used_object
     timeline = {
-        "provider": used, "requested": provider_name if provider is None else provider.name,
+        "provider": used, "requested": requested_name,
         "publishable": True if impl is None else impl.publishable,
         "licence_note": "" if impl is None else impl.licence_note,
         "total_duration_seconds": timed["total_duration_seconds"],

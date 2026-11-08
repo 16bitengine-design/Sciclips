@@ -230,6 +230,9 @@
         "correct_procedure": "with_air",
         "overlooked": "vacuum",
         "consequences": "air_vs_vacuum"
+      },
+      "diagram": {
+        "why": "drag_vs_gravity"
       }
     },
     {
@@ -276,5 +279,10 @@
   "simulation": {
     "kind": "free_fall",
     "default_variant": "air_vs_vacuum"
+  },
+  "diagrams": {
+    "answer": "mass_cancels",
+    "explanation_l2": "mass_cancels",
+    "why": "mass_cancels"
   }
 }

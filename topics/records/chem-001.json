@@ -173,6 +173,9 @@
         "correct_procedure": "balance_sealed",
         "overlooked": "balance_open",
         "consequences": "balance_open"
+      },
+      "diagram": {
+        "why": "gas_escape"
       }
     }
   ],
@@ -234,5 +237,10 @@
   "simulation": {
     "kind": "gas_release",
     "default_variant": "open"
+  },
+  "diagrams": {
+    "answer": "reaction_particles",
+    "explanation_l2": "reaction_particles",
+    "why": "reaction_particles"
   }
 }

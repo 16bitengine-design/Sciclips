@@ -242,5 +242,8 @@
     "answer": "reaction_particles",
     "explanation_l2": "reaction_particles",
     "why": "reaction_particles"
+  },
+  "scene3d": {
+    "kind": "beaker"
   }
 }

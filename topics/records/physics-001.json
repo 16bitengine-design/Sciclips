@@ -284,5 +284,9 @@
     "answer": "mass_cancels",
     "explanation_l2": "mass_cancels",
     "why": "mass_cancels"
+  },
+  "scene3d": {
+    "kind": "drop",
+    "environment": "moon"
   }
 }

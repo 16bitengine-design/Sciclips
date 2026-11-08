@@ -130,6 +130,31 @@ class Canvas:
                 self.d.text((x, y + i * step), line, font=font, fill=fill, anchor="la")
         return y + len(lines) * step
 
+    def paragraph_rich(self, x, y, text, size, color_for_word, max_width, kind="sans", align="left",
+                       alpha=1.0, line_gap=1.3):
+        """Like paragraph, but each word can have its own colour: color_for_word(word) -> colour name."""
+        font = self.font(kind, size)
+        space = font.getlength(" ")
+        lines, current, width = [], [], 0.0
+        for word in text.split():
+            w = font.getlength(word)
+            if current and width + space + w > max_width:
+                lines.append((current, width))
+                current, width = [word], w
+            else:
+                width += (space if current else 0) + w
+                current.append(word)
+        if current:
+            lines.append((current, width))
+        step = size * self.u * line_gap
+        for i, (words, line_w) in enumerate(lines):
+            cursor = x - line_w / 2 if align == "center" else x
+            for word in words:
+                self.d.text((cursor, y + i * step), word, font=font, fill=self.col(color_for_word(word), alpha),
+                            anchor="la")
+                cursor += font.getlength(word) + space
+        return y + len(lines) * step
+
     def fit_size(self, text, max_width, max_height, max_size, min_size, kind="sans", line_gap=1.3):
         """Largest font size (units) whose wrapped text fits the box."""
         size = max_size

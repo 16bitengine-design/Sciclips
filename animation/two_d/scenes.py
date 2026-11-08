@@ -1,9 +1,11 @@
 """One drawing function per animation type. Each draws a single frame at progress t (0 to 1)."""
+import random
 import re
 
 from animation.two_d.canvas import appear, clamp, pretty_math
 from animation.simulations import gas_release as gas
-from animation.two_d import sim_draw
+from animation.two_d import diagrams, sim_draw
+from animation.two_d.icons import draw_icon
 from research.equation_checker import _side_atoms
 
 
@@ -20,17 +22,74 @@ def _label(c, box, scene, color="accent"):
 
 
 # --------------------------------------------------------------------- text
-def text_card(c, t, ctx):
-    scene = ctx["scene"]
+KIND_ICON = {
+    "intro": "atom", "question": "question", "answer": "bulb", "explanation_l2": "bulb", "explanation_l3": "gear",
+    "terminology": "book", "limitation": "info", "safety": "warning", "application": "rocket", "conclusion": "check",
+    "sources": "document", "scenario_intro": "question", "prevention": "shield", "why": "bulb",
+    "correct_procedure": "check", "what_changes": "gear", "consequences": "warning", "demonstration": "atom",
+    "overlooked": "warning", "misconception": "question",
+}
+STOP_WORDS = {"from", "with", "that", "this", "body", "large", "centre", "whole", "have", "than"}
+
+
+def backdrop(c, secs, seed=3):
+    """Faint dots drifting upward, so text cards are never completely still."""
+    rng = random.Random(seed)
+    for _ in range(16):
+        x, y0 = rng.random() * c.w, rng.random() * c.h
+        speed, radius, alpha = rng.uniform(8, 22) * c.u, rng.uniform(3, 9) * c.u, rng.uniform(0.07, 0.16)
+        c.circle((x, (y0 - secs * speed) % c.h), radius, fill="accent", alpha=alpha)
+
+
+def highlight_words(record):
+    words = set()
+    for variable in record.get("variables", []):
+        for word in re.findall(r"[A-Za-z]+", variable.get("name", "")):
+            if len(word) >= 4 and word.lower() not in STOP_WORDS:
+                words.add(word.lower())
+    return words
+
+
+def icon_text_card(c, t, ctx):
+    """A text card with an animated icon and the topic's key words in colour."""
+    scene, record = ctx["scene"], ctx["record"]
     box = c.content_box()
     x0, y0, x1, y1 = box
     top = _label(c, box, scene)
-    text = _text(scene)
+    secs = t * scene.get("duration_seconds", 5)
     a = appear(t, 0.0, 0.18)
-    size = c.fit_size(text, x1 - x0, (y1 - top) * 0.85, 76, 34, "bold")
-    height = c.text_height(c.wrap(text, c.font("bold", size), x1 - x0), size)
-    start = top + max(0, (y1 - top - height) / 2) + (1 - a) * c.px(30)
-    c.paragraph(x0, start, text, size, "text", x1 - x0, kind="bold", alpha=a)
+    icon = KIND_ICON.get(scene.get("section_kind"))
+    text_x, text_w, text_top, align = x0, x1 - x0, top, "left"
+    if icon:
+        r = c.px(105)
+        if c.portrait:
+            draw_icon(c, icon, (x0 + x1) / 2, top + r + c.px(20), r, secs, a)
+            text_top, align = top + 2 * r + c.px(70), "center"
+            text_x = (x0 + x1) / 2
+        else:
+            draw_icon(c, icon, x0 + r + c.px(40), (top + y1) / 2, r, secs, a)
+            text_x = x0 + 2 * r + c.px(120)
+            text_w = x1 - text_x
+    text = _text(scene)
+    avail = y1 - text_top - c.px(20)
+    size = c.fit_size(text, text_w, avail * 0.9, 70, 32, "bold")
+    lines = c.wrap(text, c.font("bold", size), text_w)
+    start = text_top + max(0, (avail - c.text_height(lines, size)) / 2) + (1 - a) * c.px(30)
+    marked = highlight_words(record)
+    colour = lambda word: "accent" if re.sub(r"[^A-Za-z]", "", word).lower() in marked else "text"  # noqa: E731
+    c.paragraph_rich(text_x, start, text, size, colour, text_w, "bold", align, a)
+
+
+def text_card(c, t, ctx):
+    """Chooses the right card for a text scene: a list card where the topic has data, else icon plus text."""
+    scene = ctx["scene"]
+    backdrop(c, t * scene.get("duration_seconds", 5))
+    special = {"terminology": diagrams.term_chips, "limitation": diagrams.checklist,
+               "sources": diagrams.sources_list, "safety": diagrams.safety_card}
+    function = special.get(scene.get("section_kind"))
+    if function and function(c, t, ctx):
+        return
+    icon_text_card(c, t, ctx)
 
 
 def _hook_preview(c, t, ctx, top, bottom):
@@ -139,6 +198,9 @@ def _clean(item):
 
 def diagram_cards(c, t, ctx):
     scene = ctx["scene"]
+    named = diagrams.DIAGRAMS.get(scene.get("data", {}).get("diagram"))
+    if named and named(c, t, ctx):
+        return
     box = c.content_box()
     x0, y0, x1, y1 = box
     top = _label(c, box, scene)
@@ -239,10 +301,9 @@ def motion_cards(c, t, ctx):
     h = min(c.px(420), (y1 - top) * 0.7)
     cx0 = x0 + slide
     c.rect((cx0, top + c.px(20), x1 + slide, top + c.px(20) + h), fill="panel", radius=26, alpha=a)
-    c.circle((cx0 + c.px(80), top + c.px(20) + c.px(80)), c.px(44), fill="good", alpha=a)
-    c.label((cx0 + c.px(80), top + c.px(20) + c.px(80)), "\u2713", 52, "bg", kind="bold", anchor="mm", alpha=a)
-    size = c.fit_size(text, x1 - x0 - c.px(80), h - c.px(180), 52, 26, "bold")
-    c.paragraph(cx0 + c.px(40), top + c.px(20) + c.px(150), text, size, "text", x1 - x0 - c.px(80), kind="bold", alpha=a)
+    draw_icon(c, "rocket", cx0 + c.px(100), top + c.px(20) + c.px(100), c.px(70), t * scene.get("duration_seconds", 5), a)
+    size = c.fit_size(text, x1 - x0 - c.px(80), h - c.px(220), 52, 26, "bold")
+    c.paragraph(cx0 + c.px(40), top + c.px(20) + c.px(190), text, size, "text", x1 - x0 - c.px(80), kind="bold", alpha=a)
 
 
 # ---------------------------------------------------------------- simulation

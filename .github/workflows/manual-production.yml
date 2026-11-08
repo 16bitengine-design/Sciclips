@@ -26,6 +26,15 @@ on:
           - low
           - medium
           - high
+      narration:
+        description: "Voice: espeak (default), none (subtitles only) or piper (testing only, licence unresolved)"
+        required: true
+        default: "espeak"
+        type: choice
+        options:
+          - espeak
+          - none
+          - piper
       output_mode:
         description: "TEST = no publishing (only TEST works for now)"
         required: true
@@ -52,8 +61,18 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install video tools and fonts
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Install video tools, fonts and voice
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core espeak-ng
+
+      - name: Download Piper voice (only when chosen)
+        if: ${{ inputs.narration == 'piper' }}
+        continue-on-error: true
+        run: |
+          mkdir -p tools voices
+          curl -fL -o piper.tar.gz https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_amd64.tar.gz
+          tar -xzf piper.tar.gz -C tools
+          curl -fL -o voices/en_US-lessac-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/lessac/medium/en_US-lessac-medium.onnx
+          curl -fL -o voices/en_US-lessac-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/lessac/medium/en_US-lessac-medium.onnx.json
 
       - name: Install requirements
         run: pip install -r requirements.txt
@@ -78,17 +97,20 @@ jobs:
           VIDEO_FORMAT: ${{ inputs.video_format }}
         run: python scripts/generate_content.py
 
-      - name: Render 2D scenes (draft quality)
+      - name: Narration, subtitles and scene clips (draft quality)
         env:
           TOPIC_ID: ${{ inputs.topic_id }}
           VIDEO_FORMAT: ${{ inputs.video_format }}
           RENDER_QUALITY: draft
+          NARRATION_PROVIDER: ${{ inputs.narration }}
+          PIPER_BIN: tools/piper/piper
+          PIPER_MODEL: voices/en_US-lessac-medium.onnx
         run: python scripts/render_scenes.py
 
-      - name: Save scripts, storyboards and scene clips
+      - name: Save scripts, audio, subtitles and scene clips
         uses: actions/upload-artifact@v4
         with:
-          name: scripts-and-scene-clips
+          name: scripts-audio-and-clips
           path: output/
           retention-days: 7
 

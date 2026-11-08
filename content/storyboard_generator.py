@@ -115,6 +115,9 @@ def generate_storyboard(script, record, rendering):
             scenes.append({
                 "scene_number": number,
                 "section_id": section["id"],
+                "section_kind": section["kind"],
+                "section_title": section["title"],
+                "data": section.get("data", {}),
                 "narration": chunk,
                 "on_screen_text": section["on_screen_text"] if c_index == 0 else "",
                 "subtitles": True,

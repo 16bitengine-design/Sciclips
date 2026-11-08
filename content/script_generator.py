@@ -212,8 +212,7 @@ def _short_explainer(record):
 def _long_explainer(record):
     s = _Sections()
     expl = _need(record, "scientific_explanation")
-    s.add("hook", "Opening question", _need(record, "central_question"),
-          on_screen=(record.get("long_video_potential") or {}).get("angle") or record["title"])
+    s.add("hook", "Opening question", _need(record, "central_question"), on_screen=record["title"])
     s.add("intro", "Introduction",
           f"In this video we answer one question from {_need(record, 'subject_area')}. We start with a simple "
           "explanation, then add the science, then the technical details, and finish with applications and limits.")

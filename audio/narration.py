@@ -66,11 +66,13 @@ class KokoroProvider(Provider):
                     "https://huggingface.co/hexgrad/Kokoro-82M")
     FALLBACK_VOICE = "af_sarah"  # the voice used in Kokoro's own example
 
-    def __init__(self, model=None, voices=None, voice="af_heart", language="en-us", engine=None):
+    def __init__(self, model=None, voices=None, voice="af_heart", language="en-us", engine=None, blend=None):
         self.model = model or os.environ.get("KOKORO_MODEL")
         self.voices_file = voices or os.environ.get("KOKORO_VOICES")
         self.voice = voice
         self.language = language
+        self.blend = blend  # {"voice_name": weight, ...} makes one voice out of several
+        self.fell_back = False  # True if the blend could not be built and a plain voice was used
         self._engine = engine  # a stand-in can be passed in for tests
 
     def available(self):
@@ -94,9 +96,20 @@ class KokoroProvider(Provider):
         except Exception as err:  # the library may raise many kinds of error while loading
             raise NarrationError(f"Kokoro could not start: {err}")
         last_error = None
-        for voice in dict.fromkeys([self.voice, self.FALLBACK_VOICE]):
+        choices = []
+        if self.blend:
+            choices.append("blend")
+        choices += list(dict.fromkeys([self.voice, self.FALLBACK_VOICE]))
+        for choice in choices:
             try:
+                if choice == "blend":
+                    from audio.voice_style import blend_style
+                    voice = blend_style(engine, self.blend)
+                else:
+                    voice = choice
                 samples, rate = engine.create(text, voice=voice, speed=speed, lang=self.language)
+                if self.blend and choice != "blend":
+                    self.fell_back = True
                 return write_wav(out_path, samples, rate)
             except NarrationError:
                 raise
@@ -129,10 +142,10 @@ class ToneProvider(Provider):
         return out_path
 
 
-def get_provider(name, voice="af_heart", language="en-us"):
+def get_provider(name, voice="af_heart", language="en-us", blend=None):
     """Provider for a name, or None for 'none'. Unknown names raise NarrationError."""
     if name in (None, "", "none"):
         return None
     if name == "kokoro":
-        return KokoroProvider(voice=voice, language=language)
+        return KokoroProvider(voice=voice, language=language, blend=blend)
     raise NarrationError(f"Unknown narration provider '{name}'. Use kokoro or none.")

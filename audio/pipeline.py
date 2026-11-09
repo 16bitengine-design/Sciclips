@@ -6,9 +6,10 @@ no voice at all (on-screen text and subtitles only). A failure here never stops 
 """
 import copy
 import json
+import os
 from pathlib import Path
 
-from audio import audio_mixer, narration, subtitles
+from audio import audio_mixer, narration, subtitles, voice_style
 from audio.speakable import load_pronunciations, speakable
 
 PADDING_SECONDS = 0.5
@@ -22,17 +23,24 @@ def _candidates(requested, provider_object):
     return [] if requested in (None, "", "none") else [requested]
 
 
-def _speak_all(provider, scenes, rendering, out_dir, pronunciations):
+def _speak_all(provider, scenes, rendering, out_dir, pronunciations, speed_factor=1.0, post=None):
     """Speak every scene with one provider. Returns {scene_number: (path, seconds)}; raises NarrationError."""
-    speed = float(rendering.get("narration", {}).get("speaking_speed", 1.0))
+    speed = float(rendering.get("narration", {}).get("speaking_speed", 1.0)) * speed_factor
     results = {}
     for scene in scenes:
         text = scene.get("narration", "").strip()
         if not text:
             continue
-        path = Path(out_dir) / "audio" / f"scene_{scene['scene_number']:03d}.wav"
-        provider.synthesize(speakable(text, pronunciations), path, speed)
-        results[scene["scene_number"]] = (path, narration.wav_duration(path))
+        number = scene["scene_number"]
+        final = Path(out_dir) / "audio" / f"scene_{number:03d}.wav"
+        raw = Path(out_dir) / "audio" / "raw" / f"scene_{number:03d}.wav" if post else final
+        provider.synthesize(speakable(text, pronunciations), raw, speed)
+        if post:
+            try:
+                voice_style.apply_radio_sound(raw, final, post)
+            except voice_style.VoiceStyleError as err:
+                raise narration.NarrationError(str(err))
+        results[number] = (final, narration.wav_duration(final))
     return results
 
 
@@ -62,12 +70,20 @@ def produce(storyboard, record, rendering, out_dir, provider_name="none", provid
     settings = rendering.get("narration", {})
     voice, language = settings.get("voice", "af_heart"), settings.get("language", "en-us")
     scenes = storyboard["scenes"]
+    profile, profile_name = None, os.environ.get("VOICE_PROFILE") or settings.get("profile")
+    if profile_name:
+        try:
+            profile = voice_style.get_profile(profile_name)
+        except (voice_style.VoiceStyleError, FileNotFoundError, KeyError) as err:
+            notes.append(f"Voice profile problem: {err}")
+            problems.append(f"The voice profile '{profile_name}' could not be loaded, so the standard voice was used.")
+            profile_name = None
 
     audio, used, used_object = None, "none", None
     for candidate in _candidates(provider_name, provider):
         try:
             impl = candidate if isinstance(candidate, narration.Provider) else narration.get_provider(
-                candidate, voice, language)
+                candidate, voice, language, profile["blend"] if profile else None)
         except narration.NarrationError as err:
             notes.append(str(err))
             continue
@@ -75,8 +91,12 @@ def produce(storyboard, record, rendering, out_dir, provider_name="none", provid
             notes.append(f"{impl.name}: not available here (is it installed, and are its voice files downloaded?).")
             continue
         try:
-            audio = _speak_all(impl, scenes, rendering, out_dir, pronunciations)
+            audio = _speak_all(impl, scenes, rendering, out_dir, pronunciations,
+                               profile["speed"] if profile else 1.0, profile["post"] if profile else None)
             used, used_object = impl.name, impl
+            if getattr(impl, "fell_back", False):
+                problems.append(f"The voice profile '{profile_name}' could not be built, so a standard voice was "
+                                "used instead.")
             break
         except narration.NarrationError as err:
             notes.append(f"{impl.name}: failed ({err}).")
@@ -127,7 +147,7 @@ def produce(storyboard, record, rendering, out_dir, provider_name="none", provid
 
     impl = used_object
     timeline = {
-        "provider": used, "requested": requested_name,
+        "provider": used, "requested": requested_name, "voice_profile": profile_name if used != "none" else None,
         "publishable": True if impl is None else impl.publishable,
         "licence_note": "" if impl is None else impl.licence_note,
         "total_duration_seconds": timed["total_duration_seconds"],

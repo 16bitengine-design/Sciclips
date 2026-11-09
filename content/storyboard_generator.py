@@ -20,7 +20,7 @@ KIND_TO_ANIMATION = {
     "misconception": "comparison", "limitation": "text_card", "safety": "text_card",
     "conclusion": "text_card", "sources": "text_card", "scenario_intro": "text_card",
     "correct_procedure": "simulation", "overlooked": "simulation", "what_changes": "comparison",
-    "consequences": "simulation", "why": "2d_diagram", "prevention": "text_card",
+    "consequences": "simulation", "why": "2d_diagram", "prevention": "text_card", "outro": "text_card",
 }
 
 LAYOUTS = {

@@ -28,5 +28,17 @@
     "music": true,
     "music_volume_db": -26,
     "target_lufs": -16
+  },
+  "branding": {
+    "channel_name": "Science Animation Studio",
+    "outro_line": "New science explained with animation.",
+    "outro": {
+      "short": false,
+      "long": true
+    }
+  },
+  "final": {
+    "crf": 20,
+    "preset": "medium"
   }
 }

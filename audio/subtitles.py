@@ -82,8 +82,8 @@ def to_srt(cues):
 
 def to_ass(cues, width, height, portrait):
     """An ASS file with a readable style. The bottom margin keeps captions above the phone interface."""
-    font_size = round(height * (0.034 if portrait else 0.055))
-    margin_v = round(height * (0.13 if portrait else 0.06))
+    font_size = round(height * (0.030 if portrait else 0.045))
+    margin_v = round(height * (0.085 if portrait else 0.045))
     header = (
         "[Script Info]\nScriptType: v4.00+\n"
         f"PlayResX: {width}\nPlayResY: {height}\nWrapStyle: 0\n\n"

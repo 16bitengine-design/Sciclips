@@ -150,6 +150,19 @@ def test_licence_flags():
     assert narration.ToneProvider().publishable is False
 
 
+class Style:
+    """A tiny stand-in for a voice style array: supports * and + like the real numpy arrays do."""
+
+    def __init__(self, values):
+        self.values = list(values)
+
+    def __mul__(self, weight):
+        return Style(v * weight for v in self.values)
+
+    def __add__(self, other):
+        return Style(a + b for a, b in zip(self.values, other.values))
+
+
 class FakeEngine:
     """Stands in for the Kokoro library: returns a short tone as floats between -1 and 1."""
 
@@ -157,9 +170,14 @@ class FakeEngine:
         self.calls = []
         self.reject_voices = reject_voices
 
+    def get_voice_style(self, name):
+        if name in self.reject_voices:
+            raise KeyError(name)
+        return Style([1.0, float(len(name))])
+
     def create(self, text, voice, speed, lang):
         self.calls.append((text, voice, speed, lang))
-        if voice in self.reject_voices:
+        if isinstance(voice, str) and voice in self.reject_voices:
             raise ValueError(f"unknown voice {voice}")
         import math
         rate = 24000

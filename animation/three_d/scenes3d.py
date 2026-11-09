@@ -40,14 +40,12 @@ def _starry_sky(w, h):
 
 
 def _lab_backdrop(w, h):
-    img = Image.new("RGB", (w, h))
-    px = img.load()
+    """A dark blue vertical gradient. Built as one column and stretched, which is fast."""
+    column = Image.new("RGB", (1, h))
     for y in range(h):
         k = y / max(1, h - 1)
-        row = (int(14 + 18 * (1 - k)), int(22 + 24 * (1 - k)), int(40 + 36 * (1 - k)))
-        for x in range(w):
-            px[x, y] = row
-    return img
+        column.putpixel((0, y), (int(14 + 18 * (1 - k)), int(22 + 24 * (1 - k)), int(40 + 36 * (1 - k))))
+    return column.resize((w, h))
 
 
 # ------------------------------------------------------------------ objects

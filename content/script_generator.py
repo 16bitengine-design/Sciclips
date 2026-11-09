@@ -316,6 +316,12 @@ def generate_script(record, video_format, variant, rendering, science_result):
     wps = words_per_second(rendering)
     limits = rendering[video_format]
 
+    branding = rendering.get("branding", {})
+    if video_format == "long" and branding.get("outro", {}).get("long"):
+        sections.append({
+            "id": "outro-1", "kind": "outro", "title": "Outro", "narration": "Thanks for watching.",
+            "on_screen_text": branding.get("channel_name", ""), "claim_ids": [],
+            "data": {"channel": branding.get("channel_name", ""), "line": branding.get("outro_line", "")}})
     if video_format == "short":
         for kind in SHORT_TRIM_ORDER:
             if _duration(sections, wps) > limits["max_duration_seconds"]:

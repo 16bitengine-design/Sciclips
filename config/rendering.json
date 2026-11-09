@@ -27,7 +27,8 @@
     "speaking_speed": 1.0,
     "music": true,
     "music_volume_db": -26,
-    "target_lufs": -16
+    "target_lufs": -16,
+    "profile": "smooth_american"
   },
   "branding": {
     "channel_name": "Science Animation Studio",

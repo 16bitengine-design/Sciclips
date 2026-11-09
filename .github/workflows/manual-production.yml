@@ -34,6 +34,14 @@ on:
         options:
           - kokoro
           - none
+      quality:
+        description: "draft = quick preview (small, never for publishing); full = final 1080p, 30 fps (much slower)"
+        required: true
+        default: "draft"
+        type: choice
+        options:
+          - draft
+          - full
       output_mode:
         description: "TEST = no publishing (only TEST works for now)"
         required: true
@@ -50,7 +58,7 @@ permissions:
 jobs:
   produce:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
@@ -103,22 +111,25 @@ jobs:
           VIDEO_FORMAT: ${{ inputs.video_format }}
         run: python scripts/generate_content.py
 
-      - name: Narration, subtitles and scene clips (draft quality)
+      - name: Produce finished videos
         env:
           TOPIC_ID: ${{ inputs.topic_id }}
           VIDEO_FORMAT: ${{ inputs.video_format }}
-          RENDER_QUALITY: draft
+          RENDER_QUALITY: ${{ inputs.quality }}
           NARRATION_PROVIDER: ${{ inputs.narration }}
           KOKORO_MODEL: models/kokoro-v1.0.onnx
           KOKORO_VOICES: models/voices-v1.0.bin
-        run: python scripts/render_scenes.py
+        run: python scripts/produce_video.py
 
-      - name: Save scripts, audio, subtitles and scene clips
+      - name: Save finished videos, audio, subtitles and previews
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: scripts-audio-and-clips
-          path: output/
+          name: finished-videos
+          path: |
+            output/
+            !output/**/scenes/*.mp4
+            !output/**/work/**
           retention-days: 7
 
       - name: Run production request

@@ -3,13 +3,15 @@
 Frames are drawn with Pillow and piped straight into FFmpeg, so no files are
 needed per frame and no desktop application is opened.
 """
+import os
 import shutil
 import subprocess
+from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
 from PIL import Image, ImageDraw
 
-from animation.two_d.canvas import PALETTE, Canvas, load_font
+from animation.two_d.canvas import PALETTE, Canvas, clamp, ease_in_out, load_font
 from animation.two_d.scenes import SCENE_FUNCTIONS
 
 QUALITY = {"draft": {"scale": 0.5, "fps": 12}, "full": {"scale": 1.0, "fps": None}}
@@ -44,11 +46,42 @@ def draw_frame(scene, record, width, height, t):
     return canvas.img
 
 
-def render_scene(scene, record, out_path, width, height, fps, poster_path=None):
+def apply_transition(image, scene, secs, total_secs):
+    """Fade or wipe a frame in or out. `secs` is the time into the scene. Timing is unchanged, so audio stays in sync."""
+    kind = scene.get("transition", "cut")
+    width, height = image.size
+    bg = Image.new("RGB", image.size, PALETTE["bg"])
+    black = Image.new("RGB", image.size, (0, 0, 0))
+    if kind == "fade in":
+        image = Image.blend(black, image, clamp(secs / 0.6))
+    elif kind in ("fade", "fade out"):
+        image = Image.blend(bg, image, clamp(secs / 0.25))
+        if kind == "fade out":
+            image = Image.blend(black, image, clamp((total_secs - secs) / 0.8))
+    elif kind == "wipe":
+        reveal = int(width * ease_in_out(secs / 0.4))
+        if reveal < width:
+            bg.paste(image.crop((0, 0, reveal, height)), (0, 0))
+            image = bg
+    return image
+
+
+def plan_frames(storyboard, fps):
+    """Frame count for each scene, worked out from running totals so the video never drifts from the audio."""
+    counts, clock, drawn = {}, 0.0, 0
+    for scene in storyboard["scenes"]:
+        clock += scene["duration_seconds"]
+        end = round(clock * fps)
+        counts[scene["scene_number"]] = max(2, end - drawn)
+        drawn += counts[scene["scene_number"]]
+    return counts
+
+
+def render_scene(scene, record, out_path, width, height, fps, poster_path=None, frames=None):
     """Render one scene to an MP4. Returns a small report dict."""
     if shutil.which("ffmpeg") is None:
         raise RenderError("FFmpeg was not found. Install it (sudo apt-get install -y ffmpeg).")
-    frames = max(2, round(scene["duration_seconds"] * fps))
+    frames = frames or max(2, round(scene["duration_seconds"] * fps))
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     command = ["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
@@ -60,6 +93,7 @@ def render_scene(scene, record, out_path, width, height, fps, poster_path=None):
     try:
         for i in range(frames):
             image = draw_frame(scene, record, width, height, i / (frames - 1))
+            image = apply_transition(image, scene, i / fps, frames / fps)
             if poster_path and i == poster_index:
                 Path(poster_path).parent.mkdir(parents=True, exist_ok=True)
                 image.save(poster_path)
@@ -77,7 +111,8 @@ def render_scene(scene, record, out_path, width, height, fps, poster_path=None):
         raise RenderError(f"FFmpeg failed (exit {code}): {error.strip()}")
     return {"scene_number": scene["scene_number"], "path": str(out_path),
             "poster": str(poster_path) if poster_path else None, "frames": frames, "fps": fps,
-            "width": width, "height": height, "duration_seconds": scene["duration_seconds"]}
+            "width": width, "height": height, "duration_seconds": scene["duration_seconds"],
+            "clip_seconds": frames / fps}
 
 
 def make_contact_sheet(poster_paths, out_path, columns=4, thumb_width=300):
@@ -103,21 +138,50 @@ def make_contact_sheet(poster_paths, out_path, columns=4, thumb_width=300):
     return str(out_path)
 
 
-def render_storyboard(storyboard, record, out_dir, quality="draft", only_scenes=None):
-    """Render every scene (or the numbers in only_scenes). Returns a list of reports."""
+def _render_job(job):
+    scene, record, path, width, height, fps, poster, frames = job
+    return render_scene(scene, record, path, width, height, fps, poster, frames)
+
+
+def default_workers():
+    """How many scenes to draw at once: the RENDER_WORKERS setting, else up to 4 (the CPUs the runner has)."""
+    setting = os.environ.get("RENDER_WORKERS")
+    if setting and setting.isdigit() and int(setting) > 0:
+        return int(setting)
+    return max(1, min(4, os.cpu_count() or 1))
+
+
+def render_storyboard(storyboard, record, out_dir, quality="draft", only_scenes=None, workers=None):
+    """Render every scene (or the numbers in only_scenes). Several scenes are drawn at once when workers > 1."""
     if quality not in QUALITY:
         raise RenderError(f"Unknown quality '{quality}'. Use draft or full.")
     width, height = frame_size(storyboard, quality)
     fps = frame_rate(storyboard, quality)
     out_dir = Path(out_dir)
-    reports = []
+    counts = plan_frames(storyboard, fps)
+    jobs = []
     for scene in storyboard["scenes"]:
         if only_scenes and scene["scene_number"] not in only_scenes:
             continue
         number = scene["scene_number"]
-        reports.append(render_scene(scene, record, out_dir / f"scene_{number:03d}.mp4", width, height, fps,
-                                    out_dir / f"scene_{number:03d}.png"))
+        jobs.append((scene, record, str(out_dir / f"scene_{number:03d}.mp4"), width, height, fps,
+                     str(out_dir / f"scene_{number:03d}.png"), counts[number]))
+    workers = workers or default_workers()
+    if workers > 1 and len(jobs) > 1:
+        with ProcessPoolExecutor(max_workers=min(workers, len(jobs))) as pool:
+            reports = list(pool.map(_render_job, jobs))
+    else:
+        reports = [_render_job(job) for job in jobs]
     sheet = make_contact_sheet([r["poster"] for r in reports], out_dir / "contact_sheet.png")
     for report in reports:
         report["contact_sheet"] = sheet
     return reports
+
+
+def save_thumbnail(storyboard, record, out_path, quality="draft", t=0.85):
+    """A still picture from the opening scene, as a JPEG small enough for upload sites."""
+    width, height = frame_size(storyboard, quality)
+    image = draw_frame(storyboard["scenes"][0], record, width, height, t)
+    Path(out_path).parent.mkdir(parents=True, exist_ok=True)
+    image.save(out_path, "JPEG", quality=90)
+    return str(out_path)

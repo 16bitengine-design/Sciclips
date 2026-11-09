@@ -87,7 +87,7 @@ def text_card(c, t, ctx):
     scene = ctx["scene"]
     backdrop(c, t * scene.get("duration_seconds", 5))
     special = {"terminology": diagrams.term_chips, "limitation": diagrams.checklist,
-               "sources": diagrams.sources_list, "safety": diagrams.safety_card}
+               "sources": diagrams.sources_list, "safety": diagrams.safety_card, "outro": diagrams.outro_card}
     function = special.get(scene.get("section_kind"))
     if function and function(c, t, ctx):
         return

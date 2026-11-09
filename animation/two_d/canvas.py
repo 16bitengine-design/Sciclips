@@ -95,7 +95,7 @@ class Canvas:
 
     def content_box(self):
         margin = 0.07 * self.w
-        bottom = (0.80 if self.portrait else 0.92) * self.h
+        bottom = 0.80 * self.h
         return (margin, 0.07 * self.h, self.w - margin, bottom)
 
     # text

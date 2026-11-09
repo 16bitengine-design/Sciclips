@@ -303,6 +303,31 @@ def safety_card(c, t, ctx):
     return True
 
 
+def outro_card(c, t, ctx):
+    """End card: channel name, a line of text and an honest note about the voice and animations."""
+    scene = ctx["scene"]
+    data = scene.get("data", {})
+    channel = data.get("channel") or scene.get("on_screen_text", "")
+    if not channel:
+        return False
+    box = c.content_box()
+    x0, y0, x1, y1 = box
+    a = appear(t, 0.0, 0.3)
+    mid = (y0 + y1) / 2
+    draw_icon(c, "atom", (x0 + x1) / 2, mid - c.px(210), c.px(100), t * scene.get("duration_seconds", 3), a)
+    size = c.fit_size(channel, x1 - x0, c.px(200), 80, 34, "bold")
+    bottom = c.paragraph((x0 + x1) / 2, mid - c.px(70), channel, size, "text", x1 - x0, kind="bold", align="center",
+                         alpha=a)
+    c.rect(((x0 + x1) / 2 - c.px(70), bottom + c.px(14), (x0 + x1) / 2 + c.px(70), bottom + c.px(20)), fill="accent",
+           alpha=a)
+    if data.get("line"):
+        c.paragraph((x0 + x1) / 2, bottom + c.px(46), data["line"], 36, "muted", x1 - x0, align="center",
+                    alpha=appear(t, 0.25, 0.3))
+    c.paragraph((x0 + x1) / 2, y1 - c.px(60), "Narration is a synthetic voice. Animations are illustrations.", 24,
+                "muted", x1 - x0, align="center", alpha=appear(t, 0.4, 0.3))
+    return True
+
+
 DIAGRAMS = {
     "mass_cancels": mass_cancels,
     "drag_vs_gravity": drag_vs_gravity,

@@ -17,7 +17,7 @@ def _banner(c, box, text, color):
 
 
 def _footer(c, extra=""):
-    y = (0.835 if c.portrait else 0.945) * c.h
+    y = 0.805 * c.h
     c.paragraph(c.w / 2, y, NOTE + (" " + extra if extra else ""), 24, "muted", max_width=c.w * 0.88,
                 align="center", line_gap=1.2)
 

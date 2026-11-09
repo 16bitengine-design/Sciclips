@@ -64,3 +64,54 @@ def validate_video(path, width=None, height=None, duration=None, duration_tolera
     if expect_audio and audio is not None and audio.get("codec_name") != "aac":
         problems.append(f"Audio codec is {audio.get('codec_name')}, expected aac.")
     return problems
+
+
+# ------------------------------------------------------------------ final video checks
+ACCEPTED_PROFILES = ("High", "Main", "Baseline", "Constrained Baseline")
+ASPECTS = {"short": 9 / 16, "long": 16 / 9}
+
+
+def decode_check(path):
+    """True if FFmpeg can read every frame without errors (detects damaged files)."""
+    if shutil.which("ffmpeg") is None:
+        raise RuntimeError("ffmpeg was not found. Install FFmpeg.")
+    result = subprocess.run(["ffmpeg", "-v", "error", "-i", str(path), "-f", "null", "-"],
+                            capture_output=True, text=True)
+    return result.returncode == 0 and not result.stderr.strip()
+
+
+def validate_final(path, fmt, width, height, fps, duration, rendering, full_quality, expect_audio):
+    """Checks a finished video. Returns {"problems": [...], "warnings": [...]}."""
+    limits = rendering[fmt]
+    problems = validate_video(path, width, height, duration, 0.25, fps, expect_audio,
+                              rendering.get("max_output_size_mb", 200))
+    warnings = []
+    if not os.path.exists(path) or os.path.getsize(path) == 0:
+        return {"problems": problems, "warnings": warnings}
+    if not decode_check(path):
+        problems.append("The video did not decode cleanly, so it may be damaged.")
+    try:
+        info = probe(path)
+    except RuntimeError as err:
+        return {"problems": problems + [str(err)], "warnings": warnings}
+    video = next((s for s in info.get("streams", []) if s.get("codec_type") == "video"), None)
+    audio = next((s for s in info.get("streams", []) if s.get("codec_type") == "audio"), None)
+    if video:
+        if video.get("profile") not in ACCEPTED_PROFILES:
+            problems.append(f"H.264 profile is {video.get('profile')}, which some platforms may refuse.")
+        ratio = (video.get("width") or 1) / (video.get("height") or 1)
+        if abs(ratio - ASPECTS[fmt]) > 0.01:
+            problems.append(f"Aspect ratio is wrong for a {fmt} video.")
+    if audio:
+        if int(audio.get("channels", 0)) > 2:
+            problems.append("Audio has more than two channels.")
+        if int(audio.get("sample_rate", 0)) not in (44100, 48000):
+            problems.append(f"Audio sample rate is {audio.get('sample_rate')}, expected 44100 or 48000.")
+    actual = float(info.get("format", {}).get("duration") or 0)
+    if actual > limits["max_duration_seconds"]:
+        problems.append(f"Video is {actual:.0f} s, over the {limits['max_duration_seconds']} s limit for {fmt} videos.")
+    if actual < limits["min_duration_seconds"]:
+        warnings.append(f"Video is {actual:.0f} s, under the usual {limits['min_duration_seconds']} s for {fmt} videos.")
+    if not full_quality:
+        warnings.append("Draft quality: smaller and slower than the targets, so this file is not for publishing.")
+    return {"problems": problems, "warnings": warnings}

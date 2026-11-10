@@ -288,5 +288,12 @@
   "scene3d": {
     "kind": "drop",
     "environment": "moon"
+  },
+  "thumbnail": {
+    "headline": "Hammer vs Feather",
+    "subline": "On the Moon!",
+    "badge": "?",
+    "scheme": 3,
+    "moment": 0.55
   }
 }

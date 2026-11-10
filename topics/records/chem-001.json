@@ -245,5 +245,12 @@
   },
   "scene3d": {
     "kind": "beaker"
+  },
+  "thumbnail": {
+    "headline": "Baking Soda + Vinegar",
+    "subline": "Where do bubbles come from?",
+    "badge": "?!",
+    "scheme": 6,
+    "moment": 0.55
   }
 }

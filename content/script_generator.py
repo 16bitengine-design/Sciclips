@@ -4,11 +4,17 @@ No AI service is used and no new scientific facts are added: every sentence
 of narration is taken from the topic record. If the record is thin, the
 script is thin. Quality comes from the research record, not from this code.
 """
+import math
+import os
 import re
 
+from audio import voice_style
 from content.topic_manager import EXPERIMENT_TEMPLATES
 
-BASE_WORDS_PER_SECOND = 2.5  # about 150 spoken words per minute
+BASE_WORDS_PER_SECOND = 2.5  # about 150 spoken words per minute at normal speed
+SCENE_PADDING_SECONDS = 0.5  # a short pause is added after every scene
+CHUNK_WORDS = {"short": 30, "long": 40}  # how many words go into one scene
+TIMING_MARGIN_SECONDS = 2.0  # short videos are trimmed to finish this far under the limit
 WHAT_IF_KEYS = ("title", "correct", "overlooked", "what_changes", "consequences", "why",
                 "prevention", "claim_ids")
 WHAT_IF_PARTS = (
@@ -32,8 +38,21 @@ def count_words(text):
     return len(text.split())
 
 
+def effective_speed(rendering):
+    """Speaking speed from the config, times the chosen voice profile's pace."""
+    settings = rendering.get("narration", {})
+    speed = float(settings.get("speaking_speed", 1.0))
+    name = os.environ.get("VOICE_PROFILE") or settings.get("profile")
+    if name:
+        try:
+            speed *= float(voice_style.get_profile(name)["speed"])
+        except (voice_style.VoiceStyleError, FileNotFoundError, KeyError):
+            pass
+    return speed
+
+
 def words_per_second(rendering):
-    return BASE_WORDS_PER_SECOND * float(rendering.get("narration", {}).get("speaking_speed", 1.0))
+    return BASE_WORDS_PER_SECOND * effective_speed(rendering)
 
 
 def first_sentence(text):
@@ -299,8 +318,11 @@ BUILDERS = {
 
 
 # ---- final assembly ---------------------------------------------------------
-def _duration(sections, wps):
-    return round(sum(count_words(x["narration"]) for x in sections) / wps, 1)
+def _duration(sections, wps, video_format="short"):
+    """Estimated running time: speaking time plus the pause after each scene."""
+    words = sum(count_words(x["narration"]) for x in sections)
+    scenes = sum(max(1, math.ceil(count_words(x["narration"]) / CHUNK_WORDS[video_format])) for x in sections)
+    return round(words / wps + scenes * SCENE_PADDING_SECONDS, 1)
 
 
 def generate_script(record, video_format, variant, rendering, science_result):
@@ -324,9 +346,9 @@ def generate_script(record, video_format, variant, rendering, science_result):
             "data": {"channel": branding.get("channel_name", ""), "line": branding.get("outro_line", "")}})
     if video_format == "short":
         for kind in SHORT_TRIM_ORDER:
-            if _duration(sections, wps) > limits["max_duration_seconds"]:
+            if _duration(sections, wps, video_format) > limits["max_duration_seconds"] - TIMING_MARGIN_SECONDS:
                 sections = [x for x in sections if x["kind"] != kind]
-    estimate = _duration(sections, wps)
+    estimate = _duration(sections, wps, video_format)
     if estimate > limits["max_duration_seconds"]:
         raise ScriptError(f"Script would run about {estimate:.0f} s, over the {limits['max_duration_seconds']} s limit.")
 

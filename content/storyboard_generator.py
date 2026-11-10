@@ -6,7 +6,7 @@ cropped from one another.
 """
 import re
 
-from content.script_generator import count_words, words_per_second
+from content.script_generator import SCENE_PADDING_SECONDS, count_words, words_per_second
 
 ANIMATION_TYPES = ("2d_diagram", "2d_equation", "3d_scene", "simulation", "comparison",
                    "graph", "motion_graphics", "text_card")
@@ -124,7 +124,7 @@ def generate_storyboard(script, record, rendering):
                 "animation_type": animation,
                 "visual_elements": _visuals(section, record),
                 "camera": _camera(animation),
-                "duration_seconds": max(MIN_SCENE_SECONDS, round(count_words(chunk) / wps, 1)),
+                "duration_seconds": max(MIN_SCENE_SECONDS, round(count_words(chunk) / wps + SCENE_PADDING_SECONDS, 1)),
                 "transition": transition,
                 "sound": sound,
                 "claims_illustrated": _claims(record, section["claim_ids"]),

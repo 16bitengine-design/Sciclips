@@ -2,6 +2,7 @@
 import math
 
 from animation.simulations import free_fall as ff
+from animation.two_d import illustrations
 from animation.simulations import gas_release as gas
 from animation.two_d.canvas import appear, clamp, pretty_math
 
@@ -11,7 +12,7 @@ NOTE = "Illustrative model with assumed values. Not experimental evidence."
 # ------------------------------------------------------------------ helpers
 def _banner(c, box, text, color):
     x0, y0, x1, _ = box
-    c.rect((x0, y0, x1, y0 + c.px(64)), fill="panel", radius=14)
+    c.rect((x0, y0, x1, y0 + c.px(64)), fill=c.inner, radius=14)
     c.rect((x0, y0, x0 + c.px(10), y0 + c.px(64)), fill=color)
     c.label((x0 + c.px(30), y0 + c.px(32)), text, 34, color, kind="bold", anchor="lm")
 
@@ -37,18 +38,24 @@ def _role_banner(c, box, role, extra=None):
 
 # ------------------------------------------------------------------ free fall
 def _draw_hammer(c, x, bottom):
+    if c.theme.name != "classic":
+        illustrations.draw_hammer(c.d, x, bottom, c.px(112) / 390.0, c.u * 0.75)
+        return
     c.rect((x - c.px(7), bottom - c.px(52), x + c.px(7), bottom), fill="warn", radius=4)
     c.rect((x - c.px(40), bottom - c.px(84), x + c.px(40), bottom - c.px(48)), fill="muted", radius=6)
 
 
 def _draw_feather(c, x, bottom):
+    if c.theme.name != "classic":
+        illustrations.draw_feather(c.d, x, bottom, c.px(112) / 390.0, c.u * 0.75)
+        return
     c.line((x, bottom - c.px(86)), (x, bottom), "text", 3)
     c.d.ellipse((x - c.px(13), bottom - c.px(86), x + c.px(13), bottom - c.px(14)), fill=c.col("accent"))
 
 
 def _panel(c, box, title, color, sims, t_sim, accent_note=None, wrong=False):
     x0, y0, x1, y1 = box
-    c.rect(box, fill="panel", radius=18)
+    c.rect(box, fill=c.inner, radius=18)
     c.label(((x0 + x1) / 2, y0 + c.px(22)), title, 28, color, kind="bold", anchor="ma")
     ground = y1 - c.px(46)
     top = y0 + c.px(160)
@@ -79,7 +86,7 @@ def _panel(c, box, title, color, sims, t_sim, accent_note=None, wrong=False):
 def _graph(c, box, curves, t_sim, t_end):
     """Speed against time. curves = [(label, color, sim, dashed)]."""
     x0, y0, x1, y1 = box
-    c.rect(box, fill="panel", radius=18)
+    c.rect(box, fill=c.inner, radius=18)
     left, right = x0 + c.px(90), x1 - c.px(30)
     top, bottom = y0 + c.px(46), y1 - c.px(50)
     c.line((left, top), (left, bottom), "muted", 3)

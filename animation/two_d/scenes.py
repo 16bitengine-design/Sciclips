@@ -6,6 +6,7 @@ from animation.two_d.canvas import appear, clamp, pretty_math
 from animation.simulations import gas_release as gas
 from animation.two_d import diagrams, sim_draw
 from animation.three_d.scenes3d import render_viewport
+from animation.two_d import illustrations
 from animation.two_d.icons import draw_icon
 from PIL import Image, ImageDraw
 from research.equation_checker import _side_atoms
@@ -18,7 +19,11 @@ def _text(scene):
 
 def _label(c, box, scene, color="accent"):
     x0, y0, _, _ = box
-    c.label((x0, y0), (scene.get("section_title") or "").upper(), 30, color, kind="bold")
+    title = (scene.get("section_title") or "").upper()
+    size = c.fit_size(title, x1 - x0 if False else c.w - 2 * x0, c.px(60), 34, 20, "bold") if False else 34
+    while size > 20 and c.font("bold", size).getlength(title) > c.w - 2 * x0:
+        size -= 2
+    c.label((x0, y0), title, size, color, kind="bold")
     c.rect((x0, y0 + c.px(44), x0 + c.px(120), y0 + c.px(50)), fill=color)
     return y0 + c.px(80)
 
@@ -134,6 +139,29 @@ def _hook_3d(c, t, ctx, top, bottom):
     return True
 
 
+def _hook_illustration(c, t, ctx, top, bottom):
+    """The cartoon opening picture in a sticker frame. Returns False if the topic has none."""
+    x0, _, x1, _ = c.content_box()
+    width, height = int(x1 - x0), int(bottom - top)
+    if height < c.px(300) or width < 50:
+        return False
+    secs = t * ctx["scene"].get("duration_seconds", 5)
+    image = illustrations.render_illustration(ctx["record"], t, width, height, secs, 2 if width * height < 1_200_000 else 1)
+    if image is None:
+        return False
+    th = c.theme
+    radius = int(c.px(30))
+    off = th.shadow_off * c.u
+    c.d.rounded_rectangle((x0 + off, top + off, x1 + off, bottom + off), radius=radius, fill=c.col(th.shadow or (0, 0, 0)))
+    mask = Image.new("L", (width, height), 0)
+    ImageDraw.Draw(mask).rounded_rectangle((0, 0, width - 1, height - 1), radius=radius, fill=255)
+    a = appear(t, 0.0, 0.15)
+    c.img.paste(image, (int(x0), int(top)), mask.point(lambda v: int(v * a)))
+    c.d.rounded_rectangle((x0, top, x1, bottom), radius=radius, outline=c.col(th.outline or (0, 0, 0), a),
+                          width=max(3, round(max(th.outline_w, 4) * c.u)))
+    return True
+
+
 def hook_card(c, t, ctx):
     """Opening card: the title plus a lightweight 3D shot (a 2D picture if the topic has no 3D scene)."""
     scene = ctx["scene"]
@@ -145,6 +173,8 @@ def hook_card(c, t, ctx):
     bottom = c.paragraph(x0, y0 + c.px(100) + (1 - a) * c.px(40), text, size, "text", x1 - x0, kind="bold", alpha=a)
     c.rect((x0, bottom + c.px(20), x0 + c.px(120), bottom + c.px(26)), fill="accent", alpha=a)
     top = bottom + c.px(50)
+    if c.theme.hook == "illustration" and _hook_illustration(c, t, ctx, top, y1):
+        return
     if not _hook_3d(c, t, ctx, top, y1):
         _hook_preview(c, t, ctx, top, y1)
 

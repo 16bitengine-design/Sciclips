@@ -9,7 +9,11 @@ from animation.two_d import sim_draw
 
 def _label(c, box, scene, color="accent"):
     x0, y0, _, _ = box
-    c.label((x0, y0), (scene.get("section_title") or "").upper(), 30, color, kind="bold")
+    title = (scene.get("section_title") or "").upper()
+    size = c.fit_size(title, x1 - x0 if False else c.w - 2 * x0, c.px(60), 34, 20, "bold") if False else 34
+    while size > 20 and c.font("bold", size).getlength(title) > c.w - 2 * x0:
+        size -= 2
+    c.label((x0, y0), title, size, color, kind="bold")
     c.rect((x0, y0 + c.px(44), x0 + c.px(120), y0 + c.px(50)), fill=color)
     return y0 + c.px(80)
 
@@ -113,7 +117,7 @@ def reaction_particles(c, t, ctx):
     top = _label(c, box, scene)
     ax0, ay0, ax1, ay1 = x0, top + c.px(20), x1, y1 - c.px(110)
     aw, ah = ax1 - ax0, ay1 - ay0
-    c.rect((ax0, ay0, ax1, ay1), fill="panel", radius=24)
+    c.rect((ax0, ay0, ax1, ay1), fill=c.inner, radius=24)
     c.label((ax0 + aw * 0.12, ay0 + c.px(24)), "BEFORE", 24, "muted", kind="bold", anchor="mm")
     c.label((ax0 + aw * 0.88, ay0 + c.px(24)), "AFTER", 24, "muted", kind="bold", anchor="mm")
     arrow_a = appear(t, 0.3, 0.2)
@@ -147,7 +151,7 @@ def reaction_particles(c, t, ctx):
 def _container_panel(c, box, title, open_container, t, color):
     px0, py0, px1, py1 = box
     pw, ph = px1 - px0, py1 - py0
-    c.rect(box, fill="panel", radius=20)
+    c.rect(box, fill=c.inner, radius=20)
     c.label(((px0 + px1) / 2, py0 + c.px(14)), title, 28, color, kind="bold", anchor="ma")
     cx0, cy0, cx1, cy1 = px0 + pw * 0.22, py0 + ph * 0.28, px1 - pw * 0.22, py1 - ph * 0.12
     cw, ch = cx1 - cx0, cy1 - cy0

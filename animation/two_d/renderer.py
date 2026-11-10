@@ -11,6 +11,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from animation.two_d import themes
 from animation.two_d.canvas import PALETTE, Canvas, clamp, ease_in_out, load_font
 from animation.two_d.scenes import SCENE_FUNCTIONS
 
@@ -38,7 +39,10 @@ def frame_rate(storyboard, quality):
 
 def draw_frame(scene, record, width, height, t):
     """Draw one frame of a scene at progress t (0 to 1) and return a Pillow image."""
-    canvas = Canvas(width, height)
+    number = scene.get("scene_number", 1)
+    scheme = themes.apply_to_palette(PALETTE, number)
+    canvas = Canvas(width, height, scheme, seed=number)
+    canvas.paint_background(t * scene.get("duration_seconds", 5))
     function = SCENE_FUNCTIONS.get(scene["animation_type"])
     if function is None:
         raise RenderError(f"No drawing function for animation type '{scene['animation_type']}'")
@@ -46,11 +50,22 @@ def draw_frame(scene, record, width, height, t):
     return canvas.img
 
 
+def _backdrop(scene, size, secs):
+    """The scene's own background with nothing on it, so fades and wipes start from the right colours."""
+    if themes.current().background == "flat":
+        return Image.new("RGB", size, PALETTE["bg"])
+    number = scene.get("scene_number", 1)
+    canvas = Canvas(size[0], size[1], themes.scheme_for(number), seed=number)
+    canvas.paint_background(secs)
+    return canvas.img
+
+
 def apply_transition(image, scene, secs, total_secs):
     """Fade or wipe a frame in or out. `secs` is the time into the scene. Timing is unchanged, so audio stays in sync."""
     kind = scene.get("transition", "cut")
     width, height = image.size
-    bg = Image.new("RGB", image.size, PALETTE["bg"])
+    bg = _backdrop(scene, image.size, secs) if kind in ("fade", "fade out", "wipe") and secs < 0.5 else \
+        Image.new("RGB", image.size, PALETTE["bg"])
     black = Image.new("RGB", image.size, (0, 0, 0))
     if kind == "fade in":
         image = Image.blend(black, image, clamp(secs / 0.6))
@@ -139,7 +154,8 @@ def make_contact_sheet(poster_paths, out_path, columns=4, thumb_width=300):
 
 
 def _render_job(job):
-    scene, record, path, width, height, fps, poster, frames = job
+    scene, record, path, width, height, fps, poster, frames, theme_name = job
+    themes.set_theme(theme_name)
     return render_scene(scene, record, path, width, height, fps, poster, frames)
 
 
@@ -165,7 +181,7 @@ def render_storyboard(storyboard, record, out_dir, quality="draft", only_scenes=
             continue
         number = scene["scene_number"]
         jobs.append((scene, record, str(out_dir / f"scene_{number:03d}.mp4"), width, height, fps,
-                     str(out_dir / f"scene_{number:03d}.png"), counts[number]))
+                     str(out_dir / f"scene_{number:03d}.png"), counts[number], themes.current().name))
     workers = workers or default_workers()
     if workers > 1 and len(jobs) > 1:
         with ProcessPoolExecutor(max_workers=min(workers, len(jobs))) as pool:

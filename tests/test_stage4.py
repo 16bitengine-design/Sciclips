@@ -111,7 +111,7 @@ def test_overlong_short_script_is_refused():
 
 def test_trimming_drops_optional_sections_first():
     rec = record("physics-001")
-    rec["scientific_explanation"]["level_1"] = "word " * 100 + "end."
+    rec["scientific_explanation"]["level_1"] = "word " * 70 + "end."
     script = generate_script(rec, "short", "explainer", rendering(), OK_SCIENCE)
     kinds = {s["kind"] for s in script["sections"]}
     assert "terminology" not in kinds and "answer" in kinds
@@ -187,3 +187,30 @@ def test_run_rejects_unknown_topic(tmp_path):
 def test_science_still_passes_after_record_update():
     for topic in TOPICS:
         assert validate_topic_id(str(ROOT), topic)["status"] == "passed_automated_checks"
+
+
+def test_slower_voice_profiles_make_the_estimate_longer():
+    import copy
+    fast, slow = copy.deepcopy(rendering()), copy.deepcopy(rendering())
+    fast["narration"]["profile"], slow["narration"]["profile"] = "smooth_american", "deep_american"
+    fast["narration"]["speaking_speed"], slow["narration"]["speaking_speed"] = 1.0, 0.8
+    rec = record("chem-001")
+    quick = generate_script(rec, "short", "what_if", fast, OK_SCIENCE)
+    slowly = generate_script(rec, "short", "what_if", slow, OK_SCIENCE)
+    assert slowly["estimated_duration_seconds"] > quick["estimated_duration_seconds"]
+
+
+def test_estimates_include_the_pause_after_every_scene():
+    rec = record("chem-001")
+    script = generate_script(rec, "short", "what_if", rendering(), OK_SCIENCE)
+    from content.script_generator import SCENE_PADDING_SECONDS, effective_speed
+    speaking = script["word_count"] / (2.5 * effective_speed(rendering()))
+    assert script["estimated_duration_seconds"] >= speaking + SCENE_PADDING_SECONDS * len(script["sections"]) - 1
+
+
+def test_short_scripts_finish_a_little_under_the_limit():
+    for topic in ("physics-001", "chem-001"):
+        for variant in ("explainer", "what_if"):
+            rec = record(topic)
+            script = generate_script(rec, "short", variant, rendering(), OK_SCIENCE)
+            assert script["estimated_duration_seconds"] <= 90 - 2.0 + 0.05

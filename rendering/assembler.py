@@ -43,7 +43,7 @@ def concat_clips(clip_paths, out_path):
     return out_path
 
 
-def assemble(silent_video, out_path, audio=None, subtitles_ass=None, fps=30, crf=20, preset="medium"):
+def assemble(silent_video, out_path, audio=None, subtitles_ass=None, fps=30, crf=20, preset="medium", fonts_dir=None):
     """Add the audio track and burn in the subtitles. Returns the output path."""
     silent_video, out_path = Path(silent_video).resolve(), Path(out_path).resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -54,7 +54,10 @@ def assemble(silent_video, out_path, audio=None, subtitles_ass=None, fps=30, crf
     if subtitles_ass:
         ass = Path(subtitles_ass).resolve()
         cwd = str(ass.parent)  # run next to the file so the filter needs no path escaping
-        command += ["-vf", f"subtitles={ass.name}"]
+        extra = ""
+        if fonts_dir and Path(fonts_dir).is_dir() and not set(str(fonts_dir)) & set(":\\'"):
+            extra = f":fontsdir={Path(fonts_dir).resolve()}"
+        command += ["-vf", f"subtitles={ass.name}{extra}"]
     command += ["-c:v", "libx264", "-preset", preset, "-crf", str(crf), "-pix_fmt", "yuv420p", "-r", str(fps),
                 "-movflags", "+faststart"]
     if audio:

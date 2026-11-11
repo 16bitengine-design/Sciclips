@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw
 from animation.simulations import free_fall as ff
 from animation.simulations import gas_release as gas
 from animation.two_d.backgrounds import _gradient
+from animation.two_d import asset_designer
 from animation.two_d.canvas import Canvas
 
 INK = (22, 14, 58)
@@ -229,14 +230,17 @@ def beaker_scene(c, box, t, secs):
     _face(d, cx, surface + 120 * s, 150 * s, s, (0.0, -0.5 if p < 0.7 else 0.0))
 
 
-BUILDERS = {"drop": moon_scene, "beaker": beaker_scene}
+BUILDERS = {"drop": moon_scene, "beaker": beaker_scene, "designed": None}  # "designed" is drawn by asset_designer
 
 
 def render_illustration(record, t, width, height, secs=0.0, ss=2):
     """A PIL image of the topic's cartoon scene, or None if the topic has none."""
-    builder = BUILDERS.get((record.get("scene3d") or {}).get("kind"))
-    if builder is None:
+    kind = (record.get("scene3d") or {}).get("kind")
+    if kind not in BUILDERS:
         return None
     canvas = Canvas(width * ss, height * ss)
-    builder(canvas, (0, 0, width * ss, height * ss), t, secs)
+    if kind == "designed":
+        asset_designer.designed_scene(canvas, (0, 0, width * ss, height * ss), t, secs, record)
+    else:
+        BUILDERS[kind](canvas, (0, 0, width * ss, height * ss), t, secs)
     return canvas.img.resize((width, height), Image.LANCZOS) if ss > 1 else canvas.img

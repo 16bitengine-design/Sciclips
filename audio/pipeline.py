@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 
+from animation.two_d import themes
 from audio import audio_mixer, narration, subtitles, voice_style
 from audio.speakable import load_pronunciations, speakable
 
@@ -118,7 +119,10 @@ def produce(storyboard, record, rendering, out_dir, provider_name="none", provid
     srt = out_dir / "subtitles.srt"
     ass = out_dir / "subtitles.ass"
     srt.write_text(subtitles.to_srt(cues), encoding="utf-8")
-    ass.write_text(subtitles.to_ass(cues, width, height, timed["format"] == "short"), encoding="utf-8")
+    theme = themes.current()
+    styled = theme.name != "classic"
+    ass.write_text(subtitles.to_ass(cues, width, height, timed["format"] == "short",
+                                    theme.caption_font if styled else "DejaVu Sans", styled), encoding="utf-8")
     files.update({"srt": str(srt), "ass": str(ass)})
 
     loudness = None

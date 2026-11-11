@@ -41,5 +41,8 @@
   "final": {
     "crf": 20,
     "preset": "medium"
+  },
+  "style": {
+    "theme": "vector_pop"
   }
 }

@@ -13,9 +13,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from animation.two_d import themes  # noqa: E402
+from animation.two_d.canvas import use_theme  # noqa: E402
 from animation.two_d.renderer import (  # noqa: E402
     RenderError, frame_rate, frame_size, render_storyboard, save_thumbnail,
 )
+from animation.two_d.thumbnail import make_thumbnail  # noqa: E402
 from audio.pipeline import produce  # noqa: E402
 from content.script_generator import ScriptError, available_variants, generate_script  # noqa: E402
 from content.storyboard_generator import generate_storyboard  # noqa: E402
@@ -39,6 +42,19 @@ def run(root, topic_id, video_format, out_dir, quality="draft", narration=None):
     science = validate_topic_id(root, topic_id)
     if science["status"] == "failed":
         return False, ["Science check failed; nothing produced."] + science["errors"]
+    theme_name = os.environ.get("THEME_OVERRIDE") or ""
+    if theme_name in ("", "config"):
+        theme_name = rendering.get("style", {}).get("theme", "classic")
+    if theme_name not in themes.THEMES:
+        return False, [f"Unknown theme '{theme_name}'. Known themes: {', '.join(themes.THEMES)}"]
+    with use_theme(theme_name):
+        return _build(root, topic_id, video_format, out_dir, quality, narration, record, rendering, science,
+                      theme_name)
+
+
+def _build(root, topic_id, video_format, out_dir, quality, narration, record, rendering, science, theme_name):
+    """Returns (ok, report_lines)."""
+    lines, ok = [], True
     crf = rendering.get("final", {}).get("crf", 20)
     preset = rendering.get("final", {}).get("preset", "medium")
     voice_name = rendering.get("narration", {}).get("provider", "kokoro")
@@ -61,11 +77,15 @@ def run(root, topic_id, video_format, out_dir, quality="draft", narration=None):
                 final = base / "final" / f"{topic_id}_{fmt}_{variant}.mp4"
                 if not subtitles_filter_available():
                     raise AssemblyError("This FFmpeg cannot burn in subtitles (the 'subtitles' filter is missing).")
-                assemble(silent, final, audio["files"].get("audio_mix"), audio["files"]["ass"], fps, crf, preset)
+                assemble(silent, final, audio["files"].get("audio_mix"), audio["files"]["ass"], fps, crf, preset,
+                         Path(root) / "assets" / "fonts")
                 shutil.copy(audio["files"]["srt"], base / "final" / f"{topic_id}_{fmt}_{variant}.srt")
                 (base / "final" / "description.txt").write_text(
                     build_description(record, timed, fmt, f"{voice_name} text-to-speech"), encoding="utf-8")
-                save_thumbnail(timed, record, base / "final" / "thumbnail.jpg", quality)
+                if theme_name == "classic":
+                    save_thumbnail(timed, record, base / "final" / "thumbnail.jpg", quality)
+                else:
+                    make_thumbnail(record, fmt, base / "final" / "thumbnail.jpg")
                 check = validate_final(final, fmt, width, height, fps, timed["total_duration_seconds"], rendering,
                                        quality == "full", has_voice)
             except (ScriptError, RenderError, AssemblyError) as err:
@@ -74,7 +94,7 @@ def run(root, topic_id, video_format, out_dir, quality="draft", narration=None):
                 continue
             problems = check["problems"] + audio["problems"]
             size_mb = final.stat().st_size / (1024 * 1024)
-            report = {"topic_id": topic_id, "format": fmt, "variant": variant, "quality": quality,
+            report = {"topic_id": topic_id, "format": fmt, "variant": variant, "quality": quality, "theme": theme_name,
                       "voice": audio["provider"], "publishable_voice": audio["timeline"]["publishable"],
                       "width": width, "height": height, "fps": fps, "seconds": timed["total_duration_seconds"],
                       "size_mb": round(size_mb, 2), "problems": problems, "warnings": check["warnings"],
@@ -82,7 +102,7 @@ def run(root, topic_id, video_format, out_dir, quality="draft", narration=None):
             (base / "final" / "final_report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
             shutil.rmtree(base / "work", ignore_errors=True)
             lines.append(f"{tag}: {'OK' if not problems else 'PROBLEMS'} - {final.name}, {width}x{height} at {fps} fps, "
-                         f"{timed['total_duration_seconds']:.0f} s, {size_mb:.1f} MB, voice: "
+                         f"{timed['total_duration_seconds']:.0f} s, {size_mb:.1f} MB, {theme_name} style, voice: "
                          f"{audio['provider'] if has_voice else 'none (subtitles only)'} ({quality} quality)")
             for item in problems:
                 lines.append(f"    problem: {item}")

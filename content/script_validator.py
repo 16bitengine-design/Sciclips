@@ -4,13 +4,11 @@ from content.storyboard_generator import ANIMATION_TYPES, MIN_SCENE_SECONDS, TRA
 
 WHAT_IF_KINDS = {"correct_procedure", "overlooked", "what_changes", "consequences", "why", "prevention"}
 REQUIRED_KINDS = {
-    ("explainer", "short"): {"hook", "intro", "answer", "demonstration", "terminology", "application",
-                              "limitation", "conclusion", "sources"},
+    ("explainer", "short"): {"hook", "demonstration", "conclusion"},
     ("explainer", "long"): {"hook", "intro", "question", "answer", "explanation_l2", "explanation_l3",
-                             "demonstration", "terminology", "application", "limitation", "conclusion",
-                             "sources"},
-    ("what_if", "short"): {"hook", "sources"} | WHAT_IF_KINDS,
-    ("what_if", "long"): {"hook", "scenario_intro", "limitation", "conclusion", "sources"} | WHAT_IF_KINDS,
+                             "demonstration", "terminology", "application", "limitation", "conclusion"},
+    ("what_if", "short"): {"hook"} | WHAT_IF_KINDS,
+    ("what_if", "long"): {"hook", "scenario_intro", "limitation", "conclusion"} | WHAT_IF_KINDS,
 }
 TOP_LEVEL_TEXT = ("title", "hook", "introduction", "scientific_question", "conclusion")
 TOP_LEVEL_LISTS = ("terminology", "applications", "assumptions_limitations", "sources")
@@ -34,7 +32,7 @@ def validate_script(script, record, rendering):
     required = set(REQUIRED_KINDS[(script["variant"], script["format"])])
     if script["format"] == "short" and script["variant"] == "explainer":
         required -= TRIMMABLE
-    if record.get("equations") and script["variant"] == "explainer":
+    if record.get("equations") and script["variant"] == "explainer" and script["format"] == "long":
         required.add("equation")
     if record.get("template") in EXPERIMENT_TEMPLATES and record.get("safety_considerations"):
         required.add("safety")

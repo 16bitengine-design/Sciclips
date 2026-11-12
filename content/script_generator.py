@@ -4,9 +4,11 @@ No AI service is used and no new scientific facts are added: every sentence
 of narration is taken from the topic record. If the record is thin, the
 script is thin. Quality comes from the research record, not from this code.
 """
+import json
 import math
 import os
 import re
+from pathlib import Path
 
 from audio import voice_style
 from content.topic_manager import EXPERIMENT_TEMPLATES
@@ -25,6 +27,7 @@ WHAT_IF_PARTS = (
     ("why", "Why this happens.", "why"),
     ("prevention", "How to prevent it.", "prevention"),
 )
+SHOW_STEPS_FILE = Path(__file__).resolve().parents[1] / "config" / "show_steps.json"
 SHORT_TRIM_ORDER = ("terminology", "application", "intro")
 VARIANTS = ("explainer", "what_if")
 FORMATS = ("short", "long")
@@ -135,10 +138,6 @@ def _diagram_for(record, kind, scenario=None):
     return chosen or (record.get("diagrams") or {}).get(kind)
 
 
-def _source_cards(record):
-    return [{"title": x["title"], "publisher": x["publisher"]} for x in record.get("sources", [])]
-
-
 def _term_cards(record, limit=None):
     cards = [{"term": v["name"], "symbol": v["symbol"], "unit": v["unit"]} for v in record.get("variables", [])]
     return cards[:limit] if limit else cards
@@ -173,19 +172,6 @@ class _Sections:
         })
 
 
-def _source_line(record):
-    publishers = []
-    for source in record.get("sources", []):
-        if source["publisher"] not in publishers:
-            publishers.append(source["publisher"])
-    return "Sources: " + "; ".join(publishers)
-
-
-def _add_sources(s, record):
-    s.add("sources", "Sources", "Sources are listed in the description.", on_screen=_source_line(record),
-          data={"sources": _source_cards(record)})
-
-
 def _add_safety(s, record):
     if record.get("template") in EXPERIMENT_TEMPLATES and record.get("safety_considerations"):
         s.add("safety", "Safety", record["safety_considerations"], lead="Safety.",
@@ -199,32 +185,62 @@ def _need(record, field):
 
 
 # ---- explainer scripts --------------------------------------------------
+def _squash(text):
+    return " ".join(str(text).split())
+
+
+def _reusable_text(record):
+    """All record text that narration is allowed to quote word for word."""
+    parts = list((record.get("scientific_explanation") or {}).values())
+    parts += list(record.get("supporting_evidence", []))
+    parts += [record.get("principle_statement", ""), record.get("central_question", "")]
+    parts += list(record.get("practical_applications", []))
+    for m in record.get("misconceptions", []):
+        parts += [m.get("statement", ""), m.get("correction", "")]
+    return _squash(" ".join(str(p) for p in parts))
+
+
+def _show_steps(record):
+    """The 'say this while showing that' steps for a topic.
+
+    They come from config/show_steps.json when the topic has an entry there. Every line must be
+    copied word for word from the topic record, so no new science is introduced. Without an entry,
+    the first explanation is simply split into sentences and each one is shown over the simulation.
+    """
+    steps = []
+    try:
+        with open(SHOW_STEPS_FILE, encoding="utf-8") as handle:
+            steps = json.load(handle).get(record.get("id"), [])
+    except (OSError, ValueError, AttributeError):
+        steps = []
+    if steps:
+        haystack = _reusable_text(record)
+        for step in steps:
+            if _squash(step.get("line", "")) not in haystack:
+                raise ScriptError(f"show_steps line is not in the topic record: {step.get('line', '')[:60]}")
+        return [{"line": _squash(x["line"]), "variant": x.get("variant")} for x in steps]
+    sentences = re.split(r"(?<=[.!?])\s+", _need(record, "scientific_explanation")["level_1"].strip())
+    return [{"line": x, "variant": None} for x in sentences[:4]]
+
+
 def _short_explainer(record):
+    """Show, don't explain: the question, a few short lines spoken over the simulation, then the takeaway."""
     s = _Sections()
     expl = _need(record, "scientific_explanation")
     angle = (record.get("short_video_potential") or {}).get("angle") or record["title"]
     s.add("hook", "Opening question", _need(record, "central_question"), on_screen=angle)
-    s.add("intro", "Introduction", f"A quick look at {_need(record, 'subject_area')}.")
-    s.add("answer", "Simple explanation", expl["level_1"], _model_claim_ids(record),
-          data={"diagram": _diagram_for(record, "answer")})
-    evidence = _need(record, "supporting_evidence")
-    s.add("demonstration", "Demonstration", evidence[0], _evidence_claim_ids(record),
-          data={"simulation_variant": _default_variant(record)})
-    terms = [v["name"] for v in _need(record, "variables")][:3]
-    s.add("terminology", "Key terms", f"Key terms: {join_names(terms)}.", data={"terms": _term_cards(record, 3)})
-    key = _key_equation(record)
-    if key:
-        s.add("equation", key["name"], _equation_narration(key),
-              _equation_claim_ids(record, key["id"]), on_screen=_eq_text(key))
-    apps = _need(record, "practical_applications")
-    s.add("application", "Real-world use", f"You see this in practice: {apps[0]}")
-    assumptions = _need(record, "assumptions")
-    s.add("limitation", "Limits", "Remember the limits of this explanation. " + " ".join(assumptions[:2]),
-          data={"items": assumptions[:2]})
+    steps = _show_steps(record)
+    for index, step in enumerate(steps):
+        ids = []
+        if index == 0:
+            ids += _model_claim_ids(record)
+        if index == len(steps) - 1:
+            ids += _evidence_claim_ids(record)
+        s.add("demonstration", "Demonstration", step["line"], ids,
+              data={"simulation_variant": step["variant"] or _default_variant(record)})
     _add_safety(s, record)
     closing = record.get("principle_statement") or first_sentence(expl["level_2"])
     s.add("conclusion", "Conclusion", closing, lead="In short:")
-    _add_sources(s, record)
     return s.items
 
 
@@ -263,7 +279,6 @@ def _long_explainer(record):
     _add_safety(s, record)
     closing = record.get("principle_statement") or first_sentence(expl["level_2"])
     s.add("conclusion", "Conclusion", closing, lead="To summarise:")
-    _add_sources(s, record)
     return s.items
 
 
@@ -286,7 +301,6 @@ def _short_what_if(record):
     s.add("hook", "What if we overlook this?", scenario["title"], on_screen="What happens if we overlook this?")
     _add_what_if_parts(s, scenario, record)
     _add_safety(s, record)
-    _add_sources(s, record)
     return s.items
 
 
@@ -305,7 +319,6 @@ def _long_what_if(record):
           data={"items": list(record["assumptions"])})
     _add_safety(s, record)
     s.add("conclusion", "Conclusion", scenarios[-1]["prevention"], lead="To summarise:")
-    _add_sources(s, record)
     return s.items
 
 

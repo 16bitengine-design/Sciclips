@@ -74,3 +74,35 @@ def test_the_illustration_code_uses_the_designer():
     assert illustrations.render_illustration(record, 0.5, 300, 260, secs=1.0, ss=1).size == (300, 260)
     record["scene3d"] = None
     assert illustrations.render_illustration(record, 0.5, 100, 100) is None
+
+
+ROCKET = {"name": "Rocket", "face": {"x": 50, "y": 60, "size": 22}, "parts": [
+    {"shape": "rrect", "fill": "white", "box": [32, 10, 68, 86]},
+    {"shape": "polygon", "fill": "red", "points": [[32, 26], [50, 0], [68, 26]]},
+    {"shape": "circle", "fill": "glass", "box": [42, 38, 58, 54]}]}
+
+
+def test_any_object_can_be_described_as_parts():
+    record = dict(MOON, scene3d={"kind": "designed", "spec": {"actors": [ROCKET], "props": [ROCKET]}})
+    spec = ad.design_scene(record)
+    assert spec["actors"][0]["parts"] and spec["props"][0]["kind"] == "custom"
+    assert ad.render_designed(record, 300, 260).tobytes() != ad.render_designed(MOON, 300, 260).tobytes()
+
+
+def test_badly_written_parts_never_break_a_video():
+    bad = [{"shape": "nope"}, {"shape": "circle", "box": ["a", 1, 2, 3]}, "junk", None,
+           {"shape": "polygon", "points": [[1, 2]]}, {"shape": "rect", "box": [999, -999, 5, 5], "fill": "zzz"}]
+    parts = ad.clean_parts(bad)
+    assert len(parts) == 1 and all(-20 <= v <= 120 for v in parts[0]["box"]) and parts[0]["fill"].startswith("#")
+    record = {"title": "x", "scene3d": {"kind": "designed", "spec": {"actors": [{"name": "Bad", "parts": bad}]}}}
+    assert ad.render_designed(record, 200, 180).size == (200, 180)
+
+
+def test_invented_objects_are_remembered(tmp_path):
+    library = {}
+    record = {"title": "t", "scene3d": {"kind": "designed", "spec": {"actors": [ROCKET]}}}
+    ad.design_scene(record, library)
+    ad.save_library(tmp_path / "a.json", library)
+    later = ad.design_scene({"title": "t", "scene3d": {"kind": "designed", "spec": {"actors": ["Rocket"]}}},
+                            ad.load_library(tmp_path / "a.json"))
+    assert later["actors"][0]["parts"] == library["Rocket"]["parts"]

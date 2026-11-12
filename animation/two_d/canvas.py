@@ -3,6 +3,7 @@ import math
 import os
 import random
 import re
+from contextlib import contextmanager
 from functools import lru_cache
 from pathlib import Path
 
@@ -21,6 +22,20 @@ PALETTE = {name: hexrgb(code) for name, code in {
     "muted": "#94A3B8", "accent": "#2DD4BF", "good": "#34D399", "warn": "#F59E0B",
     "bad": "#F87171", "blue": "#60A5FA", "violet": "#A78BFA",
 }.items()}
+
+@contextmanager
+def use_theme(name):
+    """Switch to the theme `name` for a `with` block, then put the old theme and colours back."""
+    previous = themes.current()
+    saved_palette = dict(PALETTE)
+    themes.set_theme(name)
+    try:
+        yield themes.current()
+    finally:
+        themes.set_theme(previous.name)
+        PALETTE.clear()
+        PALETTE.update(saved_palette)
+
 
 FONT_FILES = {
     "sans": ["DejaVuSans.ttf", "FreeSans.ttf", "LiberationSans-Regular.ttf"],

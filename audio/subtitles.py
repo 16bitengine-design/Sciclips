@@ -84,18 +84,21 @@ def to_ass(cues, width, height, portrait, font="DejaVu Sans", outlined=False):
     """An ASS file with a readable style. The bottom margin keeps captions above the phone interface."""
     font_size = round(height * (0.030 if portrait else 0.045))
     margin_v = round(height * (0.085 if portrait else 0.045))
+    if outlined:
+        style = (f"Style: Default,{font},{font_size},&H00FFFFFF,&H000000FF,&H003A0E16,&H00000000,-1,0,0,0,100,100,0,0,1,"
+                 f"{round(font_size * 0.16)},{round(font_size * 0.07)},2,{round(width * 0.06)},{round(width * 0.06)},"
+                 f"{margin_v},1\n\n")
+    else:
+        style = (f"Style: Default,{font},{font_size},&H00FFFFFF,&H000000FF,&H00000000,&HA0000000,-1,0,0,0,100,100,0,0,3,"
+                 f"{round(font_size * 0.25)},0,2,{round(width * 0.06)},{round(width * 0.06)},{margin_v},1\n\n")
     header = (
         "[Script Info]\nScriptType: v4.00+\n"
         f"PlayResX: {width}\nPlayResY: {height}\nWrapStyle: 0\n\n"
         "[V4+ Styles]\n"
         "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, "
         "Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, "
-        f"MarginR, MarginV, Encoding\n"
-        f"Style: Default,{font},{font_size},&H00FFFFFF,&H000000FF,&H003A0E16,&H00000000,-1,0,0,0,100,100,0,0,1,"
-        f"{round(font_size * 0.16)},{round(font_size * 0.07)},2,{round(width * 0.06)},{round(width * 0.06)},{margin_v},1\n\n"
-        if outlined else
-        f"Style: Default,{font},{font_size},&H00FFFFFF,&H000000FF,&H00000000,&HA0000000,-1,0,0,0,100,100,0,0,3,"
-        f"{round(font_size * 0.25)},0,2,{round(width * 0.06)},{round(width * 0.06)},{margin_v},1\n\n"
+        "MarginR, MarginV, Encoding\n"
+        + style +
         "[Events]\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\n"
     )
     lines = []

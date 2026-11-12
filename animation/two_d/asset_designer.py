@@ -64,7 +64,9 @@ def invent_actor(name, **overrides):
     actor = {"name": name, "shape": rng.choice(SHAPES), "colour": rng.randrange(len(COLOURS)),
              "accessory": rng.choice(ACCESSORIES), "motion": rng.choice(MOTIONS), "legs": rng.random() < 0.6,
              "mood": rng.choice(MOODS)}
-    actor.update({k: v for k, v in overrides.items() if k in actor or k in ("x", "label")})
+    actor.update({k: v for k, v in overrides.items() if k in actor or k in ("x", "label", "face")})
+    if overrides.get("parts"):
+        actor["parts"] = clean_parts(overrides["parts"])
     return actor
 
 
@@ -116,7 +118,7 @@ def design_scene(record, library=None):
         if library is not None:
             library[name] = dict(actor)
         actors.append(actor)
-    props = [invent_prop(p) for p in (given.get("props") or PROPS_FOR[background])]
+    props = [_prop_from(p) for p in (given.get("props") or PROPS_FOR[background])]
     return {"background": background, "actors": actors, "props": props}
 
 
@@ -131,6 +133,104 @@ def save_library(path, library):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(library, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+# ------------------------------------------------------------------ free-form objects
+# Anything can be described as a short list of simple shapes drawn on a 0-100 square (y points down).
+# A rocket, a magnet, a microscope: whoever writes the scene (the AI script writer, or a person) lists the parts.
+PART_SHAPES = ("ellipse", "circle", "rect", "rrect", "polygon", "line", "arc")
+NAMED_COLOURS = {"red": "#E8434B", "blue": "#3C82F0", "green": "#26AA6E", "yellow": "#FFD60A", "orange": "#FF8A3D",
+                 "pink": "#FF78AA", "purple": "#8E63E0", "white": "#FFFFFF", "grey": "#9AA5B8", "gray": "#9AA5B8",
+                 "black": "#2A2342", "teal": "#14A5B0", "brown": "#A06A3C", "steel": "#94A6CC", "glass": "#DDF4FF",
+                 "wood": "#DE9A54", "gold": "#F5B823", "silver": "#CDD5E4"}
+OBJECT_PROMPT = (
+    "Describe each new object as JSON: {\"name\": \"rocket\", \"parts\": [ ... ], \"face\": {\"x\": 50, \"y\": 45, "
+    "\"size\": 30} or null}. Every part is {\"shape\": one of ellipse, circle, rect, rrect, polygon, line, arc, "
+    "\"fill\": a colour name or #rrggbb, \"box\": [x0, y0, x1, y1] for ellipse, circle, rect, rrect, arc, or "
+    "\"points\": [[x, y], ...] for polygon and line}. Optional: \"alpha\" 0 to 1, \"outline\" true or false, "
+    "\"width\" 1 to 12, and \"start\" and \"end\" degrees for arc. Draw on a 0 to 100 square with y pointing down. "
+    "Use 4 to 25 parts, back to front. Keep it simple, bold and cartoon-like.")
+
+
+def _num(value, low=-20.0, high=120.0):
+    return max(low, min(high, float(value)))
+
+
+def _hex(value):
+    text = str(value or "").strip().lower()
+    if text in NAMED_COLOURS:
+        return NAMED_COLOURS[text]
+    if re.fullmatch(r"#[0-9a-f]{6}", text):
+        return text.upper()
+    return "#9AA5B8"
+
+
+def clean_parts(parts, limit=40):
+    """Keep only well-formed parts, with numbers in range, so a badly written description never breaks a video."""
+    out = []
+    for part in list(parts or [])[:limit]:
+        try:
+            shape = part.get("shape")
+            if shape not in PART_SHAPES:
+                continue
+            clean = {"shape": shape, "fill": _hex(part.get("fill")), "outline": part.get("outline", True) is not False,
+                     "width": _num(part.get("width", 4), 1, 12), "alpha": _num(part.get("alpha", 1), 0, 1)}
+            if shape in ("polygon", "line"):
+                points = [[_num(x), _num(y)] for x, y in part["points"]][:40]
+                if len(points) < (3 if shape == "polygon" else 2):
+                    continue
+                clean["points"] = points
+            else:
+                box = [_num(v) for v in part["box"]]
+                if len(box) != 4:
+                    continue
+                clean["box"] = [min(box[0], box[2]), min(box[1], box[3]), max(box[0], box[2]), max(box[1], box[3])]
+            if shape == "arc":
+                clean["start"], clean["end"] = _num(part.get("start", 0), -720, 720), _num(part.get("end", 180), -720, 720)
+            out.append(clean)
+        except (TypeError, ValueError, KeyError, AttributeError):
+            continue
+    return out
+
+
+def _prop_from(item):
+    if isinstance(item, dict) and item.get("parts"):
+        parts = clean_parts(item["parts"])
+        if parts:
+            return {"name": str(item.get("name", "object")), "kind": "custom", "colour": 0, "parts": parts}
+    return invent_prop(item.get("name", "gem") if isinstance(item, dict) else item)
+
+
+def draw_parts(d, parts, cx, bottom, size, s):
+    """Draw a free-form object so that it stands on `bottom`, `size` pixels tall and wide, centred on cx."""
+    def px(v):
+        return cx - size / 2 + v * size / 100
+
+    def py(v):
+        return bottom - size + v * size / 100
+
+    for part in parts:
+        rgb = tuple(int(part["fill"][i:i + 2], 16) for i in (1, 3, 5))
+        fill = rgb + (int(255 * part.get("alpha", 1)),)
+        ink = INK if part.get("outline", True) else None
+        width = _ow(s, part.get("width", 4))
+        shape = part["shape"]
+        if shape == "line":
+            d.line([(px(x), py(y)) for x, y in part["points"]], fill=ink or fill, width=width, joint="curve")
+        elif shape == "polygon":
+            d.polygon([(px(x), py(y)) for x, y in part["points"]], fill=fill, outline=ink, width=width)
+        else:
+            x0, y0, x1, y1 = part["box"]
+            box = (px(x0), py(y0), px(x1), py(y1))
+            if shape in ("ellipse", "circle"):
+                d.ellipse(box, fill=fill, outline=ink, width=width)
+            elif shape == "rect":
+                d.rectangle(box, fill=fill, outline=ink, width=width)
+            elif shape == "rrect":
+                d.rounded_rectangle(box, radius=min(box[2] - box[0], box[3] - box[1]) * 0.25, fill=fill, outline=ink,
+                                    width=width)
+            else:
+                d.arc(box, part.get("start", 0), part.get("end", 180), fill=ink or fill, width=width)
 
 
 # ------------------------------------------------------------------ drawing parts
@@ -234,6 +334,14 @@ def _legs(d, cx, bottom, k, s):
 
 
 def draw_actor(d, actor, cx, bottom, k, s, look=(0.0, 0.3)):
+    if actor.get("parts"):
+        size = 300 * k
+        draw_parts(d, actor["parts"], cx, bottom, size, s)
+        face = actor.get("face")
+        if face:
+            _face(d, cx - size / 2 + face.get("x", 50) * size / 100, bottom - size + face.get("y", 45) * size / 100,
+                  face.get("size", 30) * size / 100, s, look, actor.get("mood", "happy"))
+        return
     fill, light = COLOURS[actor["colour"] % len(COLOURS)]
     if actor.get("legs"):
         _legs(d, cx, bottom, k, s)
@@ -248,7 +356,9 @@ def draw_prop(d, prop, cx, cy, r, s, secs):
     fill, light = COLOURS[prop["colour"] % len(COLOURS)]
     ow = _ow(s)
     kind = prop["kind"]
-    if kind == "planet":
+    if kind == "custom":
+        draw_parts(d, prop["parts"], cx, cy + 1.2 * r, 2.4 * r, s)
+    elif kind == "planet":
         d.ellipse((cx - r * 1.7, cy - r * 0.35, cx + r * 1.7, cy + r * 0.35), outline=INK, width=ow)
         d.ellipse((cx - r, cy - r, cx + r, cy + r), fill=fill, outline=INK, width=ow)
         d.ellipse((cx - r * 0.55, cy - r * 0.6, cx - r * 0.15, cy - r * 0.3), fill=light)

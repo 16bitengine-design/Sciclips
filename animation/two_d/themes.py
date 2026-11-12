@@ -32,6 +32,8 @@ class Theme:
     display_font: str = "bold"      # bold (DejaVu) or display (Lilita One if present)
     hook: str = "3d"                # 3d | illustration
     caption_font: str = "DejaVu Sans"
+    body_font: str = "sans"         # font kind used for normal text
+    text_scale: float = 1.0         # makes all text bigger in themes that want chunky lettering
 
 
 CLASSIC_BASE = {name: rgb(code) for name, code in {
@@ -49,12 +51,12 @@ def _scheme(top, bottom, panel, accent):
 
 VECTOR_SCHEMES = [
     _scheme("#4A2FA8", "#1D1257", "#6D4DE0", "#FFD60A"),   # indigo
-    _scheme("#0B7F8F", "#06394A", "#14A5B0", "#FF5CAA"),   # teal
+    _scheme("#0B7F8F", "#06394A", "#0F9AA5", "#FF5CAA"),   # teal
     _scheme("#B02858", "#531038", "#E85A60", "#FFD60A"),   # sunset
     _scheme("#1F55C0", "#0E2466", "#3C82F0", "#FFA028"),   # blue
-    _scheme("#128060", "#07403A", "#26AA6E", "#FFEB46"),   # green
+    _scheme("#128060", "#07403A", "#1FA066", "#FFEB46"),   # green
     _scheme("#96209A", "#3E0F56", "#D246BE", "#6EE6E6"),   # magenta
-    _scheme("#C25F14", "#6E2814", "#E5772A", "#4FDDC8"),   # orange
+    _scheme("#C25F14", "#6E2814", "#DB6F22", "#4FDDC8"),   # orange
     _scheme("#1C3A9E", "#0A1650", "#2F66D0", "#FF6B6B"),   # royal blue
 ]
 VECTOR_BASE = {**CLASSIC_BASE, "text": rgb("#FFFFFF"), "muted": rgb("#E4E1FF"), "good": rgb("#3CE08A"),
@@ -84,10 +86,10 @@ THEMES = {
     "classic": Theme("classic", CLASSIC_BASE, [CLASSIC_SCHEME]),
     "vector_pop": Theme(
         "vector_pop", VECTOR_BASE, VECTOR_SCHEMES, background="sunburst",
-        outline=rgb("#160E3A"), outline_w=5.0, shadow=rgb("#0C0626"), shadow_off=8.0,
+        outline=rgb("#160E3A"), outline_w=6.0, shadow=rgb("#0C0626"), shadow_off=26.0,
         stroke=rgb("#160E3A"), stroke_ratio=0.085, decor=[rgb(c) for c in (
             "#FFD60A", "#FF5CAA", "#5AB0FF", "#3CE08A", "#FF8A3D", "#B08CFF", "#6EE6E6")],
-        display_font="display", hook="illustration", caption_font="Lilita One"),
+        display_font="display", hook="illustration", caption_font="Lilita One", text_scale=1.12),
     "vintage": Theme(
         "vintage", VINTAGE_BASE, VINTAGE_SCHEMES, background="paper",
         outline=rgb("#2B2118"), outline_w=4.0, shadow=rgb("#9B7F57"), shadow_off=7.0,

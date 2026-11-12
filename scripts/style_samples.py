@@ -62,6 +62,7 @@ def run(root, out_dir, styles=None, topics=TOPICS):
             sheet.paste(Image.open(path).resize((width, height)), (pad + col * (width + pad), pad + row * (height + pad)))
         out.mkdir(parents=True, exist_ok=True)
         sheet.save(out / "COMPARE.png")
+    out.mkdir(parents=True, exist_ok=True)
     (out / "READ_ME.txt").write_text(
         "Style samples\n\nEach folder is one visual style. Open COMPARE.png first: every style's YouTube thumbnail "
         "side by side (rows follow this order: " + ", ".join(sorted({c[0] for c in compare}, key=lambda n: [c[0] for c in compare].index(n)))

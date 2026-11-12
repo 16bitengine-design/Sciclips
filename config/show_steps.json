@@ -1,0 +1,7 @@
+{
+  "physics-001": [
+    {"line": "On Earth, air pushes back much more on a feather than on a hammer, which is why the feather falls slowly.", "variant": "with_air"},
+    {"line": "Take the air away and they fall together.", "variant": "vacuum"},
+    {"line": "Apollo 15 (1971): Commander David Scott dropped a geologic hammer and a feather together on the Moon, where there is almost no air, as a live television demonstration.", "variant": "air_vs_vacuum"}
+  ]
+}

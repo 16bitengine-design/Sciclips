@@ -54,8 +54,55 @@ def test_short_scripts_fit_the_time_limit():
 
 def test_narration_is_copied_from_the_record_not_invented():
     rec, script, _ = build("physics-001", "short", "explainer")
-    answer = [s for s in script["sections"] if s["kind"] == "answer"][0]
-    assert answer["narration"] == rec["scientific_explanation"]["level_1"]
+    text = " ".join(" ".join(str(x) for x in (list(rec["scientific_explanation"].values())
+                                               + rec["supporting_evidence"] + [rec["principle_statement"]])).split())
+    shows = [s for s in script["sections"] if s["kind"] == "demonstration"]
+    assert shows and all(s["narration"] in text for s in shows)
+    long_rec, long_script, _ = build("physics-001", "long", "explainer")
+    answer = [s for s in long_script["sections"] if s["kind"] == "answer"][0]
+    assert answer["narration"].endswith(long_rec["scientific_explanation"]["level_1"])
+
+
+def test_short_explainer_shows_instead_of_explaining():
+    for topic in TOPICS:
+        _, script, board = build(topic, "short", "explainer")
+        kinds = [s["kind"] for s in script["sections"]]
+        assert kinds.count("demonstration") >= 2
+        for gone in ("intro", "answer", "terminology", "equation", "application", "limitation", "sources"):
+            assert gone not in kinds, (topic, gone)
+        assert any(sc["animation_type"] == "simulation" for sc in board["scenes"])
+
+
+def test_physics_short_runs_the_demo_in_air_then_vacuum_then_side_by_side():
+    _, script, _ = build("physics-001", "short", "explainer")
+    variants = [s["data"]["simulation_variant"] for s in script["sections"] if s["kind"] == "demonstration"]
+    assert variants == ["with_air", "vacuum", "air_vs_vacuum"]
+
+
+def test_no_video_has_a_sources_scene_but_the_script_still_lists_sources():
+    for topic in TOPICS:
+        for fmt in ("short", "long"):
+            for variant in ("explainer", "what_if"):
+                _, script, board = build(topic, fmt, variant)
+                assert all(s["kind"] != "sources" for s in script["sections"])
+                assert all(sc["section_kind"] != "sources" for sc in board["scenes"])
+                assert script["sources"]
+
+
+def test_a_show_step_that_is_not_in_the_record_is_refused(tmp_path):
+    import content.script_generator as gen
+    steps = tmp_path / "steps.json"
+    steps.write_text(json.dumps({"physics-001": [{"line": "An invented fact."}]}))
+    saved = gen.SHOW_STEPS_FILE
+    gen.SHOW_STEPS_FILE = steps
+    try:
+        try:
+            generate_script(record("physics-001"), "short", "explainer", rendering(), OK_SCIENCE)
+            assert False
+        except ScriptError:
+            pass
+    finally:
+        gen.SHOW_STEPS_FILE = saved
 
 
 def test_what_if_has_all_six_parts_in_order():
@@ -101,21 +148,12 @@ def test_unavailable_what_if_is_refused():
 
 def test_overlong_short_script_is_refused():
     rec = record("physics-001")
-    rec["scientific_explanation"]["level_1"] = "word " * 400 + "end."
+    rec["central_question"] = "word " * 400 + "end?"
     try:
         generate_script(rec, "short", "explainer", rendering(), OK_SCIENCE)
         assert False
     except ScriptError:
         pass
-
-
-def test_trimming_drops_optional_sections_first():
-    rec = record("physics-001")
-    rec["scientific_explanation"]["level_1"] = "word " * 70 + "end."
-    script = generate_script(rec, "short", "explainer", rendering(), OK_SCIENCE)
-    kinds = {s["kind"] for s in script["sections"]}
-    assert "terminology" not in kinds and "answer" in kinds
-    assert script["estimated_duration_seconds"] <= 90
 
 
 # --- validators catch problems ---------------------------------------------

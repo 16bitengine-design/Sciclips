@@ -126,7 +126,7 @@ class Canvas:
             kind = self.theme.display_font
         elif kind == "sans":
             kind = self.theme.body_font
-        return load_font(kind, max(8, round(size * self.theme.text_scale * self.u)))
+        return load_font(kind, max(8, round(size * getattr(self.theme, "text_scale", 1.0) * self.u)))
 
     @property
     def inner(self):
@@ -144,9 +144,9 @@ class Canvas:
         """Draw text, with an outline in themes that ask for one."""
         th = self.theme
         stroke = {}
-        if th.stroke and size >= 30:
-            stroke = {"stroke_width": max(2, round(size * th.text_scale * self.u * th.stroke_ratio)),
-                      "stroke_fill": self.col(th.stroke, alpha)}
+        if getattr(th, "stroke", None) and size >= 30:
+            stroke = {"stroke_width": max(2, round(size * getattr(th, "text_scale", 1.0) * self.u * getattr(th, "stroke_ratio", 0.06))),
+                      "stroke_fill": self.col(getattr(th, "stroke", None), alpha)}
         self.d.text(xy, text, font=font, fill=self.col(color, alpha), anchor=anchor, **stroke)
 
     def content_box(self):
@@ -169,7 +169,7 @@ class Canvas:
         return lines
 
     def text_height(self, lines, size, line_gap=1.3):
-        return len(lines) * size * self.theme.text_scale * self.u * line_gap
+        return len(lines) * size * getattr(self.theme, "text_scale", 1.0) * self.u * line_gap
 
     def paragraph(self, x, y, text, size, color="text", max_width=None, kind="sans", align="left",
                   alpha=1.0, line_gap=1.3):
@@ -177,7 +177,7 @@ class Canvas:
         font = self.font(self.kind_for(text, kind), size)
         max_width = max_width or (self.w - x)
         lines = self.wrap(text, font, max_width)
-        step = size * self.theme.text_scale * self.u * line_gap
+        step = size * getattr(self.theme, "text_scale", 1.0) * self.u * line_gap
         for i, line in enumerate(lines):
             self._text((x, y + i * step), line, font, color, alpha, "ma" if align == "center" else "la", size)
         return y + len(lines) * step
@@ -198,7 +198,7 @@ class Canvas:
                 current.append(word)
         if current:
             lines.append((current, width))
-        step = size * self.theme.text_scale * self.u * line_gap
+        step = size * getattr(self.theme, "text_scale", 1.0) * self.u * line_gap
         for i, (words, line_w) in enumerate(lines):
             cursor = x - line_w / 2 if align == "center" else x
             for word in words:

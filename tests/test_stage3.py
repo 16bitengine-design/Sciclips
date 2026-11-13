@@ -59,7 +59,7 @@ def test_wrong_expected_value_detected():
 # --- sources ---------------------------------------------------------
 def test_good_sources_pass():
     errors, warnings, ids = validate_sources(good_record()["sources"])
-    assert errors == [] and ids == ["s1", "s2", "s3"]
+    assert errors == [] and ids == ["s1", "s2", "s3", "s4", "s5"]
 
 
 def test_source_without_https_fails():

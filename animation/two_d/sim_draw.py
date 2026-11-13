@@ -30,10 +30,15 @@ ROLE_BANNER = {
 
 
 def _role_banner(c, box, role, extra=None):
-    text, color = ROLE_BANNER.get(role, ("ILLUSTRATION", "accent"))
+    """Only the right / wrong / consequence markers are shown. Plain demonstrations carry no label.
+    Returns True if a banner was drawn."""
+    if role not in ("correct_procedure", "overlooked", "consequences"):
+        return False
+    text, color = ROLE_BANNER[role]
     if extra:
         text += "  -  " + extra
     _banner(c, box, text, color)
+    return True
 
 
 # ------------------------------------------------------------------ free fall
@@ -123,7 +128,7 @@ def free_fall_scene(c, t, ctx):
     x0, y0, x1, y1 = c.content_box()
     role = scene.get("section_kind", "demonstration")
     wrong = variant == "wrong_mass_model"
-    _role_banner(c, (x0, y0, x1, y1), role, "slow motion")
+    has_banner = _role_banner(c, (x0, y0, x1, y1), role, "slow motion")
 
     if variant == "air_vs_vacuum":
         specs = [("VACUUM (no air)", "good", False, 1.0), ("WITH AIR", "warn", True, 1.0)]
@@ -142,7 +147,7 @@ def free_fall_scene(c, t, ctx):
     t_end = max(s["t_land"] for _, _, sims in panels for s in sims.values()) + 0.25
     t_sim = clamp((t - 0.10) / 0.70) * t_end
 
-    area_top = y0 + c.px(84)
+    area_top = y0 + c.px(84 if has_banner else 10)
     area_bottom = y1 - (c.px(400) if c.portrait else c.px(330))
     gap = c.px(20)
     width = (x1 - x0 - gap * (len(panels) - 1)) / len(panels)

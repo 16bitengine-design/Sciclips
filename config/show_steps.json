@@ -11,11 +11,6 @@
       "variant": "with_air"
     },
     {
-      "question": "what really decides it",
-      "line": "Gravity gives both objects the same acceleration, but drag is a second force that affects the feather far more.",
-      "variant": "with_air"
-    },
-    {
       "question": "when",
       "line": "Take the air away and they fall together.",
       "variant": "vacuum"
@@ -24,6 +19,16 @@
       "question": "where, when and who",
       "line": "Apollo 15 (1971): Commander David Scott dropped a geologic hammer and a feather together on the Moon, where there is almost no air, as a live television demonstration.",
       "variant": "air_vs_vacuum"
+    },
+    {
+      "question": "what really decides it",
+      "line": "Air push grows as you fall faster, until it matches the pull of gravity. Then you stop speeding up and fall at a steady speed.",
+      "variant": "terminal_speed"
+    },
+    {
+      "question": "where it is used",
+      "line": "Parachutes work because a large area gives a lot of air push, so the falling speed levels off at a much lower value.",
+      "variant": "terminal_speed"
     }
   ],
   "chem-001": [

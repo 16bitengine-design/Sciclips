@@ -25,7 +25,7 @@ WHAT_IF_PARTS = (
     ("what_changes", "What changes scientifically.", "what_changes"),
     ("consequences", "The consequences.", "consequences"),
     ("why", "Why this happens.", "why"),
-    ("prevention", "How to prevent it.", "prevention"),
+    ("prevention", "What to do.", "prevention"),
 )
 SHOW_STEPS_FILE = Path(__file__).resolve().parents[1] / "config" / "show_steps.json"
 SHORT_TRIM_ORDER = ("terminology", "application", "intro")
@@ -197,6 +197,8 @@ def _reusable_text(record):
     parts += list(record.get("practical_applications", []))
     for m in record.get("misconceptions", []):
         parts += [m.get("statement", ""), m.get("correction", "")]
+    for w in record.get("what_if_scenarios", []):
+        parts += [w.get(k, "") for k in ("correct", "what_changes", "consequences", "why", "prevention")]
     return _squash(" ".join(str(p) for p in parts))
 
 

@@ -206,3 +206,33 @@ def test_render_scenes_entry_point(tmp_path):
 def test_render_scenes_rejects_unknown_topic(tmp_path):
     ok, lines = render_scenes.run(str(ROOT), "nope-1", "short", str(tmp_path))
     assert not ok
+
+
+# --- terminal speed (a person falling with a small or a big area) -----------------------
+def test_terminal_speed_is_where_drag_equals_weight():
+    for shape, spec in ff.PERSON.items():
+        if shape == "mass":
+            continue
+        vt = ff.terminal_speed(ff.PERSON["mass"], spec["area"], spec["cd"])
+        drag = 0.5 * ff.AIR_DENSITY * spec["cd"] * spec["area"] * vt * vt
+        assert abs(drag - ff.PERSON["mass"] * ff.GRAVITY) < 1e-6
+
+
+def test_a_bigger_area_levels_off_at_a_lower_speed():
+    small, big = ff.terminal_curve("small", 14.0), ff.terminal_curve("big", 14.0)
+    assert big["v_terminal"] < small["v_terminal"] / 3
+    for curve in (small, big):
+        assert curve["v"] == sorted(curve["v"])
+        assert curve["v"][-1] <= curve["v_terminal"]
+    assert big["v"][-1] > 0.99 * big["v_terminal"]
+
+
+def test_terminal_speed_scene_draws_in_both_shapes_and_moves():
+    from animation.two_d import renderer as r
+    rec = load_topic_record(str(ROOT), "physics-001")
+    scene = {"scene_number": 1, "animation_type": "simulation", "section_kind": "demonstration",
+             "duration_seconds": 8, "data": {"simulation_variant": "terminal_speed"}}
+    for size in ((270, 480), (480, 270)):
+        early = r.draw_frame(scene, rec, size[0], size[1], 0.2)
+        late = r.draw_frame(scene, rec, size[0], size[1], 0.9)
+        assert early.size == size and early.tobytes() != late.tobytes()

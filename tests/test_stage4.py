@@ -56,7 +56,7 @@ def test_narration_is_copied_from_the_record_not_invented():
     rec, script, _ = build("physics-001", "short", "explainer")
     scenario_text = [w[k] for w in rec["what_if_scenarios"] for k in ("correct", "what_changes", "consequences", "why", "prevention")]
     text = " ".join(" ".join(str(x) for x in (list(rec["scientific_explanation"].values())
-                                               + rec["supporting_evidence"] + scenario_text
+                                               + rec["supporting_evidence"] + rec["practical_applications"] + scenario_text
                                                + [rec["principle_statement"]])).split())
     shows = [s for s in script["sections"] if s["kind"] == "demonstration"]
     assert shows and all(s["narration"] in text for s in shows)
@@ -78,7 +78,7 @@ def test_short_explainer_shows_instead_of_explaining():
 def test_physics_short_shows_the_why_the_air_effect_and_the_apollo_drop():
     _, script, _ = build("physics-001", "short", "explainer")
     variants = [s["data"]["simulation_variant"] for s in script["sections"] if s["kind"] == "demonstration"]
-    assert variants == ["vacuum", "with_air", "with_air", "vacuum", "air_vs_vacuum"]
+    assert variants == ["vacuum", "with_air", "vacuum", "air_vs_vacuum", "terminal_speed", "terminal_speed"]
 
 
 def test_no_video_has_a_sources_scene_but_the_script_still_lists_sources():

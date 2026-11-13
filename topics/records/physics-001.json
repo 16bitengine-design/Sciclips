@@ -52,6 +52,26 @@
       "date_updated": null,
       "date_accessed": "2026-11-07",
       "kind": "reference_database"
+    },
+    {
+      "id": "s4",
+      "title": "Terminal Velocity",
+      "publisher": "NASA Glenn Research Center",
+      "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/termvel",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-14",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s5",
+      "title": "Falling Object with Air Resistance",
+      "publisher": "NASA Glenn Research Center",
+      "url": "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/falling-object-with-air-resistance",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-14",
+      "kind": "agency_web_page"
     }
   ],
   "claims": [
@@ -91,6 +111,25 @@
       "text": "The recommended value of the Newtonian constant of gravitation is about 6.674 x 10^-11 m^3 kg^-1 s^-2, with a small stated uncertainty.",
       "source_ids": [
         "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "A falling object in air feels two forces: its weight and the drag of the air. Drag grows with the square of the speed, so the object reaches a speed where drag equals its weight, the acceleration becomes zero, and it keeps falling at a constant terminal velocity.",
+      "source_ids": [
+        "s4",
+        "s5"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "established_fact",
+      "text": "An object with a large cross-sectional area or a high drag coefficient falls more slowly than one with a small area or a low drag coefficient. A large flat plate falls more slowly than a small ball of the same weight.",
+      "source_ids": [
+        "s4"
       ],
       "equation_ids": []
     }
@@ -197,7 +236,9 @@
   "practical_applications": [
     "Predicting the fall of objects and spacecraft trajectories.",
     "Designing drop-tower and vacuum-chamber experiments.",
-    "Understanding why parachutes and streamlining matter."
+    "Understanding why parachutes and streamlining matter.",
+    "Air push grows as you fall faster, until it matches the pull of gravity. Then you stop speeding up and fall at a steady speed.",
+    "Parachutes work because a large area gives a lot of air push, so the falling speed levels off at a much lower value."
   ],
   "misconceptions": [
     {

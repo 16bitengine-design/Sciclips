@@ -125,6 +125,8 @@ def free_fall_scene(c, t, ctx):
     scene, record = ctx["scene"], ctx["record"]
     data = scene.get("data", {})
     variant = data.get("simulation_variant") or "air_vs_vacuum"
+    if variant == "terminal_speed":
+        return _terminal_scene(c, t)
     x0, y0, x1, y1 = c.content_box()
     role = scene.get("section_kind", "demonstration")
     wrong = variant == "wrong_mass_model"
@@ -164,6 +166,74 @@ def free_fall_scene(c, t, ctx):
         else:
             curves += [("hammer", "warn", sims["hammer"], False), ("feather", "accent", sims["feather"], True)]
     _graph(c, (x0, area_bottom + c.px(16), x1, y1 + (0 if c.portrait else c.px(0))), curves, t_sim, t_end)
+    _footer(c)
+
+
+# ------------------------------------------------------------------ terminal speed
+TERMINAL_SECONDS = 14.0
+
+
+def _person(c, cx, cy, big):
+    """A simple falling person; with a big area a parachute canopy is drawn above."""
+    c.circle((cx, cy - c.px(52)), c.px(15), fill="text")
+    c.line((cx, cy - c.px(36)), (cx, cy + c.px(22)), "text", 7)
+    c.line((cx, cy - c.px(22)), (cx - c.px(26), cy - c.px(4)), "text", 6)
+    c.line((cx, cy - c.px(22)), (cx + c.px(26), cy - c.px(4)), "text", 6)
+    c.line((cx, cy + c.px(22)), (cx - c.px(16), cy + c.px(58)), "text", 6)
+    c.line((cx, cy + c.px(22)), (cx + c.px(16), cy + c.px(58)), "text", 6)
+    if big:
+        r = c.px(64)
+        top = cy - c.px(130)
+        c.d.pieslice((cx - r, top, cx + r, top + 2 * r * 0.8), 180, 360, fill=c.col("accent"))
+        c.line((cx - r, top + r * 0.8), (cx, cy - c.px(36)), "muted", 3)
+        c.line((cx + r, top + r * 0.8), (cx, cy - c.px(36)), "muted", 3)
+
+
+def _terminal_panel(c, box, title, color, curve, secs):
+    x0, y0, x1, y1 = box
+    c.rect(box, fill=c.inner, radius=18)
+    c.label(((x0 + x1) / 2, y0 + c.px(20)), title, 26, color, kind="bold", anchor="ma")
+    cx = (x0 + x1) / 2
+    cy = (y0 + y1) / 2 + c.px(30)
+    vt = curve["v_terminal"]
+    v = ff.speed_in_air(vt, secs)
+    share = clamp(v / vt)
+    # streaks rushing past show the speed
+    for i in range(7):
+        sx = x0 + (x1 - x0) * (0.12 + 0.76 * ((i * 0.37) % 1.0))
+        base = ((secs * share * 3.0 + i * 0.19) % 1.0)
+        sy = y0 + c.px(80) + base * (y1 - y0 - c.px(160))
+        c.line((sx, sy), (sx, sy + c.px(10) + c.px(60) * share), "muted", 3)
+    _person(c, cx, cy, curve["name"] == "big")
+    unit = min(c.px(120), (y1 - y0) * 0.22)
+    arrow_x = c.px(86)
+    pull_start = cy + c.px(30)
+    c.arrow((cx + arrow_x, pull_start), (cx + arrow_x, pull_start + unit), "warn", 8)
+    c.label((cx + arrow_x, pull_start + unit + c.px(8)), "gravity pulls", 20, "warn", anchor="ma")
+    push = unit * share * share
+    top_start = cy + c.px(30)
+    if push > c.px(6):
+        c.arrow((cx - arrow_x, top_start), (cx - arrow_x, top_start - push), "accent", 8)
+    c.label((cx - arrow_x, top_start + c.px(8)), "air pushes", 20, "accent", anchor="ma")
+    c.label((cx, y1 - c.px(44)), f"{v:.0f} m/s", 34, "text", kind="bold", anchor="ma")
+    if share > 0.97:
+        c.label((cx, y1 - c.px(84)), "steady speed", 24, "good", kind="bold", anchor="ma")
+
+
+def _terminal_scene(c, t):
+    """Two falls side by side: the push of the air grows until it matches gravity, then the speed stops growing."""
+    x0, y0, x1, y1 = c.content_box()
+    secs = clamp((t - 0.08) / 0.75) * TERMINAL_SECONDS
+    small = ff.terminal_curve("small", TERMINAL_SECONDS)
+    big = ff.terminal_curve("big", TERMINAL_SECONDS)
+    area_top = y0 + c.px(10)
+    area_bottom = y1 - (c.px(400) if c.portrait else c.px(330))
+    gap = c.px(20)
+    width = (x1 - x0 - gap) / 2
+    _terminal_panel(c, (x0, area_top, x0 + width, area_bottom), "SMALL AREA", "warn", small, secs)
+    _terminal_panel(c, (x0 + width + gap, area_top, x1, area_bottom), "BIG AREA", "accent", big, secs)
+    curves = [("small area", "warn", small, False), ("big area", "accent", big, False)]
+    _graph(c, (x0, area_bottom + c.px(16), x1, y1), curves, secs, TERMINAL_SECONDS)
     _footer(c)
 
 

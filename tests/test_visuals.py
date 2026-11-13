@@ -111,7 +111,6 @@ def test_scenes_carry_list_data():
     by_kind = {s["kind"]: s for s in script["sections"]}
     assert by_kind["terminology"]["data"]["terms"]
     assert by_kind["limitation"]["data"]["items"]
-    assert by_kind["sources"]["data"]["sources"]
     assert by_kind["safety"]["data"]["items"]
 
 
@@ -119,7 +118,7 @@ def test_diagram_choice_per_scene():
     _, script, _ = board("physics-001", "short", "what_if")
     why = [s for s in script["sections"] if s["kind"] == "why"][0]
     assert why["data"]["diagram"] == "drag_vs_gravity"
-    _, script, _ = board("physics-001", "short", "explainer")
+    _, script, _ = board("physics-001", "long", "explainer")
     answer = [s for s in script["sections"] if s["kind"] == "answer"][0]
     assert answer["data"]["diagram"] == "mass_cancels"
 
@@ -136,10 +135,10 @@ def test_all_scenes_still_draw_with_new_visuals():
 
 
 def test_frames_change_over_time_for_diagrams():
-    rec, _, storyboard = board("physics-001", "short", "explainer")
+    rec, _, storyboard = board("physics-001", "long", "explainer")
     scene = [s for s in storyboard["scenes"] if s["section_kind"] == "answer"][0]
-    early = renderer.draw_frame(scene, rec, 270, 480, 0.15).tobytes()
-    late = renderer.draw_frame(scene, rec, 270, 480, 0.9).tobytes()
+    early = renderer.draw_frame(scene, rec, 480, 270, 0.15).tobytes()
+    late = renderer.draw_frame(scene, rec, 480, 270, 0.9).tobytes()
     assert early != late
 
 

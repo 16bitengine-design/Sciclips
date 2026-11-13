@@ -135,7 +135,7 @@ def test_what_if_captions_show_content_not_lead_in():
 
 
 def test_chemical_equation_is_spoken_sensibly():
-    _, script, _ = storyboard("chem-001", "short", "explainer")
+    _, script, _ = storyboard("chem-001", "long", "explainer")
     line = [s for s in script["sections"] if s["kind"] == "equation"][0]["narration"]
     assert "->" not in line and "gives" in line
 

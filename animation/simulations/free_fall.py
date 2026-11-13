@@ -5,6 +5,8 @@ sizes and masses are assumptions, not measurements). It shows how drag, not
 gravity, makes a feather lag in air. It is not experimental evidence.
 """
 
+import math
+
 GRAVITY = 9.81       # m/s^2, model value
 HEIGHT = 1.6         # m, drop height used in the animation
 AIR_DENSITY = 1.2    # kg/m^3, rounded illustrative value
@@ -64,3 +66,27 @@ def drag_to_weight(name, speed, g=GRAVITY):
     obj = OBJECTS[name]
     drag = 0.5 * AIR_DENSITY * obj["cd"] * obj["area"] * speed * speed
     return drag / (obj["mass"] * g)
+
+
+# Illustrative person falling with and without a parachute. Values are made up to show the idea.
+PERSON = {"mass": 80.0, "small": {"area": 0.7, "cd": 1.0}, "big": {"area": 25.0, "cd": 1.5}}
+
+
+def terminal_speed(mass, area, cd, g=GRAVITY):
+    """Speed at which drag equals weight: sqrt(2 m g / (air_density Cd A))."""
+    return (2.0 * mass * g / (AIR_DENSITY * cd * area)) ** 0.5
+
+
+def speed_in_air(v_terminal, t, g=GRAVITY):
+    """Downward speed t seconds after release when drag grows with speed squared (starting from rest)."""
+    return v_terminal * math.tanh(g * t / v_terminal)
+
+
+def terminal_curve(shape, t_end, dt=0.05):
+    """The same kind of dictionary simulate() returns, for a person with a small or a big area."""
+    spec = PERSON[shape]
+    vt = terminal_speed(PERSON["mass"], spec["area"], spec["cd"])
+    steps = int(t_end / dt) + 1
+    speeds = [speed_in_air(vt, i * dt) for i in range(steps + 1)]
+    return {"name": shape, "dt": dt, "height": None, "y": [0.0] * len(speeds), "v": speeds,
+            "t_land": None, "v_terminal": vt}

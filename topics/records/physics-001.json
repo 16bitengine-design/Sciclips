@@ -1,6 +1,6 @@
 {
   "id": "physics-001",
-  "title": "Why do objects fall at the same rate in a vacuum?",
+  "title": "What really decides how fast things fall?",
   "category": "physics",
   "subject_area": "classical mechanics / gravitation",
   "difficulty_level": "introductory",
@@ -258,7 +258,7 @@
   "safety_considerations": "Low risk when shown as animation. Do not encourage dropping heavy objects from heights or entering vacuum chambers without supervision.",
   "short_video_potential": {
     "suitable": true,
-    "angle": "Hammer and feather on the Moon: why do they land together?"
+    "angle": "What really decides how fast things fall?"
   },
   "long_video_potential": {
     "suitable": true,
@@ -290,8 +290,8 @@
     "environment": "moon"
   },
   "thumbnail": {
-    "headline": "Hammer vs Feather",
-    "subline": "On the Moon!",
+    "headline": "FREE FALL",
+    "subline": "Does weight matter?",
     "badge": "?",
     "scheme": 3,
     "moment": 0.55

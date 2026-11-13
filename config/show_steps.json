@@ -1,7 +1,61 @@
 {
   "physics-001": [
-    {"line": "On Earth, air pushes back much more on a feather than on a hammer, which is why the feather falls slowly.", "variant": "with_air"},
-    {"line": "Take the air away and they fall together.", "variant": "vacuum"},
-    {"line": "Apollo 15 (1971): Commander David Scott dropped a geologic hammer and a feather together on the Moon, where there is almost no air, as a live television demonstration.", "variant": "air_vs_vacuum"}
+    {
+      "question": "what and why",
+      "line": "A heavier object is pulled harder by gravity, but it is also harder to get moving. These two effects cancel exactly.",
+      "variant": "vacuum"
+    },
+    {
+      "question": "how",
+      "line": "On Earth, air pushes back much more on a feather than on a hammer, which is why the feather falls slowly.",
+      "variant": "with_air"
+    },
+    {
+      "question": "what really decides it",
+      "line": "Gravity gives both objects the same acceleration, but drag is a second force that affects the feather far more.",
+      "variant": "with_air"
+    },
+    {
+      "question": "when",
+      "line": "Take the air away and they fall together.",
+      "variant": "vacuum"
+    },
+    {
+      "question": "where, when and who",
+      "line": "Apollo 15 (1971): Commander David Scott dropped a geologic hammer and a feather together on the Moon, where there is almost no air, as a live television demonstration.",
+      "variant": "air_vs_vacuum"
+    }
+  ],
+  "chem-001": [
+    {
+      "question": "what and where",
+      "line": "Baking soda and vinegar react and make new substances. One of them is carbon dioxide gas, and the bubbles you see are that gas escaping.",
+      "variant": "open"
+    },
+    {
+      "question": "how",
+      "line": "The gas escapes into the air.",
+      "variant": "balance_open"
+    },
+    {
+      "question": "how",
+      "line": "In a sealed system the mass stays the same.",
+      "variant": "balance_sealed"
+    },
+    {
+      "question": "why",
+      "line": "The reaction keeps producing carbon dioxide gas in a fixed space.",
+      "variant": "sealed"
+    },
+    {
+      "question": "what if",
+      "line": "In a sealed tube the pressure can pop the lid off, so eye protection is advised.",
+      "variant": "sealed_pop"
+    },
+    {
+      "question": "where it is used",
+      "line": "Baking: sodium hydrogencarbonate with an acid releases carbon dioxide that makes mixtures rise.",
+      "variant": "open"
+    }
   ]
 }

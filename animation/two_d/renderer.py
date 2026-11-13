@@ -15,6 +15,7 @@ from animation.two_d import themes
 from animation.two_d.canvas import PALETTE, Canvas, clamp, ease_in_out, load_font
 from animation.two_d.scenes import SCENE_FUNCTIONS
 
+BRAND = "SCICLIPS"
 QUALITY = {"draft": {"scale": 0.5, "fps": 12}, "full": {"scale": 1.0, "fps": None}}
 
 
@@ -47,6 +48,9 @@ def draw_frame(scene, record, width, height, t):
     if function is None:
         raise RenderError(f"No drawing function for animation type '{scene['animation_type']}'")
     function(canvas, t, {"scene": scene, "record": record})
+    if scene.get("section_kind") != "outro":
+        # The channel name sits at the top of every frame, above where the content starts.
+        canvas.label((width / 2, canvas.px(26)), BRAND, 46, "text", kind="bold", anchor="ma")
     return canvas.img
 
 

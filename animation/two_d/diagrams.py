@@ -8,14 +8,8 @@ from animation.two_d import sim_draw
 
 
 def _label(c, box, scene, color="accent"):
-    x0, y0, _, _ = box
-    title = (scene.get("section_title") or "").upper()
-    size = c.fit_size(title, x1 - x0 if False else c.w - 2 * x0, c.px(60), 34, 20, "bold") if False else 34
-    while size > 20 and c.font("bold", size).getlength(title) > c.w - 2 * x0:
-        size -= 2
-    c.label((x0, y0), title, size, color, kind="bold")
-    c.rect((x0, y0 + c.px(44), x0 + c.px(120), y0 + c.px(50)), fill=color)
-    return y0 + c.px(80)
+    """Section names (Demonstration, Conclusion...) are no longer shown. This only keeps the spacing."""
+    return box[1] + c.px(80)
 
 
 def _objects(c, x_hammer, x_feather, bottom, a=1.0):

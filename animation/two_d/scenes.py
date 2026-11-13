@@ -18,14 +18,8 @@ def _text(scene):
 
 
 def _label(c, box, scene, color="accent"):
-    x0, y0, _, _ = box
-    title = (scene.get("section_title") or "").upper()
-    size = c.fit_size(title, x1 - x0 if False else c.w - 2 * x0, c.px(60), 34, 20, "bold") if False else 34
-    while size > 20 and c.font("bold", size).getlength(title) > c.w - 2 * x0:
-        size -= 2
-    c.label((x0, y0), title, size, color, kind="bold")
-    c.rect((x0, y0 + c.px(44), x0 + c.px(120), y0 + c.px(50)), fill=color)
-    return y0 + c.px(80)
+    """Section names (Demonstration, Conclusion...) are no longer shown. This only keeps the spacing."""
+    return box[1] + c.px(80)
 
 
 # --------------------------------------------------------------------- text
@@ -167,7 +161,6 @@ def hook_card(c, t, ctx):
     scene = ctx["scene"]
     x0, y0, x1, y1 = c.content_box()
     a = appear(t, 0.0, 0.2)
-    c.label((x0, y0), "SCIENCE ANIMATION STUDIO", 26, "muted", kind="bold", alpha=a)
     text = _text(scene)
     size = c.fit_size(text, x1 - x0, (y1 - y0) * 0.32, 76, 36, "bold")
     bottom = c.paragraph(x0, y0 + c.px(100) + (1 - a) * c.px(40), text, size, "text", x1 - x0, kind="bold", alpha=a)

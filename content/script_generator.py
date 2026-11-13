@@ -267,7 +267,8 @@ def _long_explainer(record):
     s.add("terminology", "Key terms", "Key terms. " + " ".join(t["definition"] for t in terms),
           on_screen="Key terms and units", data={"terms": _term_cards(record)})
     for eq in record.get("equations", []):
-        s.add("equation", eq["name"], f"{eq['name']}: {_eq_text(eq)}.", _equation_claim_ids(record, eq["id"]),
+        spoken = _equation_narration(eq) if eq.get("type") == "chemical" else f"{eq['name']}: {_eq_text(eq)}."
+        s.add("equation", eq["name"], spoken, _equation_claim_ids(record, eq["id"]),
               on_screen=_eq_text(eq))
     s.add("application", "Real-world use", " ".join(_need(record, "practical_applications")), lead="Where this matters.")
     for m in record.get("misconceptions", []):

@@ -358,6 +358,10 @@ def simulation_scene(c, t, ctx):
         return sim_draw.free_fall_scene(c, t, ctx)
     if kind == "gas_release":
         return sim_draw.gas_scene(c, t, ctx)
+    # A topic without its own simulation still gets a moving picture instead of plain text cards.
+    x0, y0, x1, y1 = c.content_box()
+    if c.theme.hook == "illustration" and _hook_illustration(c, t, ctx, y0 + c.px(10), y1):
+        return
     diagram_cards(c, t, ctx)
     sim_draw._footer(c)
 

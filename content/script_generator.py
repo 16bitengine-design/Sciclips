@@ -11,6 +11,7 @@ import re
 from pathlib import Path
 
 from audio import voice_style
+from content import ai_writer
 from content.topic_manager import EXPERIMENT_TEMPLATES
 
 BASE_WORDS_PER_SECOND = 2.5  # about 150 spoken words per minute at normal speed
@@ -27,6 +28,7 @@ WHAT_IF_PARTS = (
     ("why", "Why this happens.", "why"),
     ("prevention", "What to do.", "prevention"),
 )
+AI_MAX_WORDS = 110  # keeps an AI-planned short video under the time limit
 SHOW_STEPS_FILE = Path(__file__).resolve().parents[1] / "config" / "show_steps.json"
 SHORT_TRIM_ORDER = ("terminology", "application", "intro")
 VARIANTS = ("explainer", "what_if")
@@ -221,6 +223,11 @@ def _show_steps(record):
             if _squash(step.get("line", "")) not in haystack:
                 raise ScriptError(f"show_steps line is not in the topic record: {step.get('line', '')[:60]}")
         return [{"line": _squash(x["line"]), "variant": x.get("variant")} for x in steps]
+    if ai_writer.ai_enabled():
+        kind = (record.get("simulation") or {}).get("kind")
+        chosen = ai_writer.propose_steps(record, _reusable_text(record), kind, record.get("central_question"))
+        if chosen and sum(len(x["line"].split()) for x in chosen) <= AI_MAX_WORDS:
+            return chosen
     sentences = re.split(r"(?<=[.!?])\s+", _need(record, "scientific_explanation")["level_1"].strip())
     return [{"line": x, "variant": None} for x in sentences[:4]]
 

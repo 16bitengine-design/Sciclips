@@ -254,3 +254,35 @@ def test_short_scripts_finish_a_little_under_the_limit():
             rec = record(topic)
             script = generate_script(rec, "short", variant, rendering(), OK_SCIENCE)
             assert script["estimated_duration_seconds"] <= 90 - 2.0 + 0.05
+
+
+# --- house voice: no source language in videos, credit people only when the record lists them ------
+def test_no_video_talks_about_sources():
+    from content.script_validator import check_house_voice
+    for topic in TOPICS:
+        for fmt in ("short", "long"):
+            for variant in ("explainer", "what_if"):
+                rec, script, _ = build(topic, fmt, variant)
+                assert check_house_voice(script, rec) == [], (topic, fmt, variant)
+
+
+def test_source_language_is_caught():
+    from content.script_validator import check_house_voice
+    rec, script, _ = build("physics-001", "short", "explainer")
+    for bad in ("NASA describes the Moon as dry.", "Sources are listed below.", "Research shows this is true."):
+        script["sections"][1]["narration"] = bad
+        assert check_house_voice(script, rec), bad
+
+
+def test_a_person_is_credited_only_when_the_record_lists_them():
+    from content.script_validator import check_house_voice
+    rec = record("physics-001")
+    line = "Take the air away and they fall together."
+    rec["attributions"] = [{"line": line, "by": "Galileo Galilei"}]
+    script = generate_script(rec, "short", "explainer", rendering(), OK_SCIENCE)
+    spoken = [s["narration"] for s in script["sections"] if "Galileo" in s["narration"]]
+    assert spoken == ["According to Galileo Galilei: " + line]
+    assert check_house_voice(script, rec) == []
+    rec["attributions"] = []
+    assert check_house_voice(script, rec)
+

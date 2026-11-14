@@ -146,3 +146,19 @@ def test_highlight_words_come_from_the_topic():
     words = highlight_words(load_topic_record(str(ROOT), "physics-001"))
     assert "mass" in words and "gravitational" in words
     assert "from" not in words
+
+
+def test_a_topic_without_its_own_simulation_still_draws_every_scene():
+    rec = load_topic_record(str(ROOT), "chem-001")
+    for key in ("simulation", "scene3d", "diagrams"):
+        rec.pop(key, None)
+    for scenario in rec["what_if_scenarios"]:
+        scenario.pop("simulation", None)
+        scenario.pop("diagram", None)
+    for fmt, size in (("short", (270, 480)), ("long", (480, 270))):
+        script = generate_script(rec, fmt, "explainer", rendering(), OK_SCIENCE)
+        storyboard = generate_storyboard(script, rec, rendering())
+        for scene in storyboard["scenes"]:
+            for t in (0.0, 0.5, 1.0):
+                assert renderer.draw_frame(scene, rec, size[0], size[1], t).size == size
+

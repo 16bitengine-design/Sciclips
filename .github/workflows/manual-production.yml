@@ -42,6 +42,14 @@ on:
         options:
           - draft
           - full
+      ai_writer:
+        description: "AI script planner (free GitHub AI model). off = normal template writer only"
+        required: true
+        default: "off"
+        type: choice
+        options:
+          - "off"
+          - "on"
       output_mode:
         description: "TEST = no publishing (only TEST works for now)"
         required: true
@@ -54,6 +62,7 @@ on:
 
 permissions:
   contents: read
+  models: read
 
 jobs:
   produce:
@@ -109,6 +118,8 @@ jobs:
         env:
           TOPIC_ID: ${{ inputs.topic_id }}
           VIDEO_FORMAT: ${{ inputs.video_format }}
+          SCICLIPS_AI: ${{ inputs.ai_writer == 'on' && '1' || '0' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/generate_content.py
 
       - name: Produce finished videos
@@ -117,6 +128,8 @@ jobs:
           VIDEO_FORMAT: ${{ inputs.video_format }}
           RENDER_QUALITY: ${{ inputs.quality }}
           NARRATION_PROVIDER: ${{ inputs.narration }}
+          SCICLIPS_AI: ${{ inputs.ai_writer == 'on' && '1' || '0' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           KOKORO_MODEL: models/kokoro-v1.0.onnx
           KOKORO_VOICES: models/voices-v1.0.bin
         run: python scripts/produce_video.py

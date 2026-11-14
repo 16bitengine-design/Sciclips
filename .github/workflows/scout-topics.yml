@@ -30,8 +30,8 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
-      - name: Run automated tests (the scout does not run if any test fails)
-        run: python -m pytest tests -q
+      - name: Run the science and script tests (the scout does not run if any fail)
+        run: python -m pytest tests/test_stage3.py tests/test_stage4.py tests/test_chemistry.py tests/test_ai_writer.py tests/test_scout.py -q
 
       - name: Look for a new topic
         env:

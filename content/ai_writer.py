@@ -12,7 +12,9 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.request
+from urllib.parse import urlparse
 
 ENDPOINT = "https://models.github.ai/inference/chat/completions"
 DEFAULT_MODEL = "openai/gpt-4.1"
@@ -45,13 +47,32 @@ def sentences_of(text):
     return [s for s in re.split(r"(?<=[.!?])\s+", " ".join(str(text).split())) if s]
 
 
-def _post(payload, token, timeout=60):
+class _KeepPost(urllib.request.HTTPRedirectHandler):
+    """Follows redirects and keeps the request a POST with its body (the standard library would turn it into an empty GET)."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        if code not in (301, 302, 303, 307, 308):
+            return None
+        same_host = urlparse(newurl).hostname == urlparse(req.full_url).hostname
+        kept = {k: v for k, v in req.header_items() if k.lower() != "content-length" and (same_host or k.lower() != "authorization")}
+        return urllib.request.Request(newurl, data=req.data, headers=kept, method=req.get_method())
+
+
+def _post(payload, token, timeout=60, url=None):
     request = urllib.request.Request(
-        ENDPOINT, data=json.dumps(payload).encode("utf-8"),
+        url or ENDPOINT, data=json.dumps(payload).encode("utf-8"),
         headers={"Content-Type": "application/json", "Accept": "application/vnd.github+json",
-                 "Authorization": f"Bearer {token}"})
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        return json.loads(response.read().decode("utf-8"))
+                 "X-GitHub-Api-Version": "2022-11-28", "Authorization": f"Bearer {token}"}, method="POST")
+    opener = urllib.request.build_opener(_KeepPost)
+    try:
+        with opener.open(request, timeout=timeout) as response:
+            status, raw = response.status, response.read()
+    except urllib.error.HTTPError as error:
+        raise RuntimeError(f"the AI service said {error.code}: {error.read()[:200]!r}") from error
+    try:
+        return json.loads(raw.decode("utf-8"))
+    except ValueError as error:
+        raise RuntimeError(f"the AI service answered {status} with something that is not JSON: {raw[:160]!r}") from error
 
 
 def _parse(reply_text):
@@ -109,7 +130,7 @@ def propose_steps(record, haystack, kind, hook_line=None, model=None):
         steps = _parse(reply["choices"][0]["message"]["content"])
         steps = [{"line": s.get("line"), "variant": s.get("picture", s.get("variant"))} for s in steps]
     except Exception as error:  # any problem at all means: use the normal writer
-        print(f"AI writer skipped ({type(error).__name__}: {str(error)[:120]})", file=sys.stderr)
+        print(f"AI writer skipped ({type(error).__name__}: {str(error)[:300]})", file=sys.stderr)
         return None
     clean = check_steps(steps, haystack, variants)
     if clean is None:

@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import auto_run  # noqa: E402
-from publishing.zernio import Zernio, ZernioError  # noqa: E402
+from publishing.buffer_cloudinary import Buffer, BufferPublisher, Cloudinary, PublishError  # noqa: E402
 
 NOW = datetime(2026, 11, 15, 14, 0, tzinfo=timezone.utc)
 TITLES = {t: json.loads((ROOT / "topics" / "records" / f"{t}.json").read_text())["title"] for t in ("physics-001", "chem-001")}
@@ -32,9 +32,6 @@ def make_repo(tmp_path, **config):
     return repo
 
 
-from publishing.buffer_cloudinary import Buffer, BufferPublisher, Cloudinary, PublishError  # noqa: E402
-
-
 def good_producer(problems=(), publishable=True):
     def produce(root, topic_id, fmt, out_dir, quality, narration):
         final = Path(out_dir) / topic_id / f"{fmt}_explainer" / "final"
@@ -53,7 +50,7 @@ class FakeClient:
     def publish_video(self, video, title, description, caption, accounts, tags, made_for_kids):
         self.calls.append((Path(video).name, title, accounts, made_for_kids))
         if self.fail:
-            raise ZernioError("boom")
+            raise PublishError("boom")
         result = {"youtube": "https://youtu.be/abc", "tiktok": "https://tiktok.com/x", "failed": {}}
         if self.partial:
             result = {"youtube": "https://youtu.be/abc", "failed": {"tiktok": "capacity"}}
@@ -161,63 +158,6 @@ def test_a_topic_that_keeps_failing_is_given_up_on(tmp_path):
     (code, lines), client = run(repo, now=datetime(2026, 11, 12, 14, 0, tzinfo=timezone.utc))
     queue = json.loads((repo / "topics" / "topic_queue.json").read_text())["topics"]
     assert queue[0]["status"] == "failed" and client.calls[0][1] == TITLES["chem-001"]
-
-
-# --- Zernio -------------------------------------------------------------------------------
-class FakeNet:
-    def __init__(self, post_reply=None, put_status=200):
-        self.requests, self.post_reply, self.put_status = [], post_reply, put_status
-
-    def __call__(self, method, url, headers, body):
-        self.requests.append((method, url, headers, body))
-        if url.endswith("/media/presign"):
-            return 200, json.dumps({"uploadUrl": "https://upload.example/x", "publicUrl": "https://cdn.example/v.mp4"}).encode()
-        if method == "PUT":
-            return self.put_status, b""
-        if url.endswith("/posts"):
-            reply = self.post_reply or {"post": {"platforms": [
-                {"platform": "youtube", "status": "published", "platformPostUrl": "https://youtu.be/1"},
-                {"platform": "tiktok", "status": "published", "platformPostUrl": "https://tiktok.com/1"}]}}
-            return 200, json.dumps(reply).encode()
-        return 404, b"{}"
-
-
-def test_zernio_uploads_then_posts_with_the_documented_fields(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"data")
-    net = FakeNet()
-    result = Zernio("sk_test", transport=net).publish_video(video, "T" * 150, "desc", "cap", {"youtube": "y", "tiktok": "t"}, ["a"])
-    assert result["youtube"] == "https://youtu.be/1" and result["tiktok"].endswith("/1")
-    post = json.loads([r for r in net.requests if r[1].endswith("/posts")][0][3])
-    assert post["publishNow"] is True and post["mediaItems"] == [{"type": "video", "url": "https://cdn.example/v.mp4"}]
-    youtube = post["platforms"][0]["platformSpecificData"]
-    assert len(youtube["title"]) == 100 and youtube["containsSyntheticMedia"] is True
-    assert post["tiktokSettings"]["content_preview_confirmed"] and post["tiktokSettings"]["express_consent_given"]
-    assert [r[0] for r in net.requests] == ["POST", "PUT", "POST"]
-
-
-def test_zernio_reports_failures_clearly(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"data")
-    for net in (FakeNet(put_status=500), FakeNet(post_reply={"post": {"platforms": [{"platform": "youtube", "status": "failed", "error": "quota"}]}})):
-        try:
-            Zernio("sk_test", transport=net).publish_video(video, "t", "d", "c", {"youtube": "y"})
-            assert False
-        except ZernioError:
-            pass
-
-
-def test_zernio_needs_an_api_key():
-    import os
-    saved = os.environ.pop("ZERNIO_API_KEY", None)
-    try:
-        Zernio(None)
-        assert False
-    except ZernioError:
-        pass
-    finally:
-        if saved:
-            os.environ["ZERNIO_API_KEY"] = saved
 
 
 # --- Buffer and Cloudinary --------------------------------------------------------------------

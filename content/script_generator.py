@@ -232,6 +232,14 @@ def _show_steps(record):
     return [{"line": x, "variant": None} for x in sentences[:4]]
 
 
+def _originator(record, line):
+    """Name of the person to credit for a line, only when the topic record says so (record["attributions"])."""
+    for item in record.get("attributions", []):
+        if _squash(item.get("line", "")) and _squash(item["line"]) in line:
+            return item.get("by")
+    return None
+
+
 def _short_explainer(record):
     """Show, don't explain: the question, a few short lines spoken over the simulation, then the takeaway."""
     s = _Sections()
@@ -245,8 +253,10 @@ def _short_explainer(record):
             ids += _model_claim_ids(record)
         if index == len(steps) - 1:
             ids += _evidence_claim_ids(record)
+        by = _originator(record, step["line"])
         s.add("demonstration", "Demonstration", step["line"], ids,
-              data={"simulation_variant": step["variant"] or _default_variant(record)})
+              data={"simulation_variant": step["variant"] or _default_variant(record)},
+              lead=f"According to {by}:" if by else "")
     _add_safety(s, record)
     closing = record.get("principle_statement") or first_sentence(expl["level_2"])
     s.add("conclusion", "Conclusion", closing, lead="In short:")

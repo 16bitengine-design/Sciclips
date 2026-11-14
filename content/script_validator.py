@@ -1,4 +1,6 @@
 """Checks scripts and storyboards against the project's requirements."""
+import re
+
 from content.script_generator import EXPERIMENT_TEMPLATES, count_words
 from content.storyboard_generator import ANIMATION_TYPES, MIN_SCENE_SECONDS, TRANSITIONS
 
@@ -16,6 +18,34 @@ TOP_LEVEL_LISTS = ("terminology", "applications", "assumptions_limitations", "so
 TRIMMABLE = {"terminology", "application", "intro"}
 
 
+# --- house voice: videos speak in our own plain words and never talk about sources ------------------
+BANNED_PHRASES = [
+    r"\bsources?\b", r"\bcitations?\b", r"\bcite[sd]?\b", r"\breferences?\b", r"\bteaching materials\b",
+    r"\b(studies|research|experts?) (shows?|says?|found|finds?)\b",
+    r"\baccording to (the )?(sources?|studies|study|article|page|report|research)\b",
+    r"\b(NASA|NIST|RSC|Royal Society of Chemistry|Wikipedia)\s+(describes|explains|says|states|reports|shows|notes)\b",
+]
+ATTRIBUTION = re.compile(r"According to ([A-Z][^:,.]{1,60})[:,]")
+
+
+def check_house_voice(script, record):
+    """Errors for any spoken or shown text that cites sources, or credits a person the record does not list."""
+    errors = []
+    allowed = {a.get("by") for a in record.get("attributions", [])}
+    for section in script.get("sections", []):
+        for field in ("narration", "on_screen_text"):
+            text = str(section.get(field, ""))
+            for name in ATTRIBUTION.findall(text):
+                if name.strip() not in allowed:
+                    errors.append(f"{section.get('id')}: credits '{name.strip()}', who is not listed in the record's attributions.")
+            plain = ATTRIBUTION.sub("", text)
+            for pattern in BANNED_PHRASES:
+                if re.search(pattern, plain, re.IGNORECASE):
+                    errors.append(f"{section.get('id')}: {field} uses source language. Say it in plain words.")
+                    break
+    return errors
+
+
 def validate_script(script, record, rendering):
     """Returns {"errors": [...], "warnings": [...]}."""
     errors, warnings = [], []
@@ -27,6 +57,8 @@ def validate_script(script, record, rendering):
             errors.append(f"Script is missing '{field}'.")
     if record.get("equations") and not script.get("equations"):
         errors.append("Script is missing the equations.")
+
+    errors.extend(check_house_voice(script, record))
 
     kinds = {s["kind"] for s in script.get("sections", [])}
     required = set(REQUIRED_KINDS[(script["variant"], script["format"])])

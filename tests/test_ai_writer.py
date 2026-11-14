@@ -151,3 +151,64 @@ def test_a_video_is_still_made_when_the_ai_fails():
     finally:
         gen.SHOW_STEPS_FILE = saved
     assert any(s["kind"] == "demonstration" for s in script["sections"])
+
+
+def test_a_redirected_post_keeps_its_body_and_arrives(tmp_path):
+    import http.server
+    import threading
+    seen = {}
+
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_POST(self):
+            length = int(self.headers.get("Content-Length", 0))
+            body = self.rfile.read(length)
+            if self.path == "/start":
+                self.send_response(307)
+                self.send_header("Location", "/final")
+                self.end_headers()
+                return
+            seen["body"], seen["auth"] = json.loads(body), self.headers.get("Authorization")
+            data = json.dumps({"choices": [{"message": {"content": "ok"}}]}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(data)
+
+    server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        reply = ai_writer._post({"hello": "world"}, "tok", timeout=10, url=f"http://127.0.0.1:{server.server_port}/start")
+    finally:
+        server.shutdown()
+    assert reply["choices"][0]["message"]["content"] == "ok"
+    assert seen["body"] == {"hello": "world"} and seen["auth"] == "Bearer tok"
+
+
+def test_a_reply_that_is_not_json_is_explained():
+    import http.server
+    import threading
+
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_POST(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"<html>hello</html>")
+
+    server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        try:
+            ai_writer._post({}, "tok", timeout=10, url=f"http://127.0.0.1:{server.server_port}/x")
+            assert False
+        except RuntimeError as error:
+            assert "not JSON" in str(error) and "hello" in str(error)
+    finally:
+        server.shutdown()
+

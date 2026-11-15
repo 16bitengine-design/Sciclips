@@ -3,8 +3,7 @@
   "secret_names": {
     "api_key": "BUFFER_API_KEY",
     "youtube_account_id": "BUFFER_YOUTUBE_CHANNEL_ID",
-    "tiktok_account_id": "BUFFER_TIKTOK_CHANNEL_ID",
-    "cloudinary_url": "CLOUDINARY_URL"
+    "tiktok_account_id": "BUFFER_TIKTOK_CHANNEL_ID"
   },
   "test_publishing_enabled": false,
   "platforms": {
@@ -24,5 +23,11 @@
   "default_schedule_delay_hours": 0,
   "use_idempotency_keys": true,
   "max_retries": 2,
-  "never_log_credentials": true
+  "never_log_credentials": true,
+  "media_hosting": {
+    "provider": "github_releases",
+    "token": "GITHUB_TOKEN",
+    "repository": "GITHUB_REPOSITORY",
+    "public_assets": true
+  }
 }

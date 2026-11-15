@@ -59,20 +59,35 @@ class _KeepPost(urllib.request.HTTPRedirectHandler):
 
 
 def _post(payload, token, timeout=60, url=None):
+    target_url = url or ENDPOINT
+    headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": f"Bearer {token}",
+    }
+    # GitHub Models expects GitHub-specific negotiation headers. Do not send
+    # those headers to independent providers such as Google's Gemini API.
+    if urlparse(target_url).hostname == "models.github.ai":
+        headers["Accept"] = "application/vnd.github+json"
+        headers["X-GitHub-Api-Version"] = "2022-11-28"
     request = urllib.request.Request(
-        url or ENDPOINT, data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json", "Accept": "application/vnd.github+json",
-                 "X-GitHub-Api-Version": "2022-11-28", "Authorization": f"Bearer {token}"}, method="POST")
+        target_url, data=json.dumps(payload).encode("utf-8"),
+        headers=headers, method="POST")
     opener = urllib.request.build_opener(_KeepPost)
     try:
         with opener.open(request, timeout=timeout) as response:
             status, raw = response.status, response.read()
+            response_url = response.geturl()
+            content_type = response.headers.get("Content-Type", "unknown")
     except urllib.error.HTTPError as error:
         raise RuntimeError(f"the AI service said {error.code}: {error.read()[:200]!r}") from error
     try:
         return json.loads(raw.decode("utf-8"))
     except ValueError as error:
-        raise RuntimeError(f"the AI service answered {status} with something that is not JSON: {raw[:160]!r}") from error
+        raise RuntimeError(
+            f"the AI service at {response_url} answered {status} "
+            f"(content-type: {content_type}) with something that is not JSON: {raw[:160]!r}"
+        ) from error
 
 
 def _parse(reply_text):

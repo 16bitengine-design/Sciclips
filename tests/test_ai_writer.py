@@ -212,3 +212,39 @@ def test_a_reply_that_is_not_json_is_explained():
     finally:
         server.shutdown()
 
+
+
+def test_gemini_requests_do_not_receive_github_specific_headers():
+    import http.server
+    import threading
+    seen = {}
+
+    class Handler(http.server.BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def do_POST(self):
+            seen.update({
+                "accept": self.headers.get("Accept"),
+                "github_version": self.headers.get("X-GitHub-Api-Version"),
+                "authorization": self.headers.get("Authorization"),
+            })
+            body = json.dumps({"choices": [{"message": {"content": "ok"}}]}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(body)
+
+    server = http.server.HTTPServer(("127.0.0.1", 0), Handler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    try:
+        response = ai_writer._post(
+            {"model": "gemini-3.8-flash"}, "gemini-token", timeout=10,
+            url=f"http://127.0.0.1:{server.server_port}/v1beta/openai/chat/completions",
+        )
+    finally:
+        server.shutdown()
+    assert response["choices"][0]["message"]["content"] == "ok"
+    assert seen["accept"] == "application/json"
+    assert seen["github_version"] is None
+    assert seen["authorization"] == "Bearer gemini-token"

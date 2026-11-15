@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import auto_run  # noqa: E402
-from publishing.buffer_cloudinary import Buffer, BufferPublisher, Cloudinary, PublishError  # noqa: E402
+from publishing.buffer_github import Buffer, BufferPublisher, GithubReleaseMedia, PublishError  # noqa: E402
 
 NOW = datetime(2026, 11, 15, 14, 0, tzinfo=timezone.utc)
 TITLES = {t: json.loads((ROOT / "topics" / "records" / f"{t}.json").read_text())["title"] for t in ("physics-001", "chem-001")}
@@ -160,95 +160,116 @@ def test_a_topic_that_keeps_failing_is_given_up_on(tmp_path):
     assert queue[0]["status"] == "failed" and client.calls[0][1] == TITLES["chem-001"]
 
 
-# --- Buffer and Cloudinary --------------------------------------------------------------------
-class FakeBufferNet:
-    def __init__(self, buffer_reply=None, cloud_status=200):
-        self.requests, self.buffer_reply, self.cloud_status = [], buffer_reply, cloud_status
+# --- Buffer and GitHub Releases ---------------------------------------------------------------
+class FakePublishingNet:
+    def __init__(self, buffer_reply=None, github_status=201):
+        self.requests, self.buffer_reply, self.github_status = [], buffer_reply, github_status
+        self.release = None
+        self.tag = None
 
-    def __call__(self, method, url, headers, body):
+    def __call__(self, method, url, headers, body=None):
         self.requests.append((method, url, headers, body))
-        if "cloudinary.com" in url:
-            if self.cloud_status >= 400:
-                return self.cloud_status, json.dumps({"error": {"message": "Invalid signature"}}).encode()
-            return 200, json.dumps({"secure_url": "https://res.cloudinary.com/demo/video/upload/v1/sciclips/x.mp4"}).encode()
-        query = json.loads(body)["query"]
-        if "organizations" in query:
-            return 200, json.dumps({"data": {"account": {"organizations": [{"id": "org1"}]}}}).encode()
-        if "channels(" in query:
-            return 200, json.dumps({"data": {"channels": [{"id": "c_yt", "service": "youtube"}, {"id": "c_tt", "service": "tiktok"}]}}).encode()
-        reply = self.buffer_reply or {"data": {"createPost": {"post": {"id": "p1"}}}}
-        return 200, json.dumps(reply).encode()
+        if method == "GET" and "/releases/tags/" in url:
+            self.tag = url.rsplit("/", 1)[-1]
+            if self.release:
+                return 200, json.dumps(self.release).encode()
+            return 404, b'{"message":"Not Found"}'
+        if url == "https://api.github.com/repos/test-owner/test-repo/releases":
+            payload = json.loads(body)
+            self.tag = payload["tag_name"]
+            self.release = {"id": 12, "tag_name": self.tag, "upload_url": "https://uploads.github.com/repos/test-owner/test-repo/releases/12/assets{?name,label}",
+                            "assets": []}
+            return 201, json.dumps(self.release).encode()
+        if url.startswith("https://uploads.github.com/"):
+            if self.github_status >= 400:
+                return self.github_status, b'{"message":"Upload rejected"}'
+            name = url.split("?name=", 1)[1]
+            asset = {"name": name, "browser_download_url": "https://github.com/test-owner/test-repo/releases/download/" + self.tag + "/" + name}
+            self.release["assets"].append(asset)
+            return 201, json.dumps(asset).encode()
+        if url == "https://api.buffer.com":
+            query = json.loads(body)["query"]
+            if "organizations" in query:
+                return 200, json.dumps({"data": {"account": {"organizations": [{"id": "org1"}]}}}).encode()
+            if "channels(" in query:
+                return 200, json.dumps({"data": {"channels": [{"id": "c_yt", "service": "youtube"}, {"id": "c_tt", "service": "tiktok"}]}}).encode()
+            reply = self.buffer_reply or {"data": {"createPost": {"post": {"id": "p1"}}}}
+            return 200, json.dumps(reply).encode()
+        raise AssertionError("Unexpected request: " + url)
 
 
 def make_publisher(net):
-    return BufferPublisher(Buffer("key", transport=net), Cloudinary("cloudinary://k:s@demo", transport=net, clock=lambda: 1700000000))
+    return BufferPublisher(Buffer("key", transport=net),
+                           GithubReleaseMedia("token", "test-owner/test-repo", transport=net))
 
 
-def test_buffer_publisher_uploads_once_then_posts_to_each_channel(tmp_path):
+def test_buffer_publisher_uploads_once_to_github_then_posts_to_each_channel(tmp_path):
     video = tmp_path / "v.mp4"
-    video.write_bytes(b"data")
-    net = FakeBufferNet()
+    video.write_bytes(b"video")
+    net = FakePublishingNet()
     result = make_publisher(net).publish_video(video, "T" * 150, "Long description", "Short caption",
                                                {"youtube": "c_yt", "tiktok": "c_tt"}, [], False)
-    assert result["youtube"] == "Buffer post p1" and result["tiktok"] == "Buffer post p1" and result["failed"] == {}
+    assert result["youtube"] == "Buffer post p1" and result["tiktok"] == "Buffer post p1"
+    assert result["failed"] == {}
+    uploads = [r for r in net.requests if r[1].startswith("https://uploads.github.com/")]
     posts = [json.loads(r[3])["query"] for r in net.requests if r[1] == "https://api.buffer.com"]
-    assert len(posts) == 2 and sum("cloudinary" in r[1] for r in net.requests) == 1
+    assert len(uploads) == 1 and len(posts) == 2
+    assert result["media_url"].startswith("https://github.com/test-owner/test-repo/releases/download/")
     youtube, tiktok = posts
-    assert "https://res.cloudinary.com/demo/video/upload/v1/sciclips/x.mp4" in youtube
+    assert result["media_url"] in youtube and result["media_url"] in tiktok
     assert "schedulingType: automatic" in youtube and "mode: shareNow" in youtube
     assert "isAiGenerated: true" in youtube and "madeForKids: false" in youtube and 'categoryId: "28"' in youtube
     assert ("T" * 100) in youtube and ("T" * 101) not in youtube
     assert "metadata" not in tiktok and "Short caption" in tiktok
 
 
-def test_cloudinary_request_is_signed_the_documented_way(tmp_path):
-    import hashlib
+def test_github_release_upload_uses_public_asset_url_and_is_idempotent(tmp_path):
     video = tmp_path / "v.mp4"
-    video.write_bytes(b"data")
-    net = FakeBufferNet()
-    Cloudinary("cloudinary://k:s@demo", transport=net, clock=lambda: 1700000000).upload_video(video, "sciclips/v")
-    method, url, headers, body = net.requests[0]
-    assert url == "https://api.cloudinary.com/v1_1/demo/video/upload" and "boundary=" in headers["Content-Type"]
-    expected = hashlib.sha1(b"overwrite=true&public_id=sciclips/v&timestamp=1700000000s").hexdigest()
-    assert expected.encode() in body and b'name="api_key"' in body and b"data" in body
+    video.write_bytes(b"video")
+    net = FakePublishingNet()
+    host = GithubReleaseMedia("token", "test-owner/test-repo", transport=net)
+    first = host.upload_video(video)
+    second = host.upload_video(video)
+    assert first == second
+    assert sum(r[1].startswith("https://uploads.github.com/") for r in net.requests) == 1
+
+
+def test_github_release_upload_reports_api_errors_without_leaking_token(tmp_path):
+    video = tmp_path / "v.mp4"
+    video.write_bytes(b"video")
+    net = FakePublishingNet(github_status=401)
+    try:
+        make_publisher(net).publish_video(video, "t", "d", "c", {"youtube": "c_yt"})
+        assert False
+    except PublishError as error:
+        assert "401" in str(error) and "token" not in str(error)
 
 
 def test_buffer_finds_the_channels_when_ids_are_not_given():
-    assert Buffer("key", transport=FakeBufferNet()).find_channels() == {"youtube": "c_yt", "tiktok": "c_tt"}
+    assert Buffer("key", transport=FakePublishingNet()).find_channels() == {"youtube": "c_yt", "tiktok": "c_tt"}
 
 
 def test_one_channel_failing_still_counts_and_is_reported(tmp_path):
     video = tmp_path / "v.mp4"
-    video.write_bytes(b"data")
+    video.write_bytes(b"video")
 
-    class Half(FakeBufferNet):
-        def __call__(self, method, url, headers, body):
-            if "tiktok" in str(body) or "c_tt" in str(body):
+    class Half(FakePublishingNet):
+        def __call__(self, method, url, headers, body=None):
+            if url == "https://api.buffer.com" and ("tiktok" in str(body) or "c_tt" in str(body)):
                 return 200, json.dumps({"data": {"createPost": {"message": "TikTok is at capacity"}}}).encode()
             return super().__call__(method, url, headers, body)
     result = make_publisher(Half()).publish_video(video, "t", "d", "c", {"youtube": "c_yt", "tiktok": "c_tt"})
     assert result["youtube"] and "capacity" in result["failed"]["tiktok"]
 
 
-def test_buffer_and_cloudinary_failures_are_clear(tmp_path):
-    video = tmp_path / "v.mp4"
-    video.write_bytes(b"data")
-    for net in (FakeBufferNet(cloud_status=401), FakeBufferNet(buffer_reply={"data": {"createPost": {"message": "No"}}})):
-        try:
-            make_publisher(net).publish_video(video, "t", "d", "c", {"youtube": "c_yt"})
-            assert False
-        except PublishError:
-            pass
-    import os
-    saved = {k: os.environ.pop(k, None) for k in ("BUFFER_API_KEY", "CLOUDINARY_URL")}
+def test_buffer_failure_is_clear_and_required_credentials_are_checked():
     try:
-        for build in (lambda: Cloudinary(""), lambda: Buffer("")):
-            try:
-                build()
-                assert False
-            except PublishError:
-                pass
-    finally:
-        for key, value in saved.items():
-            if value is not None:
-                os.environ[key] = value
+        Buffer("")
+        assert False
+    except PublishError:
+        pass
+    try:
+        GithubReleaseMedia("", "test-owner/test-repo")
+        assert False
+    except PublishError:
+        pass

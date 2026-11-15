@@ -36,6 +36,9 @@ jobs:
       - name: Look for a new topic
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCICLIPS_FALLBACK_AI_API_KEY: ${{ secrets.SCICLIPS_FALLBACK_AI_API_KEY }}
+          SCICLIPS_FALLBACK_AI_ENDPOINT: ${{ vars.SCICLIPS_FALLBACK_AI_ENDPOINT }}
+          SCICLIPS_FALLBACK_AI_MODEL: ${{ vars.SCICLIPS_FALLBACK_AI_MODEL }}
         run: python scripts/scout_topic.py
 
       - name: Save the new topic (if one passed every check)

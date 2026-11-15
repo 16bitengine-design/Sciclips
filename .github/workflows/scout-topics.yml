@@ -3,7 +3,7 @@ name: Topic scout
 # Twice daily the scout tries to add a new fully checked topic to the queue. It never publishes anything.
 on:
   schedule:
-    - cron: "0 2,14 * * *"   # 02:00 and 14:00 UTC (05:00 and 17:00 Uganda time)
+    - cron: "0 2,8,14,20 * * *"   # Every 6 hours: 05:00, 11:00, 17:00 and 23:00 Uganda time
   workflow_dispatch:
 
 permissions:

@@ -9,6 +9,16 @@
       "youtube_url": "Buffer post 6af98106e5a113497adb9d47",
       "tiktok_url": "Buffer post 6af98109918fe79d2ed544f9",
       "run_kind": "manual"
+    },
+    {
+      "topic_id": "chem-001",
+      "format": "short",
+      "variant": "explainer",
+      "published_at": "2026-11-15T18:28:06Z",
+      "run_kind": "schedule",
+      "youtube_url": "Buffer post 6af9fa62b9a106584cc8fcc0",
+      "tiktok_url": "Buffer post 6af9fa66ee359588b545967a",
+      "schedule_slot": "2026-11-15|0 12 * * *"
     }
   ]
 }

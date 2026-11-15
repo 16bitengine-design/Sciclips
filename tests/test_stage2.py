@@ -17,6 +17,16 @@ def make_copy(tmp_path):
     return dest
 
 
+def make_test_config(tmp_path):
+    """Give planner tests an isolated TEST-mode copy of production config."""
+    repo = make_copy(tmp_path)
+    path = repo / "config" / "settings.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    data["operating_mode"] = "TEST"
+    path.write_text(json.dumps(data), encoding="utf-8")
+    return repo
+
+
 def test_real_config_is_valid():
     assert validate(str(ROOT)) == []
 
@@ -42,17 +52,20 @@ def test_paid_service_guard(tmp_path):
     assert any("paid" in p for p in validate(str(repo)))
 
 
-def test_plan_accepts_good_request():
-    ok, lines = plan(str(ROOT), "physics-001", "short", "low", "TEST")
+def test_plan_accepts_good_request(tmp_path):
+    repo = make_test_config(tmp_path)
+    ok, lines = plan(str(repo), "physics-001", "short", "low", "TEST")
     assert ok
 
 
-def test_plan_rejects_unknown_topic():
-    ok, lines = plan(str(ROOT), "nope-999", "short", "low", "TEST")
+def test_plan_rejects_unknown_topic(tmp_path):
+    repo = make_test_config(tmp_path)
+    ok, lines = plan(str(repo), "nope-999", "short", "low", "TEST")
     assert not ok and "not found" in lines[0]
 
 
-def test_plan_refuses_non_test_modes():
+def test_plan_refuses_non_test_modes(tmp_path):
+    repo = make_test_config(tmp_path)
     for mode in ("APPROVAL", "AUTOMATIC"):
-        ok, _ = plan(str(ROOT), "physics-001", "short", "low", mode)
+        ok, _ = plan(str(repo), "physics-001", "short", "low", mode)
         assert not ok

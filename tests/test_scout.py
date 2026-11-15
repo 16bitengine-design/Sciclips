@@ -171,3 +171,34 @@ def test_the_ai_being_down_never_raises_out_of_the_scout(tmp_path):
 def test_web_page_text_drops_scripts_and_menus():
     html = "<html><nav>Menu</nav><script>var x=1;</script><body><p>Real   words here.</p><footer>Foot</footer></body></html>"
     assert ts.page_text(html) == "Real words here."
+
+
+def test_scout_ai_request_retries_transient_bad_responses(monkeypatch):
+    import os
+    from scripts import scout_topic
+
+    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    calls = []
+    def flaky(payload, token, timeout=60):
+        calls.append((payload, token, timeout))
+        if len(calls) < 3:
+            raise RuntimeError("temporary non-JSON response: OK")
+        return {"choices": [{"message": {"content": '{"title":"ok"}'}}]}
+
+    monkeypatch.setattr(scout_topic.ai_writer, "_post", flaky)
+    monkeypatch.setattr(scout_topic.time, "sleep", lambda seconds: None)
+    answer = scout_topic.make_ask()([{"role": "user", "content": "test"}])
+    assert answer == '{"title":"ok"}'
+    assert len(calls) == 3
+    assert all(call[1] == "test-token" and call[2] == 180 for call in calls)
+
+
+def test_scout_ai_request_rejects_empty_success_response(monkeypatch):
+    import pytest
+    from scripts import scout_topic
+
+    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    monkeypatch.setattr(scout_topic.ai_writer, "_post", lambda *args, **kwargs: {"status": "OK"})
+    monkeypatch.setattr(scout_topic.time, "sleep", lambda seconds: None)
+    with pytest.raises(ts.ScoutError, match="unavailable after 3 attempts"):
+        scout_topic.make_ask()([{"role": "user", "content": "test"}])

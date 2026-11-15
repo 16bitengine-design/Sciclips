@@ -164,16 +164,20 @@ def test_a_topic_that_keeps_failing_is_given_up_on(tmp_path):
 class FakePublishingNet:
     def __init__(self, buffer_reply=None, github_status=201):
         self.requests, self.buffer_reply, self.github_status = [], buffer_reply, github_status
-        self.release = None\n        self.tag = None
+        self.release = None
+        self.tag = None
 
     def __call__(self, method, url, headers, body=None):
         self.requests.append((method, url, headers, body))
-        if method == "GET" and "/releases/tags/" in url:\n            self.tag = url.rsplit("/", 1)[-1]
+        if method == "GET" and "/releases/tags/" in url:
+            self.tag = url.rsplit("/", 1)[-1]
             if self.release:
                 return 200, json.dumps(self.release).encode()
             return 404, b'{"message":"Not Found"}'
         if url == "https://api.github.com/repos/test-owner/test-repo/releases":
-            payload = json.loads(body)\n            self.tag = payload["tag_name"]\n            self.release = {"id": 12, "tag_name": self.tag, "upload_url": "https://uploads.github.com/repos/test-owner/test-repo/releases/12/assets{?name,label}",
+            payload = json.loads(body)
+            self.tag = payload["tag_name"]
+            self.release = {"id": 12, "tag_name": self.tag, "upload_url": "https://uploads.github.com/repos/test-owner/test-repo/releases/12/assets{?name,label}",
                             "assets": []}
             return 201, json.dumps(self.release).encode()
         if url.startswith("https://uploads.github.com/"):

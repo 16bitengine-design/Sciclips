@@ -202,3 +202,37 @@ def test_scout_ai_request_rejects_empty_success_response(monkeypatch):
     monkeypatch.setattr(scout_topic.time, "sleep", lambda seconds: None)
     with pytest.raises(ts.ScoutError, match="unavailable after 3 attempts"):
         scout_topic.make_ask()([{"role": "user", "content": "test"}])
+
+def test_topic_bank_refills_in_bounded_batches_until_target(tmp_path, monkeypatch):
+    from scripts import scout_topic
+    repo = make_repo(tmp_path)
+    data = json.loads((repo / 'topics' / 'topic_queue.json').read_text())
+    data['topics'] = [item for item in data['topics'] if item['status'] == 'queued']
+    (repo / 'topics' / 'topic_queue.json').write_text(json.dumps(data))
+    calls = []
+    def add_one(root, ask, fetch_page, render, tries=4):
+        calls.append(tries)
+        current = json.loads((Path(root) / 'topics' / 'topic_queue.json').read_text())
+        index = len(calls)
+        item = {'id': f'reserve-{index}', 'title': f'Reserve topic {index}', 'category': 'physics', 'template': 'principle', 'status': 'queued'}
+        current['topics'].append(item)
+        (Path(root) / 'topics' / 'topic_queue.json').write_text(json.dumps(current))
+        return item['id'], [f'Added {item["id"]}']
+    monkeypatch.setattr(scout_topic.topic_scout, 'scout', add_one)
+    lines = scout_topic.replenish_topic_bank(repo, lambda _: '', lambda _: '', {}, tries=4)
+    assert len(calls) == scout_topic.MAX_TOPICS_PER_RUN == 4
+    assert scout_topic.queued_count(repo) == 5
+    assert 'added 4 topic(s)' in lines[-2]
+
+def test_topic_bank_does_not_spend_ai_calls_when_above_low_watermark(tmp_path, monkeypatch):
+    from scripts import scout_topic
+    repo = make_repo(tmp_path)
+    data = json.loads((repo / 'topics' / 'topic_queue.json').read_text())
+    for i in range(8):
+        data['topics'].append({'id': f'ready-{i}', 'title': f'Ready {i}', 'category': 'physics', 'template': 'principle', 'status': 'queued'})
+    (repo / 'topics' / 'topic_queue.json').write_text(json.dumps(data))
+    def should_not_run(*args, **kwargs):
+        raise AssertionError('AI scout should not run when the bank is healthy')
+    monkeypatch.setattr(scout_topic.topic_scout, 'scout', should_not_run)
+    lines = scout_topic.replenish_topic_bank(repo, None, None, {})
+    assert 'Topic bank healthy' in lines[0]

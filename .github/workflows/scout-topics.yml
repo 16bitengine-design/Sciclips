@@ -1,9 +1,9 @@
 name: Topic scout
 
-# Twice daily the scout tries to add a new fully checked topic to the queue. It never publishes anything.
+# Daily check: when fewer than 8 topics remain, refill the bank toward 14. The scout never publishes anything.
 on:
   schedule:
-    - cron: "0 2,8,14,20 * * *"   # Every 6 hours: 05:00, 11:00, 17:00 and 23:00 Uganda time
+    - cron: "0 2 * * *"   # Daily at 05:00 Uganda time; refill when the bank is low
   workflow_dispatch:
 
 permissions:
@@ -17,7 +17,7 @@ concurrency:
 jobs:
   scout:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 90
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4

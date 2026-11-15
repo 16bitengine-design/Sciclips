@@ -61,21 +61,52 @@ def fetch(url):
         return topic_scout.page_text(response.read(2_000_000).decode("utf-8", errors="ignore"))
 
 
-def main():
-    root = Path(".")
-    rendering = json.loads((root / "config" / "rendering.json").read_text(encoding="utf-8"))
-    try:
-        topic_id, lines = topic_scout.scout(root, make_ask(), fetch, rendering, tries=4)
-    except topic_scout.ScoutError as error:
-        topic_id, lines = None, [f"Scout skipped: {error}"]
-    text = "\\n".join(lines)
-    print(text)
-    summary = os.environ.get("GITHUB_STEP_SUMMARY")
-    if summary:
-        with open(summary, "a", encoding="utf-8") as handle:
-            handle.write("## Topic scout\\n\\n```\\n" + text + "\\n```\\n")
-    return 0
+# Rolling reserve policy: two scheduled videos consume two topics each day.
+TOPIC_BANK_TARGET = 14
+TOPIC_BANK_LOW_WATERMARK = 8
+MAX_TOPICS_PER_RUN = 4
 
+def queued_count(root):
+    queue = json.loads((Path(root) / 'topics' / 'topic_queue.json').read_text(encoding='utf-8'))
+    return sum(1 for item in queue.get('topics', []) if item.get('status') == 'queued')
+
+def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4):
+    root = Path(root)
+    count = queued_count(root)
+    if count >= TOPIC_BANK_LOW_WATERMARK:
+        return [f'Topic bank healthy: {count} queued; refill starts below {TOPIC_BANK_LOW_WATERMARK}.']
+    lines = [f'Topic bank low: {count} queued. Target: {TOPIC_BANK_TARGET}.']
+    added = 0
+    while count < TOPIC_BANK_TARGET and added < MAX_TOPICS_PER_RUN:
+        try:
+            topic_id, report = topic_scout.scout(root, ask, fetch_page, rendering, tries=tries)
+        except topic_scout.ScoutError as error:
+            lines.append(f'Scout unavailable: {error}')
+            break
+        lines.extend(report)
+        if not topic_id:
+            break
+        added += 1
+        count = queued_count(root)
+    lines.append(f'Topic bank after refill: {count} queued; added {added} topic(s).')
+    if count < TOPIC_BANK_TARGET:
+        lines.append('The bank will be checked again on the next daily scout run.')
+    return lines
+
+def main():
+    root = Path('.')
+    rendering = json.loads((root / 'config' / 'rendering.json').read_text(encoding='utf-8'))
+    try:
+        lines = replenish_topic_bank(root, make_ask(), fetch, rendering, tries=4)
+    except topic_scout.ScoutError as error:
+        lines = [f'Scout skipped: {error}']
+    text = '\n'.join(lines)
+    print(text)
+    summary = os.environ.get('GITHUB_STEP_SUMMARY')
+    if summary:
+        with open(summary, 'a', encoding='utf-8') as handle:
+            handle.write('## Topic scout\n\n' + text + '\n')
+    return 0
 
 if __name__ == "__main__":
     sys.exit(main())

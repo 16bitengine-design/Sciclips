@@ -18,11 +18,28 @@ AI_REQUEST_ATTEMPTS = 3
 AI_RETRY_DELAYS = (2, 5)
 
 
+def _message_content(reply):
+    if not isinstance(reply, dict) or not isinstance(reply.get("choices"), list) or not reply["choices"]:
+        raise RuntimeError("the AI response had no choices array")
+    choice = reply["choices"][0]
+    message = choice.get("message", {}) if isinstance(choice, dict) else {}
+    content = message.get("content") if isinstance(message, dict) else None
+    if not isinstance(content, str) or not content.strip():
+        raise RuntimeError("the AI response had no message content")
+    return content
+
+
 def make_ask():
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
         raise topic_scout.ScoutError("no GITHUB_TOKEN")
     model = os.environ.get("SCICLIPS_AI_MODEL", ai_writer.DEFAULT_MODEL)
+    fallback_token = os.environ.get("SCICLIPS_FALLBACK_AI_API_KEY")
+    fallback_url = os.environ.get(
+        "SCICLIPS_FALLBACK_AI_ENDPOINT",
+        "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    )
+    fallback_model = os.environ.get("SCICLIPS_FALLBACK_AI_MODEL", "gemini-3.8-flash")
 
     def ask(messages):
         payload = {"model": model, "temperature": 0.2, "max_tokens": 6000,
@@ -31,23 +48,44 @@ def make_ask():
         for attempt in range(1, AI_REQUEST_ATTEMPTS + 1):
             try:
                 reply = ai_writer._post(payload, token, timeout=180)
-                if not isinstance(reply, dict) or not isinstance(reply.get("choices"), list) or not reply["choices"]:
-                    raise RuntimeError("the AI response had no choices array")
-                message = reply["choices"][0].get("message", {}) if isinstance(reply["choices"][0], dict) else {}
-                content = message.get("content") if isinstance(message, dict) else None
-                if not isinstance(content, str) or not content.strip():
-                    raise RuntimeError("the AI response had no message content")
+                content = _message_content(reply)
+                print(f"AI provider succeeded: GitHub Models ({model})", file=sys.stderr)
                 return content
             except Exception as error:
                 last_error = error
-                if attempt < AI_REQUEST_ATTEMPTS:
+                # A 200 response containing plain text such as "OK" is a protocol
+                # failure, not a transient model-generation failure. Switch providers
+                # immediately instead of repeating the same invalid response.
+                protocol_failure = "not JSON" in str(error)
+                if attempt < AI_REQUEST_ATTEMPTS and not protocol_failure:
                     delay = AI_RETRY_DELAYS[min(attempt - 1, len(AI_RETRY_DELAYS) - 1)]
-                    print(f"AI request attempt {attempt}/{AI_REQUEST_ATTEMPTS} failed; retrying in {delay}s: "
+                    print(f"Primary AI attempt {attempt}/{AI_REQUEST_ATTEMPTS} failed; retrying in {delay}s: "
                           f"{type(error).__name__}: {str(error)[:160]}", file=sys.stderr)
                     time.sleep(delay)
+                elif protocol_failure:
+                    print("Primary AI returned a non-JSON success response; switching provider.", file=sys.stderr)
+                    break
+
+        if fallback_token:
+            fallback_payload = dict(payload, model=fallback_model)
+            try:
+                reply = ai_writer._post(fallback_payload, fallback_token, timeout=180, url=fallback_url)
+                content = _message_content(reply)
+                print(f"AI provider succeeded: Gemini fallback ({fallback_model})", file=sys.stderr)
+                return content
+            except Exception as fallback_error:
+                print(f"Fallback AI failed ({type(fallback_error).__name__}: "
+                      f"{str(fallback_error)[:160]})", file=sys.stderr)
+                raise topic_scout.ScoutError(
+                    "primary and fallback AI providers were unavailable "
+                    f"(primary: {type(last_error).__name__}: {str(last_error)[:100]}; "
+                    f"fallback: {type(fallback_error).__name__}: {str(fallback_error)[:100]})"
+                ) from fallback_error
+
         raise topic_scout.ScoutError(
-            f"the AI was unavailable after {AI_REQUEST_ATTEMPTS} attempts "
-            f"({type(last_error).__name__}: {str(last_error)[:160]})"
+            f"the primary AI was unavailable after {AI_REQUEST_ATTEMPTS} attempts "
+            f"({type(last_error).__name__}: {str(last_error)[:160]}); "
+            "no fallback key is configured"
         ) from last_error
     return ask
 

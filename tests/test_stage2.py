@@ -23,6 +23,8 @@ def make_test_config(tmp_path):
     path = repo / "config" / "settings.json"
     data = json.loads(path.read_text(encoding="utf-8"))
     data["operating_mode"] = "TEST"
+    # TEST mode must not advertise automatic publishing as enabled.
+    data["automatic_publishing_enabled"] = False
     path.write_text(json.dumps(data), encoding="utf-8")
     return repo
 

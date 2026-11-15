@@ -23,6 +23,12 @@ def make_repo(tmp_path, **config):
     for topic in ("physics-001", "chem-001"):
         shutil.copy(ROOT / "topics" / "records" / f"{topic}.json", repo / "topics" / "records" / f"{topic}.json")
     shutil.copy(ROOT / "topics" / "topic_queue.json", repo / "topics" / "topic_queue.json")
+    # Tests must start from a clean queue, not inherit live production statuses.
+    queue_path = repo / "topics" / "topic_queue.json"
+    queue = json.loads(queue_path.read_text())
+    for topic in queue["topics"]:
+        topic["status"] = "queued"
+    queue_path.write_text(json.dumps(queue, indent=2) + "\\n")
     (repo / "topics" / "approved_topics.json").write_text('{"approved_topic_ids": []}')
     (repo / "records" / "production_history.json").write_text('{"productions": []}')
     settings = {"enabled": True, "dry_run": False, "videos_per_day": 1, "pause_after_failures": 3,
@@ -107,7 +113,8 @@ def test_manual_sample_does_not_consume_a_scheduled_slot(tmp_path):
 def test_two_distinct_schedule_slots_can_publish_two_videos(tmp_path):
     repo = make_repo(tmp_path, videos_per_day=2)
     (code, lines), first = run(repo, schedule_cron="0 12 * * *")
-    (code, lines), second = run(repo, schedule_cron="0 17 * * *")
+    second_time = datetime(2026, 11, 15, 17, 0, tzinfo=timezone.utc)
+    (code, lines), second = run(repo, now=second_time, schedule_cron="0 17 * * *")
     assert len(first.calls) == 1 and len(second.calls) == 1
     history = json.loads((repo / "records" / "production_history.json").read_text())["productions"]
     assert len(history) == 2 and len({p["schedule_slot"] for p in history}) == 2

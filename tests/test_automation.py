@@ -57,11 +57,13 @@ class FakeClient:
         return result
 
 
-def run(repo, producer=None, client=None, now=NOW):
+def run(repo, producer=None, client=None, now=NOW, run_kind="schedule", schedule_cron="0 12 * * *"):
     client = client or FakeClient()
     return auto_run.run(str(repo), now=now, producer=producer or good_producer(),
                         publisher=lambda root, env, cfg: (client, {"youtube": "yt1", "tiktok": "tt1"}),
-                        env={"OUTPUT_DIR": str(repo / "output")}), client
+                        env={"OUTPUT_DIR": str(repo / "output"),
+                             "SCICLIPS_RUN_KIND": run_kind,
+                             "SCICLIPS_SCHEDULE_CRON": schedule_cron}), client
 
 
 def state(repo):
@@ -83,12 +85,39 @@ def test_one_video_a_day_and_never_the_same_topic_twice(tmp_path):
     repo = make_repo(tmp_path)
     run(repo)
     (code, lines), client = run(repo)
-    assert code == 0 and client.calls == [] and "limit" in lines[0]
+    assert code == 0 and client.calls == [] and ("limit" in lines[0] or "already been completed" in lines[0])
     tomorrow = datetime(2026, 11, 16, 14, 0, tzinfo=timezone.utc)
     (code, lines), client = run(repo, now=tomorrow)
     assert client.calls[0][1] == TITLES["chem-001"]
     (code, lines), client = run(repo, now=datetime(2026, 11, 17, 14, 0, tzinfo=timezone.utc))
     assert client.calls == [] and "No topic" in lines[0]
+
+
+def test_manual_sample_does_not_consume_a_scheduled_slot(tmp_path):
+    repo = make_repo(tmp_path, videos_per_day=1)
+    (code, lines), manual = run(repo, run_kind="workflow_dispatch")
+    assert code == 0 and len(manual.calls) == 1
+    (code, lines), scheduled = run(repo, schedule_cron="0 12 * * *")
+    assert code == 0 and len(scheduled.calls) == 1
+    history = json.loads((repo / "records" / "production_history.json").read_text())["productions"]
+    assert [p["run_kind"] for p in history] == ["manual", "schedule"]
+    assert history[1]["schedule_slot"] == "2026-11-15|0 12 * * *"
+
+
+def test_two_distinct_schedule_slots_can_publish_two_videos(tmp_path):
+    repo = make_repo(tmp_path, videos_per_day=2)
+    (code, lines), first = run(repo, schedule_cron="0 12 * * *")
+    (code, lines), second = run(repo, schedule_cron="0 17 * * *")
+    assert len(first.calls) == 1 and len(second.calls) == 1
+    history = json.loads((repo / "records" / "production_history.json").read_text())["productions"]
+    assert len(history) == 2 and len({p["schedule_slot"] for p in history}) == 2
+
+
+def test_same_schedule_slot_cannot_publish_twice(tmp_path):
+    repo = make_repo(tmp_path, videos_per_day=2)
+    run(repo, schedule_cron="0 12 * * *")
+    (code, lines), duplicate = run(repo, schedule_cron="0 12 * * *")
+    assert code == 0 and duplicate.calls == [] and "already been completed" in lines[0]
 
 
 def test_switched_off_does_nothing(tmp_path):

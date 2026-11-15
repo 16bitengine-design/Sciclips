@@ -28,7 +28,7 @@ def make_repo(tmp_path, **config):
     queue = json.loads(queue_path.read_text())
     for topic in queue["topics"]:
         topic["status"] = "queued"
-    queue_path.write_text(json.dumps(queue, indent=2) + "\\n")
+    queue_path.write_text(json.dumps(queue, indent=2) + "\n")
     (repo / "topics" / "approved_topics.json").write_text('{"approved_topic_ids": []}')
     (repo / "records" / "production_history.json").write_text('{"productions": []}')
     settings = {"enabled": True, "dry_run": False, "videos_per_day": 1, "pause_after_failures": 3,

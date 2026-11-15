@@ -1,17 +1,27 @@
 {
-  "provider": "zernio",
+  "provider": "buffer",
   "secret_names": {
-    "api_key": "ZERNIO_API_KEY",
-    "youtube_account_id": "ZERNIO_YOUTUBE_ACCOUNT_ID",
-    "tiktok_account_id": "ZERNIO_TIKTOK_ACCOUNT_ID"
+    "api_key": "BUFFER_API_KEY",
+    "youtube_account_id": "BUFFER_YOUTUBE_CHANNEL_ID",
+    "tiktok_account_id": "BUFFER_TIKTOK_CHANNEL_ID",
+    "cloudinary_url": "CLOUDINARY_URL"
   },
   "test_publishing_enabled": false,
   "platforms": {
-    "youtube_short": { "enabled": true, "format": "short" },
-    "youtube_long": { "enabled": true, "format": "long" },
-    "tiktok": { "enabled": true, "format": "short" }
+    "youtube_short": {
+      "enabled": true,
+      "format": "short"
+    },
+    "youtube_long": {
+      "enabled": false,
+      "format": "long"
+    },
+    "tiktok": {
+      "enabled": true,
+      "format": "short"
+    }
   },
-  "default_schedule_delay_hours": 24,
+  "default_schedule_delay_hours": 0,
   "use_idempotency_keys": true,
   "max_retries": 2,
   "never_log_credentials": true

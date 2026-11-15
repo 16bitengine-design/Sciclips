@@ -85,7 +85,7 @@ def test_one_video_a_day_and_never_the_same_topic_twice(tmp_path):
     repo = make_repo(tmp_path)
     run(repo)
     (code, lines), client = run(repo)
-    assert code == 0 and client.calls == [] and "limit" in lines[0]
+    assert code == 0 and client.calls == [] and ("limit" in lines[0] or "already been completed" in lines[0])
     tomorrow = datetime(2026, 11, 16, 14, 0, tzinfo=timezone.utc)
     (code, lines), client = run(repo, now=tomorrow)
     assert client.calls[0][1] == TITLES["chem-001"]

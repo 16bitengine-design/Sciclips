@@ -26,6 +26,12 @@ def make_copy(tmp_path):
     dest = tmp_path / "repo"
     for folder in ("config", "topics", "records", "templates"):
         shutil.copytree(ROOT / folder, dest / folder)
+    # Keep tests independent of topics already published in the live repository.
+    queue_path = dest / "topics" / "topic_queue.json"
+    queue = json.loads(queue_path.read_text())
+    for entry in queue["topics"]:
+        entry["status"] = "queued"
+    queue_path.write_text(json.dumps(queue, indent=2) + "\\n")
     return dest
 
 

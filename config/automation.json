@@ -1,7 +1,7 @@
 {
   "enabled": true,
-  "dry_run": true,
-  "videos_per_day": 1,
+  "dry_run": false,
+  "videos_per_day": 2,
   "format": "short",
   "quality": "full",
   "narration": "kokoro",

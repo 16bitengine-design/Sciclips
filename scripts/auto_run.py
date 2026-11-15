@@ -80,9 +80,24 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
     if state["paused"]:
         return 0, ["Automation has paused itself after repeated failures. Set paused to false in "
                    "records/auto_state.json when the cause is fixed."]
-    posted_today = sum(1 for p in history["productions"] if str(p.get("published_at", "")).startswith(today))
-    if posted_today >= cfg["videos_per_day"]:
-        return 0, [f"Already published {posted_today} video(s) today. Daily limit reached."]
+    run_kind = env.get("SCICLIPS_RUN_KIND", "schedule")
+    schedule_cron = env.get("SCICLIPS_SCHEDULE_CRON", "").strip()
+    # Scheduled slots are counted independently of manual test runs. Older records
+    # without run_kind remain scheduled for backward compatibility.
+    scheduled_today = [
+        p for p in history["productions"]
+        if str(p.get("published_at", "")).startswith(today)
+        and p.get("run_kind", "schedule") == "schedule"
+    ]
+    if run_kind == "schedule":
+        if schedule_cron:
+            slot_key = f"{today}|{schedule_cron}"
+            if any(p.get("schedule_slot") == slot_key for p in scheduled_today):
+                return 0, [f"Scheduled slot {schedule_cron} has already been completed today."]
+        if len(scheduled_today) >= cfg["videos_per_day"]:
+            return 0, [f"Already completed {len(scheduled_today)} scheduled video(s) today. Daily scheduled limit reached."]
+    else:
+        slot_key = None
 
     from content import topic_manager as tm
     entry = None
@@ -136,9 +151,13 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
                                              _caption(record, cfg["hashtags"]), accounts, cfg["hashtags"], cfg["made_for_kids"])
         except Exception as error:
             return fail(f"publishing failed ({type(error).__name__}: {str(error)[:150]})")
-        history["productions"].append({"topic_id": topic_id, "format": cfg["format"], "variant": VARIANT,
-                                       "published_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
-                                       "youtube_url": published.get("youtube", ""), "tiktok_url": published.get("tiktok", "")})
+        history_entry = {"topic_id": topic_id, "format": cfg["format"], "variant": VARIANT,
+                         "published_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                         "run_kind": "schedule" if run_kind == "schedule" else "manual",
+                         "youtube_url": published.get("youtube", ""), "tiktok_url": published.get("tiktok", "")}
+        if run_kind == "schedule" and schedule_cron:
+            history_entry["schedule_slot"] = f"{today}|{schedule_cron}"
+        history["productions"].append(history_entry)
         _write(history_path, history)
         tm.set_status(str(root), topic_id, "published")
         lines.append("Published: " + ", ".join(f"{k}: {v or 'ok'}" for k, v in published.items() if k != "failed"))

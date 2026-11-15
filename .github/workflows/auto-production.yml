@@ -61,6 +61,8 @@ jobs:
           KOKORO_MODEL: models/kokoro-v1.0.onnx
           KOKORO_VOICES: models/voices-v1.0.bin
           NARRATION_PROVIDER: kokoro
+          SCICLIPS_RUN_KIND: ${{ github.event_name }}
+          SCICLIPS_SCHEDULE_CRON: ${{ github.event.schedule || '' }}
         run: python scripts/auto_run.py
 
       - name: Save the finished video and reports

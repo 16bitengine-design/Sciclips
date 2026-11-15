@@ -26,12 +26,18 @@ def make_copy(tmp_path):
     dest = tmp_path / "repo"
     for folder in ("config", "topics", "records", "templates"):
         shutil.copytree(ROOT / folder, dest / folder)
-    # Keep tests independent of topics already published in the live repository.
+
+    # Isolate queue tests from both live queue statuses and production history.
     queue_path = dest / "topics" / "topic_queue.json"
     queue = json.loads(queue_path.read_text())
     for entry in queue["topics"]:
         entry["status"] = "queued"
     queue_path.write_text(json.dumps(queue, indent=2) + "\n")
+
+    history_path = dest / "records" / "production_history.json"
+    history = json.loads(history_path.read_text())
+    history["productions"] = []
+    history_path.write_text(json.dumps(history, indent=2) + "\n")
     return dest
 
 
@@ -146,6 +152,8 @@ def test_already_produced_topic_is_skipped(tmp_path):
     data["productions"].append({"topic_id": "physics-001"})
     data["productions"].append({"topic_id": "chem-001"})
     path.write_text(json.dumps(data))
+
+
     assert tm.select_next_topic(str(repo)) is None
 
 

@@ -41,7 +41,7 @@ def _default_producer(root, topic_id, fmt, out_dir, quality, narration):
 
 
 def _default_publisher(root, env, cfg):
-    """(publisher, accounts). Buffer with Cloudinary is the default; Zernio is the alternative."""
+    """(publisher, accounts). Buffer with GitHub Release media hosting is the default."""
     if cfg.get("publisher", "buffer") == "zernio":
         from publishing.zernio import Zernio
         client = Zernio(env.get("ZERNIO_API_KEY"))
@@ -49,12 +49,12 @@ def _default_publisher(root, env, cfg):
         if not (accounts["youtube"] or accounts["tiktok"]):
             accounts = client.find_accounts()
         return client, accounts
-    from publishing.buffer_cloudinary import Buffer, BufferPublisher, Cloudinary
+    from publishing.buffer_github import Buffer, BufferPublisher, GithubReleaseMedia
     buffer = Buffer(env.get("BUFFER_API_KEY"))
     accounts = {"youtube": env.get("BUFFER_YOUTUBE_CHANNEL_ID") or None, "tiktok": env.get("BUFFER_TIKTOK_CHANNEL_ID") or None}
     if not (accounts["youtube"] or accounts["tiktok"]):
         accounts = buffer.find_channels()
-    return BufferPublisher(buffer, Cloudinary(env.get("CLOUDINARY_URL")), cfg.get("buffer_mode", "shareNow")), accounts
+    return BufferPublisher(buffer, GithubReleaseMedia(env.get("GITHUB_TOKEN"), env.get("GITHUB_REPOSITORY")), cfg.get("buffer_mode", "shareNow")), accounts
 
 
 def _caption(record, hashtags):

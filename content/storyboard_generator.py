@@ -14,11 +14,11 @@ TRANSITIONS = ("fade in", "fade", "cut", "wipe", "fade out")
 MIN_SCENE_SECONDS = 3.0
 
 KIND_TO_ANIMATION = {
-    "hook": "3d_scene", "intro": "text_card", "question": "text_card", "answer": "2d_diagram",
+    "hook": "3d_scene", "intro": "simulation", "question": "simulation", "answer": "2d_diagram",
     "explanation_l2": "2d_diagram", "explanation_l3": "2d_equation", "demonstration": "simulation",
     "terminology": "text_card", "equation": "2d_equation", "application": "motion_graphics",
     "misconception": "comparison", "limitation": "text_card", "safety": "text_card",
-    "conclusion": "text_card", "sources": "text_card", "scenario_intro": "text_card",
+    "conclusion": "simulation", "sources": "text_card", "scenario_intro": "simulation",
     "correct_procedure": "simulation", "overlooked": "simulation", "what_changes": "comparison",
     "consequences": "simulation", "why": "2d_diagram", "prevention": "text_card", "outro": "text_card",
 }

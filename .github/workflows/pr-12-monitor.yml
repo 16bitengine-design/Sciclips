@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: "0 6 * * *" # Daily at 09:00 Uganda time (UTC+3).
   workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/pr-12-monitor.yml"
 
 permissions:
   actions: write

@@ -30,6 +30,7 @@ def make_copy(tmp_path):
     # Isolate queue tests from both live queue statuses and production history.
     queue_path = dest / "topics" / "topic_queue.json"
     queue = json.loads(queue_path.read_text())
+    queue["topics"] = [entry for entry in queue["topics"] if entry["id"] in {"physics-001", "chem-001"}]
     for entry in queue["topics"]:
         entry["status"] = "queued"
     queue_path.write_text(json.dumps(queue, indent=2) + "\n")

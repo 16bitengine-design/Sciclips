@@ -33,7 +33,7 @@ class Env:
         self.post, self.saved = post, {}
 
     def __enter__(self):
-        for key, value in (("SCICLIPS_AI", "1"), ("GITHUB_TOKEN", "test-token")):
+        for key, value in (("SCICLIPS_AI", "1"), ("SCICLIPS_GEMINI_API_KEY", "test-token")):
             self.saved[key] = os.environ.get(key)
             os.environ[key] = value
         self.old_post = ai_writer._post

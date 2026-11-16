@@ -3,6 +3,9 @@ name: Automatic production
 # Runs by itself every day. It can also be started by hand with "Run workflow".
 # Safety rules live in config/automation.json (on/off, rehearsal mode, videos per day) and in scripts/auto_run.py.
 on:
+  push:
+    paths:
+      - ".github/workflows/auto-production.yml"
   schedule:
     - cron: "0 15 * * *"     # 15:00 UTC (18:00 in Uganda).
     - cron: "0 18 * * *"     # 18:00 UTC (21:00 in Uganda).
@@ -64,7 +67,7 @@ jobs:
           KOKORO_MODEL: models/kokoro-v1.0.onnx
           KOKORO_VOICES: models/voices-v1.0.bin
           NARRATION_PROVIDER: kokoro
-          SCICLIPS_RUN_KIND: ${{ github.event_name }}
+          SCICLIPS_RUN_KIND: ${{ github.event_name == 'workflow_dispatch' && 'manual' || 'schedule' }}
           SCICLIPS_SCHEDULE_CRON: ${{ github.event.schedule || '' }}
         run: python scripts/auto_run.py
 

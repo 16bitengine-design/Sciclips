@@ -96,7 +96,7 @@ def test_one_video_a_day_and_never_the_same_topic_twice(tmp_path):
     (code, lines), client = run(repo, now=tomorrow)
     assert client.calls[0][1] == TITLES["chem-001"]
     (code, lines), client = run(repo, now=datetime(2026, 11, 17, 14, 0, tzinfo=timezone.utc))
-    assert client.calls == [] and "No topic" in lines[0]
+    assert code == 1 and client.calls == [] and "no validated topic" in lines[-1]
 
 
 def test_manual_sample_does_not_consume_a_scheduled_slot(tmp_path):

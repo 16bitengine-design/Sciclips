@@ -131,7 +131,7 @@ def fetch(url):
         try:
             with urllib.request.urlopen(request, timeout=25) as response:
                 content_type = response.headers.get("Content-Type", "").lower()
-                if not any(kind in content_type for kind in ("html", "xhtml", "text/plain", "")):
+                if content_type and not any(kind in content_type for kind in ("html", "xhtml", "text/plain")):
                     raise ValueError(f"unsupported page content type: {content_type}")
                 return topic_scout.page_text(response.read(2_000_000).decode("utf-8", errors="ignore"))
         except Exception as error:

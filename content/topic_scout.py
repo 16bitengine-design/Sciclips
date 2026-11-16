@@ -186,7 +186,7 @@ def draft_record(ask, idea, pages, example, today):
 
 def tidy(record, idea, new_id, pages, today):
     """Forces required fields and removes unlisted attribution phrases before production."""
-    attribution = re.compile(r"\\bAccording to [A-Z][^:,.]{1,60}[:,]\\s*", re.IGNORECASE)
+    attribution = re.compile(r"\bAccording to [A-Z][^:,.]{1,60}[:,]\s*", re.IGNORECASE)
     def clean(value):
         if isinstance(value, str):
             return attribution.sub("", value)

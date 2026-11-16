@@ -1,12 +1,11 @@
-"""Lets a free GitHub AI model plan the order of a short video, with strict safety checks.
+"""Optional Gemini-powered visual sequence planner with strict safety checks.
 
 The model never writes science. It only CHOOSES and ORDERS sentences that already exist in the topic
 record and pairs each one with a picture (simulation variant) from a fixed list. Every choice is checked
 here, and if anything looks wrong, or the model is unavailable, the caller falls back to the ordinary
 template writer. Nothing here can stop a video from being made.
 
-It only runs when the environment variable SCICLIPS_AI is "1" and a GITHUB_TOKEN is available (inside a
-GitHub Actions run with `permissions: models: read`).
+It only runs when SCICLIPS_AI is "1" and SCICLIPS_GEMINI_API_KEY is configured.
 """
 import json
 import os
@@ -16,8 +15,8 @@ import urllib.error
 import urllib.request
 from urllib.parse import urlparse
 
-ENDPOINT = "https://models.github.ai/inference/chat/completions"
-DEFAULT_MODEL = "openai/gpt-4.1"
+GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+DEFAULT_MODEL = "gemini-3.8-flash"
 MIN_STEPS, MAX_STEPS = 3, 6
 
 # What each picture shows, so the model can match a sentence to the right one.
@@ -40,7 +39,7 @@ SIM_VARIANTS = {
 
 
 def ai_enabled():
-    return os.environ.get("SCICLIPS_AI") == "1" and bool(os.environ.get("GITHUB_TOKEN"))
+    return os.environ.get("SCICLIPS_AI") == "1" and bool(os.environ.get("SCICLIPS_GEMINI_API_KEY"))
 
 
 def sentences_of(text):
@@ -65,11 +64,6 @@ def _post(payload, token, timeout=60, url=None):
         "Accept": "application/json",
         "Authorization": f"Bearer {token}",
     }
-    # GitHub Models expects GitHub-specific negotiation headers. Do not send
-    # those headers to independent providers such as Google's Gemini API.
-    if urlparse(target_url).hostname == "models.github.ai":
-        headers["Accept"] = "application/vnd.github+json"
-        headers["X-GitHub-Api-Version"] = "2022-11-28"
     request = urllib.request.Request(
         target_url, data=json.dumps(payload).encode("utf-8"),
         headers=headers, method="POST")
@@ -120,7 +114,7 @@ def check_steps(steps, haystack, variants):
 def propose_steps(record, haystack, kind, hook_line=None, model=None):
     """Ask the model for show steps. Returns a list of {line, variant}, or None if it did not work."""
     variants = SIM_VARIANTS.get(kind)
-    token = os.environ.get("GITHUB_TOKEN")
+    token = os.environ.get("SCICLIPS_GEMINI_API_KEY")
     if not variants or not token:
         return None
     lines = sentences_of(haystack)
@@ -136,14 +130,15 @@ def propose_steps(record, haystack, kind, hook_line=None, model=None):
                   "Do not repeat a line. Do not use the line already spoken first.",
                   'Reply with JSON only: {"steps": [{"line": "...", "picture": "..."}]}'],
     }
-    payload = {"model": model or os.environ.get("SCICLIPS_AI_MODEL", DEFAULT_MODEL), "temperature": 0.2,
+    endpoint = os.environ.get("SCICLIPS_GEMINI_ENDPOINT") or GEMINI_ENDPOINT
+    payload = {"model": model or os.environ.get("SCICLIPS_GEMINI_MODEL", DEFAULT_MODEL), "temperature": 0.2,
                "max_tokens": 900, "response_format": {"type": "json_object"},
                "messages": [
                    {"role": "system", "content": "You plan short science videos for children aged 7 to 10. "
                     "You only choose and order sentences that already exist. You never add science."},
                    {"role": "user", "content": json.dumps(prompt, ensure_ascii=False)}]}
     try:
-        reply = _post(payload, token)
+        reply = _post(payload, token, url=endpoint)
         steps = _parse(reply["choices"][0]["message"]["content"])
         steps = [{"line": s.get("line"), "variant": s.get("picture", s.get("variant"))} for s in steps]
     except Exception as error:  # any problem at all means: use the normal writer

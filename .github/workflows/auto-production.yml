@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: write
-  models: read
 
 concurrency:
   group: auto-production
@@ -54,10 +53,8 @@ jobs:
       - name: Make and publish today's video
         env:
           SCICLIPS_AI: "1"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SCICLIPS_FALLBACK_AI_API_KEY: ${{ secrets.SCICLIPS_FALLBACK_AI_API_KEY }}
-          SCICLIPS_FALLBACK_AI_ENDPOINT: ${{ vars.SCICLIPS_FALLBACK_AI_ENDPOINT }}
-          SCICLIPS_FALLBACK_AI_MODEL: ${{ vars.SCICLIPS_FALLBACK_AI_MODEL }}
+          SCICLIPS_GEMINI_API_KEY: ${{ secrets.SCICLIPS_FALLBACK_AI_API_KEY }}
+          SCICLIPS_GEMINI_MODEL: ${{ vars.SCICLIPS_GEMINI_MODEL }}
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
           BUFFER_YOUTUBE_CHANNEL_ID: ${{ secrets.BUFFER_YOUTUBE_CHANNEL_ID }}
           BUFFER_TIKTOK_CHANNEL_ID: ${{ secrets.BUFFER_TIKTOK_CHANNEL_ID }}

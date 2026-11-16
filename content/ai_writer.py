@@ -84,6 +84,8 @@ def _post(payload, token, timeout=60, url=None):
     try:
         return json.loads(raw.decode("utf-8"))
     except ValueError as error:
+        print(f"AI service diagnostic: HTTP {status}, content-type {content_type}, url {response_url}, "
+              f"first 300 bytes: {raw[:300]!r}", file=sys.stderr)
         raise RuntimeError(
             f"the AI service at {response_url} answered {status} "
             f"(content-type: {content_type}) with something that is not JSON: {raw[:160]!r}"

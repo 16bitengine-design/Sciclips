@@ -345,3 +345,24 @@ def test_tidy_removes_unlisted_attribution_phrases_from_scriptable_text():
     tidy = ts.tidy(record, idea, "physics-002", {}, TODAY)
     assert "According to" not in tidy["scientific_explanation"]["level_3"]
     assert "the buoyant force equals" in tidy["scientific_explanation"]["level_3"]
+
+
+def test_claim_verification_accepts_an_exact_quote_from_another_downloaded_source():
+    record = {
+        "sources": [
+            {"id": "s1", "url": "https://www.usgs.gov/a"},
+            {"id": "s2", "url": "https://www.noaa.gov/b"},
+        ],
+        "claims": [{"id": "c1", "text": "Buoyancy is an upward force.", "source_ids": ["s1"]}],
+    }
+    pages = {
+        "https://www.usgs.gov/a": "An unrelated source page with enough words to be read.",
+        "https://www.noaa.gov/b": "The buoyant force is equal to the weight of the water displaced by the object in the fluid.",
+    }
+    def ask(_messages):
+        return json.dumps({"results": [{
+            "id": "c1", "supported": True, "source_id": "s2",
+            "quote": "The buoyant force is equal to the weight of the water displaced by the object in the fluid."
+        }]})
+    ts.verify_claims(ask, record, pages)
+    assert record["claims"][0]["source_ids"] == ["s1", "s2"]

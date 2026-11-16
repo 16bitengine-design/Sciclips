@@ -189,14 +189,17 @@ def tidy(record, idea, new_id, pages, today):
     record["central_question"] = idea["central_question"]
     record["category"], record["template"] = idea["category"], idea["template"]
     record["production_status"] = "queued"
-    record.setdefault("short_video_potential", {
-        "suitable": True,
-        "angle": idea["central_question"],
-    })
-    record.setdefault("long_video_potential", {
-        "suitable": True,
-        "angle": "Explore the science behind " + idea["title"] + " with a deeper explanation and safe what-if comparisons.",
-    })
+    if not isinstance(record.get("short_video_potential"), dict):
+        record["short_video_potential"] = {}
+    record["short_video_potential"].setdefault("suitable", True)
+    record["short_video_potential"].setdefault("angle", idea["central_question"])
+    if not isinstance(record.get("long_video_potential"), dict):
+        record["long_video_potential"] = {}
+    record["long_video_potential"].setdefault("suitable", True)
+    record["long_video_potential"].setdefault(
+        "angle",
+        "Explore the science behind " + idea["title"] + " with a deeper explanation and safe what-if comparisons.",
+    )
     for key in ("simulation", "scene3d", "diagrams", "attributions"):
         record.pop(key, None)
     for scenario in record.get("what_if_scenarios", []):

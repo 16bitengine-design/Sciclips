@@ -97,7 +97,7 @@ def test_a_claim_the_page_does_not_support_drops_the_topic(tmp_path):
 
 def test_a_made_up_supporting_quote_drops_the_topic(tmp_path):
     repo, topic_id, lines = go(tmp_path, Fake(bad_quote=True))
-    assert topic_id is None and "not really on the page" in lines[0]
+    assert topic_id is None and "not really on any downloaded page" in lines[0]
     assert not (repo / "topics" / "records" / "chem-002.json").exists()
 
 

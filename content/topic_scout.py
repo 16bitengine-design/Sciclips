@@ -113,6 +113,7 @@ Rules, all checked automatically:
 - supporting_evidence and practical_applications are lists of plain sentences. principle_statement and domain_of_validity are required for the template 'principle'.
 - what_if_scenarios: exactly 2 complete scenarios with all the fields shown in the example (omit their "simulation" and "diagram" keys).
 - Required video-planning fields: short_video_potential and long_video_potential, each with suitable true and a clear angle.
+- Never use attribution phrases such as "According to Archimedes’ Principle:" or credit an idea as a person; explain the principle directly.
 - Safety: risk_level "low", hazards and safety_equipment lists, supervision_required true for experiments, production_status "queued".
 - Do not include the keys simulation, scene3d, diagrams or attributions.
 Reply with the JSON object only."""
@@ -184,7 +185,17 @@ def draft_record(ask, idea, pages, example, today):
 
 
 def tidy(record, idea, new_id, pages, today):
-    """Forces the fields the AI must not decide, and removes anything the pipeline cannot draw."""
+    """Forces required fields and removes unlisted attribution phrases before production."""
+    attribution = re.compile(r"\\bAccording to [A-Z][^:,.]{1,60}[:,]\\s*", re.IGNORECASE)
+    def clean(value):
+        if isinstance(value, str):
+            return attribution.sub("", value)
+        if isinstance(value, list):
+            return [clean(item) for item in value]
+        if isinstance(value, dict):
+            return {key: clean(item) for key, item in value.items()}
+        return value
+    record = clean(record)
     record["id"], record["title"] = new_id, idea["title"]
     record["central_question"] = idea["central_question"]
     record["category"], record["template"] = idea["category"], idea["template"]

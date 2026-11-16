@@ -45,7 +45,6 @@ jobs:
         env:
           SCICLIPS_GEMINI_API_KEY: ${{ secrets.SCICLIPS_FALLBACK_AI_API_KEY }}
           SCICLIPS_GEMINI_MODEL: ${{ vars.SCICLIPS_GEMINI_MODEL }}
-          SCICLIPS_GEMINI_FALLBACK_MODEL: ${{ vars.SCICLIPS_GEMINI_FALLBACK_MODEL }}
         run: python scripts/scout_topic.py
 
       - name: Save the new topic (if one passed every check)

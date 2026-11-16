@@ -1,0 +1,168 @@
+{
+  "id": "physics-003",
+  "title": "How does surface tension allow insects to walk on water?",
+  "category": "physics",
+  "subject_area": "fluid mechanics / surface tension",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "secondary school",
+    "university"
+  ],
+  "central_question": "Why can some bugs walk on water without sinking?",
+  "template": "principle",
+  "principle_statement": "The surface of a liquid resists external forces and behaves like an elastic membrane due to the cohesive bonds between molecules, allowing small objects and insects to stay above the water.",
+  "domain_of_validity": "Small objects or insects where weight does not exceed the maximum upward force provided by the surface tension of the fluid.",
+  "scientific_explanation": {
+    "level_1": "Water molecules stick together strongly because they pull on each other. At the very top, molecules have no water above them, so they hold on extra tight to their neighbors. This creates a stretchy top layer like a skin that can hold up small bugs if they do not press too hard.",
+    "level_2": "Inside a liquid, molecules experience balanced pulls from all directions. Molecules at the surface lack neighbors above them, resulting in a net inward force that causes the surface to contract. This creates a surface layer under tension that resists being stretched or broken by small objects.",
+    "level_3": "Cohesive intermolecular forces generate a surface tension where surface molecules establish stronger bonds due to a lack of neighboring molecules above. Small objects and insects like water striders distribute their weight across long, hydrophobic legs, keeping the downward force below the maximum resisting force of the surface layer."
+  },
+  "supporting_evidence": [
+    "Small insects such as the water strider walk on water because their weight is not enough to penetrate the surface.",
+    "A carefully placed small needle can float on the surface of water even though it is denser than water, and sinks quickly if the surface tension is broken."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Surface Tension and Water",
+      "publisher": "U.S. Geological Survey",
+      "url": "https://www.usgs.gov/special-topics/water-science-school/science/surface-tension-and-water",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-16",
+      "kind": "education_resource"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "The cohesive forces between liquid molecules are responsible for the phenomenon known as surface tension.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Molecules at the surface of water experience a net inward force because there is no attractive force acting from above, causing the surface to resist being stretched or broken.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Small insects such as the water strider can walk on water because their weight is distributed over a large surface area by long, hydrophobic legs and is not enough to penetrate the surface.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "A carefully placed small needle can float on the surface of water even though it is several times as dense as water, but it sinks quickly if the surface is agitated to break up the surface tension.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Surface tension force relation",
+      "latex": "F = gamma L",
+      "dimension_check": {
+        "lhs": "N",
+        "rhs": "N m^-1 m"
+      }
+    }
+  ],
+  "assumptions": [
+    "The weight of the object does not exceed the upward force supported by the surface tension.",
+    "The surface is undisturbed prior to placement of the object."
+  ],
+  "variables": [
+    {
+      "symbol": "F",
+      "name": "force due to surface tension",
+      "unit": "N"
+    },
+    {
+      "symbol": "gamma",
+      "name": "surface tension",
+      "unit": "N m^-1"
+    },
+    {
+      "symbol": "L",
+      "name": "wetted perimeter length",
+      "unit": "m"
+    }
+  ],
+  "practical_applications": [
+    "Understanding how soaps and detergents lower surface tension to clean clothes and soak into pores.",
+    "Explaining how disinfectants spread out on cell walls of bacteria to disrupt them."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Insects float on water because they are less dense than water.",
+      "correction": "Water striders and needles are denser than water, but they stay on top because surface tension supports their weight."
+    },
+    {
+      "statement": "Touching a tent makes it leak because the fabric dissolves.",
+      "correction": "Touching a tent breaks the surface tension of the water bridging the pores in the finely woven material, allowing rain to drip through."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the surface tension of water is lowered by soap or detergent?",
+      "summary": "A needle or insect on the water surface will sink when detergent is added.",
+      "correct": "Recognize that soaps and detergents lower the surface tension, destroying the elastic membrane effect.",
+      "overlooked": "Assuming water properties remain unchanged when adding soap.",
+      "what_changes": "The surface tension decreases significantly.",
+      "consequences": "Objects resting on the surface, such as needles or dust, will quickly sink.",
+      "why": "The cohesive forces holding the surface layer together are weakened.",
+      "prevention": "Keep the water surface clean and free of surfactants if surface-floating demonstrations are desired.",
+      "claim_ids": [
+        "c1",
+        "c4"
+      ]
+    },
+    {
+      "title": "What if an insect has high weight or small leg contact area?",
+      "summary": "The insect breaks through the surface layer and sinks.",
+      "correct": "Distribute weight across long legs with a large surface area.",
+      "overlooked": "Ignoring the ratio of weight to contact perimeter.",
+      "what_changes": "The downward force per unit length exceeds the surface tension limit.",
+      "consequences": "The insect penetrates the water surface and sinks.",
+      "why": "Surface tension can only resist up to a maximum force proportional to the contact length.",
+      "prevention": "Insects utilize long, hydrophobic legs to spread out their weight.",
+      "claim_ids": [
+        "c2",
+        "c3"
+      ]
+    }
+  ],
+  "safety_considerations": "Low risk for general observation and classroom demonstrations with needles or water.",
+  "hazards": [
+    "Minor risk of spilling water during demonstrations."
+  ],
+  "safety_equipment": [
+    "None required for low-risk observation."
+  ],
+  "supervision_required": true,
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "How water striders walk on water without sinking"
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "The physics of surface tension, molecular forces, and how bugs and needles defy sinking"
+  },
+  "production_status": "queued"
+}

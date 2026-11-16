@@ -21,6 +21,13 @@
       "category": "physics",
       "template": "principle",
       "status": "published"
+    },
+    {
+      "id": "physics-003",
+      "title": "How does surface tension allow insects to walk on water?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
     }
   ]
 }

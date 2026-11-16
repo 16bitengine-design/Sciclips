@@ -177,9 +177,11 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
         except Exception as error:
             return fail(f"publishing failed ({type(error).__name__}: {str(error)[:150]})")
         history_entry = {"topic_id": topic_id, "format": cfg["format"], "variant": VARIANT,
-                         "published_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                         "published_at": published.get("youtube_sent_at") or now.strftime("%Y-%m-%dT%H:%M:%SZ"),
                          "run_kind": "schedule" if run_kind == "schedule" else "manual",
-                         "youtube_url": published.get("youtube", ""), "tiktok_url": published.get("tiktok", "")}
+                         "youtube_url": published.get("youtube", ""),
+                         "youtube_buffer_post_id": published.get("youtube_post_id", ""),
+                         "tiktok_url": published.get("tiktok", "")
         if run_kind == "schedule" and schedule_cron:
             history_entry["schedule_slot"] = f"{today}|{schedule_cron}"
         history["productions"].append(history_entry)

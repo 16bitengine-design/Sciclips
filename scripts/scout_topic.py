@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from content import ai_writer  # noqa: E402
 from content import topic_scout  # noqa: E402
 
-AI_REQUEST_ATTEMPTS = 2
+AI_REQUEST_ATTEMPTS = 1
 AI_RETRY_DELAYS = (3, 8)
 AI_REQUEST_TIMEOUT = 30
 GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"

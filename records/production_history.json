@@ -19,6 +19,16 @@
       "youtube_url": "Buffer post 6af9fa62b9a106584cc8fcc0",
       "tiktok_url": "Buffer post 6af9fa66ee359588b545967a",
       "schedule_slot": "2026-11-15|0 12 * * *"
+    },
+    {
+      "topic_id": "physics-002",
+      "format": "short",
+      "variant": "explainer",
+      "published_at": "2026-11-16T18:50:22.213Z",
+      "run_kind": "schedule",
+      "youtube_url": "https://www.youtube.com/watch?v=VD_WJrswIpw",
+      "youtube_buffer_post_id": "6afb506cf85f9c853daaf044",
+      "tiktok_url": "Buffer post 6afb506ff85f9c853daaf09e"
     }
   ]
 }

@@ -2,6 +2,13 @@ name: Topic scout
 
 # Six-hour reserve check: below 8 queued topics, refill toward 14 (up to four per run). The scout never publishes.
 on:
+  push:
+    paths:
+      - ".github/workflows/scout-topics.yml"
+      - "scripts/scout_topic.py"
+      - "content/ai_writer.py"
+      - "content/topic_scout.py"
+      - "config/rendering.json"
   schedule:
     - cron: "0 2,8,14,20 * * *"   # Every six hours: 05:00, 11:00, 17:00 and 23:00 Uganda time
   workflow_dispatch:

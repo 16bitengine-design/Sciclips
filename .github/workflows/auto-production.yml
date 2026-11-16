@@ -84,7 +84,7 @@ jobs:
         run: |
           git config user.name "sciclips-bot"
           git config user.email "sciclips-bot@users.noreply.github.com"
-          git add records/production_history.json records/auto_state.json topics/topic_queue.json topics/records || true
+          git add records/production_history.json records/auto_state.json records/pending_publications.json topics/topic_queue.json topics/records || true
           if git diff --cached --quiet; then
             echo "Nothing new to save."
           else

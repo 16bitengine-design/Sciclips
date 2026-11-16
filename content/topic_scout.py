@@ -140,8 +140,8 @@ def suggest_idea(ask, titles):
     return idea
 
 
-def download(fetch, urls):
-    """Read the best available trusted pages; one dead link must not kill a valid idea."""
+def download(fetch, urls, search=None, query=""):
+    """Read trusted pages, searching for replacements when model-suggested links are stale."""
     pages, failures = {}, []
     for url in urls:
         try:
@@ -152,8 +152,25 @@ def download(fetch, urls):
             pages[url] = text[:PAGE_CHARS]
         except Exception as error:
             failures.append(f"could not read {url} ({type(error).__name__})")
+    if len(pages) < 2 and search:
+        try:
+            alternatives = search(query)
+        except Exception as error:
+            alternatives = []
+            failures.append(f"trusted-source search failed ({type(error).__name__})")
+        for url in alternatives:
+            if not isinstance(url, str) or url in urls or url in pages or domain_tier(url) != "preferred":
+                continue
+            try:
+                text = fetch(url)
+                if len(text) >= MIN_PAGE_CHARS:
+                    pages[url] = text[:PAGE_CHARS]
+            except Exception as error:
+                failures.append(f"replacement source unavailable {url} ({type(error).__name__})")
+            if len(pages) >= 2:
+                break
     if len(pages) < 2:
-        detail = "; ".join(failures[:3]) or "fewer than two source pages were supplied"
+        detail = "; ".join(failures[:4]) or "fewer than two source pages were supplied"
         raise ScoutError(f"only {len(pages)} trusted source page(s) could be read; at least 2 are required: {detail}")
     return pages
 
@@ -220,7 +237,7 @@ def check_everything(root, record, rendering):
                 raise ScoutError(f"{fmt}/{variant}: {problems[0]}")
 
 
-def scout(root, ask, fetch, rendering, today=None, tries=2, log=None):
+def scout(root, ask, fetch, rendering, today=None, tries=2, log=None, search=None):
     """Adds at most one new topic. Returns (topic_id or None, [report lines])."""
     today = today or date.today().isoformat()
     root = Path(root)
@@ -236,7 +253,7 @@ def scout(root, ask, fetch, rendering, today=None, tries=2, log=None):
         try:
             idea = suggest_idea(ask, titles)
             idea_title = idea["title"]
-            pages = download(fetch, idea["source_urls"])
+            pages = download(fetch, idea["source_urls"], search=search, query=idea["title"] + " " + idea["central_question"])
             new_id = next_id(root, idea["category"])
             record = tidy(draft_record(ask, idea, pages, example, today), idea, new_id, pages, today)
             # the AI names pages by url; make sure each source url is one we actually downloaded

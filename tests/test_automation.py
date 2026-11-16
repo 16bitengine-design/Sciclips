@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "scripts"))
 
 import auto_run  # noqa: E402
-from publishing.buffer_github import Buffer, BufferPublisher, GithubReleaseMedia, PublishError  # noqa: E402
+from publishing.buffer_github import Buffer, BufferPublisher, GithubReleaseMedia, PublishError, PublicationUnconfirmed  # noqa: E402
 
 NOW = datetime(2026, 11, 15, 14, 0, tzinfo=timezone.utc)
 TITLES = {t: json.loads((ROOT / "topics" / "records" / f"{t}.json").read_text())["title"] for t in ("physics-001", "chem-001")}
@@ -317,3 +317,49 @@ def test_buffer_failure_is_clear_and_required_credentials_are_checked():
         assert False
     except PublishError:
         pass
+
+
+def test_buffer_scheduled_status_is_not_counted_as_published():
+    class ScheduledBuffer:
+        def get_post(self, post_id):
+            return {"id": post_id, "status": "scheduled", "sentAt": None, "externalLink": None}
+    publisher = BufferPublisher(ScheduledBuffer(), None)
+    try:
+        publisher._wait_until_sent("pending-1", attempts=1, interval=0)
+        assert False, "scheduled must not be treated as published"
+    except PublicationUnconfirmed as error:
+        assert error.post_id == "pending-1" and error.status == "scheduled"
+
+
+def test_pending_buffer_post_is_verified_before_any_new_video(tmp_path, monkeypatch):
+    repo = make_repo(tmp_path)
+    pending = {
+        "posts": [{
+            "topic_id": "physics-001", "title": TITLES["physics-001"],
+            "format": "short", "variant": "explainer", "run_kind": "schedule",
+            "schedule_cron": "0 12 * * *", "date": "2026-11-15",
+            "buffer_post_id": "pending-123"
+        }]
+    }
+    (repo / "records" / "pending_publications.json").write_text(json.dumps(pending))
+    class SentBuffer:
+        def __init__(self, api_key):
+            assert api_key == "buffer-key"
+        def get_post(self, post_id):
+            assert post_id == "pending-123"
+            return {"id": post_id, "status": "sent", "sentAt": "2026-11-15T14:01:00Z",
+                    "externalLink": "https://www.youtube.com/watch?v=verified"}
+    monkeypatch.setattr("publishing.buffer_github.Buffer", SentBuffer)
+    def must_not_produce(*args, **kwargs):
+        raise AssertionError("pending post must be resolved before production")
+    code, lines = auto_run.run(
+        str(repo), producer=must_not_produce, publisher=must_not_produce,
+        env={"BUFFER_API_KEY": "buffer-key", "SCICLIPS_RUN_KIND": "schedule"}
+    )
+    assert code == 0 and "Publication recovered and verified" in lines[0]
+    queue = json.loads((repo / "topics" / "topic_queue.json").read_text())["topics"]
+    assert queue[0]["status"] == "published"
+    history = json.loads((repo / "records" / "production_history.json").read_text())["productions"]
+    assert history[0]["youtube_url"] == "https://www.youtube.com/watch?v=verified"
+    assert history[0]["youtube_buffer_post_id"] == "pending-123"
+    assert json.loads((repo / "records" / "pending_publications.json").read_text())["posts"] == []

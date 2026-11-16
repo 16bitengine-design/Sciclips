@@ -4,8 +4,8 @@ name: Automatic production
 # Safety rules live in config/automation.json (on/off, rehearsal mode, videos per day) and in scripts/auto_run.py.
 on:
   schedule:
-    - cron: "0 12 * * *"     # 12:00 UTC (15:00 in Uganda).
-    - cron: "0 17 * * *"     # 17:00 UTC (20:00 in Uganda).
+    - cron: "0 15 * * *"     # 15:00 UTC (18:00 in Uganda).
+    - cron: "0 18 * * *"     # 18:00 UTC (21:00 in Uganda).
   workflow_dispatch:
 
 permissions:

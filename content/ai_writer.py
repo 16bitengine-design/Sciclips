@@ -58,7 +58,7 @@ class _KeepPost(urllib.request.HTTPRedirectHandler):
 
 
 def _post(payload, token, timeout=60, url=None):
-    target_url = url or ENDPOINT
+    target_url = url or os.environ.get("SCICLIPS_GEMINI_ENDPOINT") or GEMINI_ENDPOINT
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json",
@@ -138,7 +138,7 @@ def propose_steps(record, haystack, kind, hook_line=None, model=None):
                     "You only choose and order sentences that already exist. You never add science."},
                    {"role": "user", "content": json.dumps(prompt, ensure_ascii=False)}]}
     try:
-        reply = _post(payload, token, url=endpoint)
+        reply = _post(payload, token)
         steps = _parse(reply["choices"][0]["message"]["content"])
         steps = [{"line": s.get("line"), "variant": s.get("picture", s.get("variant"))} for s in steps]
     except Exception as error:  # any problem at all means: use the normal writer

@@ -26,6 +26,7 @@ def make_repo(tmp_path, **config):
     # Tests must start from a clean queue, not inherit live production statuses.
     queue_path = repo / "topics" / "topic_queue.json"
     queue = json.loads(queue_path.read_text())
+    queue["topics"] = [topic for topic in queue["topics"] if topic["id"] in {"physics-001", "chem-001"}]
     for topic in queue["topics"]:
         topic["status"] = "queued"
     queue_path.write_text(json.dumps(queue, indent=2) + "\n")

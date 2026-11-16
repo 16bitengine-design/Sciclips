@@ -16,10 +16,11 @@ from content import ai_writer  # noqa: E402
 from content import topic_scout  # noqa: E402
 
 AI_REQUEST_ATTEMPTS = 2
-AI_RETRY_DELAYS = (2,)
+AI_RETRY_DELAYS = (3, 8)
+AI_REQUEST_TIMEOUT = 90
 GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 GEMINI_PRIMARY_MODEL = "gemini-3.8-flash"
-GEMINI_FALLBACK_MODEL = "gemini-3.5-flash-lite"
+GEMINI_FALLBACK_MODELS = ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite")
 
 
 def _message_content(reply):
@@ -54,12 +55,15 @@ def make_ask():
     primary_model = _normalise_model(
         os.environ.get("SCICLIPS_GEMINI_MODEL"), GEMINI_PRIMARY_MODEL
     )
-    fallback_model = _normalise_model(
-        os.environ.get("SCICLIPS_GEMINI_FALLBACK_MODEL"),
-        GEMINI_FALLBACK_MODEL,
-    )
-    if primary_model == fallback_model:
-        fallback_model = GEMINI_FALLBACK_MODEL if primary_model != GEMINI_FALLBACK_MODEL else GEMINI_PRIMARY_MODEL
+    configured_fallback = os.environ.get("SCICLIPS_GEMINI_FALLBACK_MODEL")
+    fallback_models = [
+        _normalise_model(configured_fallback, GEMINI_FALLBACK_MODELS[0]),
+        *GEMINI_FALLBACK_MODELS,
+    ]
+    models = []
+    for model in (primary_model, *fallback_models):
+        if model not in models:
+            models.append(model)
 
     def ask(messages):
         base_payload = {
@@ -69,11 +73,11 @@ def make_ask():
             "messages": messages,
         }
         errors = []
-        for model in (primary_model, fallback_model):
+        for model in models:
             payload = dict(base_payload, model=model)
             for attempt in range(1, AI_REQUEST_ATTEMPTS + 1):
                 try:
-                    reply = ai_writer._post(payload, api_key, timeout=180, url=endpoint)
+                    reply = ai_writer._post(payload, api_key, timeout=AI_REQUEST_TIMEOUT, url=endpoint)
                     content = _message_content(reply)
                     print(f"AI provider succeeded: Google Gemini ({model})", file=sys.stderr)
                     return content
@@ -118,11 +122,25 @@ def make_ask():
 
 def fetch(url):
     import urllib.request
-    request = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; SciclipsScout/1.0)"})
-    with urllib.request.urlopen(request, timeout=30) as response:
-        if "html" not in response.headers.get("Content-Type", "html"):
-            raise ValueError("not a web page")
-        return topic_scout.page_text(response.read(2_000_000).decode("utf-8", errors="ignore"))
+    request = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (compatible; SciclipsScout/1.0)",
+        "Accept": "text/html,application/xhtml+xml,text/plain;q=0.9,*/*;q=0.5",
+    })
+    last_error = None
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(request, timeout=25) as response:
+                content_type = response.headers.get("Content-Type", "").lower()
+                if not any(kind in content_type for kind in ("html", "xhtml", "text/plain", "")):
+                    raise ValueError(f"unsupported page content type: {content_type}")
+                return topic_scout.page_text(response.read(2_000_000).decode("utf-8", errors="ignore"))
+        except Exception as error:
+            last_error = error
+            status = getattr(error, "code", None)
+            if status not in (None, 408, 425, 429, 500, 502, 503, 504) or attempt == 2:
+                break
+            time.sleep((2, 5)[attempt])
+    raise last_error
 
 
 # Rolling reserve policy: two scheduled videos consume two topics each day.

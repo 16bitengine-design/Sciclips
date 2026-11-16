@@ -225,20 +225,36 @@ def test_scout_switches_to_gemini_when_primary_returns_non_json(monkeypatch):
     assert calls[1][3] == "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 
 
-def test_scout_keeps_primary_provider_when_it_works(monkeypatch):
+def test_gemini_model_ids_accept_models_prefix(monkeypatch):
     from scripts import scout_topic
 
-    monkeypatch.setenv("GITHUB_TOKEN", "primary-token")
-    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "fallback-token")
+    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "gemini-token")
+    monkeypatch.setenv("SCICLIPS_GEMINI_MODEL", "models/gemini-3.8-flash")
+    monkeypatch.setenv("SCICLIPS_GEMINI_FALLBACK_MODEL", "models/gemini-3.5-flash-lite")
     calls = []
 
     def post(payload, token, timeout=60, url=None):
-        calls.append(token)
+        calls.append(payload["model"])
+        return {"choices": [{"message": {"content": '{"title":"ok"}'}}]}
+
+    monkeypatch.setattr(scout_topic.ai_writer, "_post", post)
+    assert scout_topic.make_ask()([{"role": "user", "content": "test"}]) == '{"title":"ok"}'
+    assert calls == ["gemini-3.8-flash"]
+
+
+def test_scout_keeps_primary_provider_when_it_works(monkeypatch):
+    from scripts import scout_topic
+
+    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "gemini-token")
+    calls = []
+
+    def post(payload, token, timeout=60, url=None):
+        calls.append((payload["model"], token))
         return {"choices": [{"message": {"content": '{"title":"primary"}'}}]}
 
     monkeypatch.setattr(scout_topic.ai_writer, "_post", post)
     assert scout_topic.make_ask()([{"role": "user", "content": "test"}]) == '{"title":"primary"}'
-    assert calls == ["primary-token"]
+    assert calls == [("gemini-3.8-flash", "gemini-token")]
 
 def test_topic_bank_refills_in_bounded_batches_until_target(tmp_path, monkeypatch):
     from scripts import scout_topic

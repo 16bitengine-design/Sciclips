@@ -44,24 +44,18 @@ def _normalise_model(value, default):
 
 
 def make_ask():
-    # Keep the existing secret name for backwards compatibility with the
-    # repository, while exposing Gemini-specific names for future cleanup.
-    api_key = (os.environ.get("SCICLIPS_GEMINI_API_KEY")
-               or os.environ.get("SCICLIPS_FALLBACK_AI_API_KEY"))
+    api_key = os.environ.get("SCICLIPS_GEMINI_API_KEY")
     if not api_key:
         raise topic_scout.ScoutError(
-            "Gemini API key is not configured; set SCICLIPS_FALLBACK_AI_API_KEY"
+            "Gemini API key is not configured; set SCICLIPS_GEMINI_API_KEY"
         )
 
-    endpoint = (os.environ.get("SCICLIPS_GEMINI_ENDPOINT")
-                or os.environ.get("SCICLIPS_FALLBACK_AI_ENDPOINT")
-                or GEMINI_ENDPOINT)
+    endpoint = os.environ.get("SCICLIPS_GEMINI_ENDPOINT") or GEMINI_ENDPOINT
     primary_model = _normalise_model(
         os.environ.get("SCICLIPS_GEMINI_MODEL"), GEMINI_PRIMARY_MODEL
     )
     fallback_model = _normalise_model(
-        os.environ.get("SCICLIPS_GEMINI_FALLBACK_MODEL")
-        or os.environ.get("SCICLIPS_FALLBACK_AI_MODEL"),
+        os.environ.get("SCICLIPS_GEMINI_FALLBACK_MODEL"),
         GEMINI_FALLBACK_MODEL,
     )
     if primary_model == fallback_model:

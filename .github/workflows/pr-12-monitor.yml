@@ -34,8 +34,10 @@ jobs:
             const { data: pr } = await github.rest.pulls.get({
               owner, repo, pull_number
             });
+            let checks = { check_runs: [], total_count: 0 };
+            let status = { state: "unknown", statuses: [] };
 
-            let report = [
+            const report = [
               marker,
               "## Sciclips PR #12 — daily monitor",
               "",
@@ -53,10 +55,12 @@ jobs:
                 : "Monitoring complete: this pull request was closed without merging.");
             } else {
               const sha = pr.head.sha;
-              const [{ data: checks }, { data: status }] = await Promise.all([
+              const [checksResponse, statusResponse] = await Promise.all([
                 github.rest.checks.listForRef({ owner, repo, ref: sha, per_page: 100 }),
                 github.rest.repos.getCombinedStatusForRef({ owner, repo, ref: sha })
               ]);
+              checks = checksResponse.data;
+              status = statusResponse.data;
 
               report.push(`- Combined commit status: **${status.state}**`);
               report.push(`- Check runs found: **${checks.total_count}**`);
@@ -81,7 +85,7 @@ jobs:
               report.push("", "This monitor does not merge or modify the pull request.");
             }
 
-            const body = report.join("\n");
+            const body = report.join("\\n");
             const { data: comments } = await github.rest.issues.listComments({
               owner, repo, issue_number: pull_number, per_page: 100
             });

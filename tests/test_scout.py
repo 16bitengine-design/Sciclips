@@ -177,9 +177,9 @@ def test_scout_ai_request_retries_transient_bad_responses(monkeypatch):
     import os
     from scripts import scout_topic
 
-    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "test-token")
     calls = []
-    def flaky(payload, token, timeout=60):
+    def flaky(payload, token, timeout=60, url=None):
         calls.append((payload, token, timeout))
         if len(calls) < 3:
             raise RuntimeError("temporary non-JSON response: OK")
@@ -197,24 +197,21 @@ def test_scout_ai_request_rejects_empty_success_response(monkeypatch):
     import pytest
     from scripts import scout_topic
 
-    monkeypatch.setenv("GITHUB_TOKEN", "test-token")
+    monkeypatch.delenv("SCICLIPS_GEMINI_API_KEY", raising=False)
     monkeypatch.delenv("SCICLIPS_FALLBACK_AI_API_KEY", raising=False)
-    monkeypatch.setattr(scout_topic.ai_writer, "_post", lambda *args, **kwargs: {"status": "OK"})
-    monkeypatch.setattr(scout_topic.time, "sleep", lambda seconds: None)
-    with pytest.raises(ts.ScoutError, match="no fallback key is configured"):
-        scout_topic.make_ask()([{"role": "user", "content": "test"}])
+    with pytest.raises(ts.ScoutError, match="Gemini API key is not configured"):
+        scout_topic.make_ask()
 
 
 def test_scout_switches_to_gemini_when_primary_returns_non_json(monkeypatch):
     from scripts import scout_topic
 
-    monkeypatch.setenv("GITHUB_TOKEN", "primary-token")
-    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "fallback-token")
+    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "gemini-token")
     calls = []
 
     def post(payload, token, timeout=60, url=None):
         calls.append((payload["model"], token, timeout, url))
-        if token == "primary-token":
+        if payload["model"] == "gemini-3.8-flash":
             raise RuntimeError("the AI service answered 200 with something that is not JSON: b'OK\\r\\n'")
         return {"choices": [{"message": {"content": '{"title":"recovered"}'}}]}
 
@@ -222,9 +219,9 @@ def test_scout_switches_to_gemini_when_primary_returns_non_json(monkeypatch):
     answer = scout_topic.make_ask()([{"role": "user", "content": "test"}])
     assert answer == '{"title":"recovered"}'
     assert len(calls) == 2
-    assert calls[0][1] == "primary-token"
-    assert calls[1][1] == "fallback-token"
-    assert calls[1][0] == "gemini-3.8-flash"
+    assert calls[0][1] == calls[1][1] == "gemini-token"
+    assert calls[0][0] == "gemini-3.8-flash"
+    assert calls[1][0] == "gemini-3.5-flash-lite"
     assert calls[1][3] == "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 
 

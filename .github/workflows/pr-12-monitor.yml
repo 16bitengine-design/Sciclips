@@ -12,7 +12,6 @@ permissions:
   actions: write
   checks: read
   contents: read
-  issues: write
   pull-requests: read
   statuses: read
 
@@ -24,25 +23,21 @@ jobs:
   monitor:
     runs-on: ubuntu-latest
     steps:
-      - name: Inspect PR and report its current state
-        uses: actions/github-script@v7
+      - name: Inspect PR and publish an evidence-based report
+        uses: actions/github-script@v8
         with:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             const pull_number = 12;
             const workflow_id = ".github/workflows/pr-12-monitor.yml";
-            const marker = "<!-- sciclips-pr-12-monitor -->";
 
             const { data: pr } = await github.rest.pulls.get({
               owner, repo, pull_number
             });
-            let checks = { check_runs: [], total_count: 0 };
-            let status = { state: "unknown", statuses: [] };
 
             const report = [
-              marker,
-              "## Sciclips PR #12 — daily monitor",
+              "# Sciclips PR #12 — daily monitor",
               "",
               `- Checked: ${new Date().toISOString()}`,
               `- PR: [${pr.title}](${pr.html_url})`,
@@ -56,69 +51,47 @@ jobs:
               report.push(pr.merged
                 ? "Monitoring complete: this pull request has been merged."
                 : "Monitoring complete: this pull request was closed without merging.");
-            } else {
-              const sha = pr.head.sha;
-              const [checksResponse, statusResponse] = await Promise.all([
-                github.rest.checks.listForRef({ owner, repo, ref: sha, per_page: 100 }),
-                github.rest.repos.getCombinedStatusForRef({ owner, repo, ref: sha })
-              ]);
-              checks = checksResponse.data;
-              status = statusResponse.data;
-
-              report.push(`- Combined commit status: **${status.state}**`);
-              report.push(`- Check runs found: **${checks.total_count}**`);
-              if (checks.check_runs.length) {
-                report.push("", "### Latest commit checks");
-                for (const check of checks.check_runs) {
-                  const outcome = check.status === "completed"
-                    ? (check.conclusion || "completed")
-                    : check.status;
-                  report.push(`- [${check.name}](${check.html_url}): ${outcome}`);
-                }
-              }
-              if (status.statuses.length) {
-                report.push("", "### Commit status contexts");
-                for (const item of status.statuses) {
-                  report.push(`- [${item.context}](${item.target_url || pr.html_url}): ${item.state}`);
-                }
-              }
-              if (!checks.total_count && !status.statuses.length) {
-                report.push("", "No CI checks or commit-status contexts have been reported for the latest head yet.");
-              }
-              report.push("", "This monitor does not merge or modify the pull request.");
-            }
-
-            const body = report.join("\n");
-            const { data: comments } = await github.rest.issues.listComments({
-              owner, repo, issue_number: pull_number, per_page: 100
-            });
-            const existing = comments.find(comment => comment.body?.includes(marker));
-            if (existing) {
-              await github.rest.issues.updateComment({
-                owner, repo, comment_id: existing.id, body
-              });
-            } else {
-              await github.rest.issues.createComment({
-                owner, repo, issue_number: pull_number, body
-              });
-            }
-
-            if (pr.merged || pr.state === "closed") {
-              await github.rest.actions.disableWorkflow({
-                owner, repo, workflow_id
-              });
+              await core.summary.addRaw(report.join("\n")).write();
+              await github.rest.actions.disableWorkflow({ owner, repo, workflow_id });
               core.notice("PR #12 is terminal; the daily monitor workflow has been disabled.");
               return;
             }
 
-            const failures = checksFailureSummary(checks);
-            if (failures.length || status.state === "failure" || status.state === "error") {
-              core.setFailed(`PR #12 has failing CI/status checks: ${failures.join(", ") || status.state}. See the updated PR monitor comment.`);
-            }
+            const sha = pr.head.sha;
+            const [checksResponse, statusResponse] = await Promise.all([
+              github.rest.checks.listForRef({ owner, repo, ref: sha, per_page: 100 }),
+              github.rest.repos.getCombinedStatusForRef({ owner, repo, ref: sha })
+            ]);
+            const checks = checksResponse.data;
+            const status = statusResponse.data;
 
-            function checksFailureSummary(result) {
-              return result.check_runs
-                .filter(check => check.status === "completed" &&
-                  ["failure", "timed_out", "action_required", "cancelled"].includes(check.conclusion))
-                .map(check => `${check.name} (${check.conclusion})`);
+            report.push(`- Combined commit status: **${status.state}**`);
+            report.push(`- Check runs found: **${checks.total_count}**`);
+            if (checks.check_runs.length) {
+              report.push("", "## Latest commit checks");
+              for (const check of checks.check_runs) {
+                const outcome = check.status === "completed"
+                  ? (check.conclusion || "completed")
+                  : check.status;
+                report.push(`- [${check.name}](${check.html_url}): ${outcome}`);
+              }
+            }
+            if (status.statuses.length) {
+              report.push("", "## Commit status contexts");
+              for (const item of status.statuses) {
+                report.push(`- [${item.context}](${item.target_url || pr.html_url}): ${item.state}`);
+              }
+            }
+            if (!checks.total_count && !status.statuses.length) {
+              report.push("", "No CI checks or commit-status contexts have been reported for the latest head yet.");
+            }
+            report.push("", "This monitor does not merge or modify the pull request.");
+            await core.summary.addRaw(report.join("\n")).write();
+
+            const failures = checks.check_runs
+              .filter(check => check.status === "completed" &&
+                ["failure", "timed_out", "action_required", "cancelled"].includes(check.conclusion))
+              .map(check => `${check.name} (${check.conclusion})`);
+            if (failures.length || status.state === "failure" || status.state === "error") {
+              core.setFailed(`PR #12 has failing CI/status checks: ${failures.join(", ") || status.state}. See this workflow run's summary.`);
             }

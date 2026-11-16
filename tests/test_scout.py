@@ -261,7 +261,9 @@ def test_topic_bank_refills_in_bounded_batches_until_target(tmp_path, monkeypatc
     monkeypatch.setattr(scout_topic.topic_scout, 'scout', add_one)
     lines = scout_topic.replenish_topic_bank(repo, lambda _: '', lambda _: '', {}, tries=4)
     assert len(calls) == scout_topic.MAX_TOPICS_PER_RUN == 4
-    assert scout_topic.queued_count(repo) == 5
+    # The fixture starts with zero queued topics (both seed topics are published),
+    # so four successful additions leave four queued topics after this bounded run.
+    assert scout_topic.queued_count(repo) == 4
     assert 'added 4 topic(s)' in lines[-2]
 
 def test_topic_bank_does_not_spend_ai_calls_when_above_low_watermark(tmp_path, monkeypatch):

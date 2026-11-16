@@ -255,9 +255,11 @@ def test_buffer_publisher_uploads_once_to_github_then_posts_to_each_channel(tmp_
     assert result["failed"] == {}
     uploads = [r for r in net.requests if r[1].startswith("https://uploads.github.com/")]
     posts = [json.loads(r[3])["query"] for r in net.requests if r[1] == "https://api.buffer.com"]
-    assert len(uploads) == 1 and len(posts) == 2
+    create_posts = [query for query in posts if "createPost" in query]
+    assert len(uploads) == 1 and len(create_posts) == 2
+    assert any("post(input:" in query for query in posts)  # publication lifecycle was checked
     assert result["media_url"].startswith("https://github.com/test-owner/test-repo/releases/download/")
-    youtube, tiktok = posts
+    youtube, tiktok = create_posts
     assert result["media_url"] in youtube and result["media_url"] in tiktok
     assert "schedulingType: automatic" in youtube and "mode: shareNow" in youtube
     assert "isAiGenerated: true" in youtube and "madeForKids: false" in youtube and 'categoryId: "28"' in youtube

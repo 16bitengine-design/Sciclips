@@ -29,7 +29,7 @@ def make_repo(tmp_path):
     queue_path = repo / "topics" / "topic_queue.json"
     queue = json.loads(queue_path.read_text())
     queue["topics"] = [topic for topic in queue["topics"] if topic["id"] in {"physics-001", "chem-001"}]
-    queue_path.write_text(json.dumps(queue, indent=2) + "\\n")
+    queue_path.write_text(json.dumps(queue, indent=2) + "\n")
     return repo
 
 

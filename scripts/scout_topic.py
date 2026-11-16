@@ -19,12 +19,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from content import ai_writer  # noqa: E402
 from content import topic_scout  # noqa: E402
 
-AI_REQUEST_ATTEMPTS = 1
+AI_REQUEST_ATTEMPTS = 2
 AI_RETRY_DELAYS = (3, 8)
-AI_REQUEST_TIMEOUT = 45
+AI_REQUEST_TIMEOUT = 30
 GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 GEMINI_PRIMARY_MODEL = "gemini-3.8-flash"
-GEMINI_FALLBACK_MODELS = ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite")
+GEMINI_FALLBACK_MODELS = ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.6-flash")
 
 
 def _message_content(reply):

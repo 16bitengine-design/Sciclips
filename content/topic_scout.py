@@ -151,7 +151,7 @@ def download(fetch, urls):
                 continue
             pages[url] = text[:PAGE_CHARS]
         except Exception as error:
-            failures.append(f"{url} ({type(error).__name__})")
+            failures.append(f"could not read {url} ({type(error).__name__})")
     if len(pages) < 2:
         detail = "; ".join(failures[:3]) or "fewer than two source pages were supplied"
         raise ScoutError(f"only {len(pages)} trusted source page(s) could be read; at least 2 are required: {detail}")

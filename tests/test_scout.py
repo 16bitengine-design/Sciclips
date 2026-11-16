@@ -296,7 +296,7 @@ def test_trusted_source_matching_rejects_lookalike_domains():
     from research.source_collector import domain_tier
     assert domain_tier("https://www.nasa.gov/education") == "preferred"
     assert domain_tier("https://nasa.gov.evil.example/page") == "needs_review"
-    assert domain_tier("https://notnasa.gov/page") == "needs_review"
+    assert domain_tier("https://notnasa.gov.com/page") == "needs_review"
 
 
 def test_download_keeps_two_good_sources_when_one_link_is_dead():

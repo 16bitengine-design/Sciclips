@@ -157,9 +157,9 @@ def search_trusted_sources(query):
     with urllib.request.urlopen(request, timeout=20) as response:
         document = response.read(2_000_000).decode("utf-8", errors="ignore")
     found = []
-    for raw in re.findall(r'href=["\\']([^"\\']+)["\\']', document):
+    for raw in re.findall(r"href=['\\\"]([^'\\\"]+)['\\\"]", document):
         link = html.unescape(raw)
-        parsed = urllib.parse.urlparse(link)
+        parsed = urllib.parse.urlparse(urllib.parse.urljoin("https://html.duckduckgo.com", link))
         if "duckduckgo.com" in (parsed.hostname or ""):
             link = urllib.parse.parse_qs(parsed.query).get("uddg", [""])[0]
         link = urllib.parse.urldefrag(urllib.parse.unquote(link))[0]

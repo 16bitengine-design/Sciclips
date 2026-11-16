@@ -22,7 +22,8 @@ DATE_PATTERN = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 def domain_tier(url):
     host = (urlparse(url).hostname or "").lower()
     for suffix in PREFERRED_SUFFIXES:
-        if host == suffix.lstrip(".") or host.endswith(suffix):
+        trusted_domain = suffix.lstrip(".")
+        if host == trusted_domain or host.endswith("." + trusted_domain):
             return "preferred"
     return "needs_review"
 

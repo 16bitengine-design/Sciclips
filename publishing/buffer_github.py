@@ -142,6 +142,17 @@ class Buffer:
             raise PublishError(f"Buffer said {status}: {detail}")
         return data.get("data") or {}
 
+    def get_post(self, post_id):
+        """Fetch the current lifecycle state for a post created by this account."""
+        query = (
+            "query { post(input: { id: " + _gql_string(post_id) + " }) { "
+            "id status sentAt externalLink } }"
+        )
+        post = self._query(query).get("post")
+        if not isinstance(post, dict) or not post.get("id"):
+            raise PublishError(f"Buffer could not retrieve post {post_id}.")
+        return post
+
     def find_channels(self):
         orgs = self._query("query { account { organizations { id } } }")["account"]["organizations"]
         found = {}
@@ -173,29 +184,49 @@ class BufferPublisher:
     def __init__(self, buffer, media_host, mode="shareNow"):
         self.buffer, self.media_host, self.mode = buffer, media_host, mode
 
+    def _wait_until_sent(self, post_id, attempts=20, interval=15):
+        """Only report publication after Buffer says sent and supplies sentAt."""
+        last = None
+        for attempt in range(attempts):
+            last = self.buffer.get_post(post_id)
+            status = str(last.get("status", "")).lower()
+            if status == "sent" and last.get("sentAt"):
+                return last
+            if status == "error":
+                raise PublishError(f"Buffer post {post_id} failed: {last.get('error') or 'platform rejected it'}")
+            if status in ("draft", "needs_approval"):
+                raise PublishError(f"Buffer post {post_id} is {status}, not published.")
+            if attempt + 1 < attempts:
+                time.sleep(interval)
+        status = (last or {}).get("status", "unknown")
+        raise PublishError(f"Publication unconfirmed: Buffer post {post_id} remains {status}; it is not counted as published.")
+
     def publish_video(self, video, title, description, tiktok_caption, accounts, tags=(), made_for_kids=False):
-        if not (accounts.get("youtube") or accounts.get("tiktok")):
-            raise PublishError("No YouTube or TikTok channel found in Buffer.")
+        if not accounts.get("youtube"):
+            raise PublishError("A YouTube channel must be connected in Buffer; YouTube is the required destination.")
         url = self.media_host.upload_video(video)
         results, failed = {}, {}
-        if accounts.get("youtube"):
-            metadata = (", metadata: { youtube: { "
-                        f"title: {_gql_string(title[:100])}, categoryId: {_gql_string(YOUTUBE_CATEGORY_SCIENCE)}, "
-                        f"privacy: public, madeForKids: {'true' if made_for_kids else 'false'}, "
-                        "isAiGenerated: true, notifySubscribers: true } }")
-            try:
-                results["youtube"] = "Buffer post " + self.buffer.create_video_post(
-                    accounts["youtube"], description[:5000], url, metadata, self.mode)
-            except PublishError as error:
-                failed["youtube"] = str(error)[:160]
+        metadata = (", metadata: { youtube: { "
+                    f"title: {_gql_string(title[:100])}, categoryId: {_gql_string(YOUTUBE_CATEGORY_SCIENCE)}, "
+                    f"privacy: public, madeForKids: {'true' if made_for_kids else 'false'}, "
+                    "isAiGenerated: true, notifySubscribers: true } }")
+        post_id = self.buffer.create_video_post(
+            accounts["youtube"], description[:5000], url, metadata, self.mode)
+        post = self._wait_until_sent(post_id)
+        if not post.get("externalLink"):
+            raise PublishError(f"Buffer marked YouTube post {post_id} sent but returned no public video URL; publication URL is unconfirmed.")
+        results.update({
+            "youtube": post["externalLink"],
+            "youtube_post_id": post_id,
+            "youtube_sent_at": post["sentAt"],
+        })
         if accounts.get("tiktok"):
             try:
-                results["tiktok"] = "Buffer post " + self.buffer.create_video_post(
+                tiktok_id = self.buffer.create_video_post(
                     accounts["tiktok"], tiktok_caption[:2200], url, "", self.mode)
+                results["tiktok"] = "Buffer post " + tiktok_id
             except PublishError as error:
                 failed["tiktok"] = str(error)[:160]
-        if not results:
-            raise PublishError("Nothing was accepted by Buffer: " + ", ".join(f"{k}: {v}" for k, v in failed.items()))
         results["failed"] = failed
         results["media_url"] = url
         return results

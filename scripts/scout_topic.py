@@ -15,9 +15,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from content import ai_writer  # noqa: E402
 from content import topic_scout  # noqa: E402
 
-AI_REQUEST_ATTEMPTS = 2
+AI_REQUEST_ATTEMPTS = 1
 AI_RETRY_DELAYS = (3, 8)
-AI_REQUEST_TIMEOUT = 90
+AI_REQUEST_TIMEOUT = 45
 GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 GEMINI_PRIMARY_MODEL = "gemini-3.8-flash"
 GEMINI_FALLBACK_MODELS = ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite")
@@ -182,7 +182,7 @@ def main():
     root = Path('.')
     rendering = json.loads((root / 'config' / 'rendering.json').read_text(encoding='utf-8'))
     try:
-        lines = replenish_topic_bank(root, make_ask(), fetch, rendering, tries=4)
+        lines = replenish_topic_bank(root, make_ask(), fetch, rendering, tries=2)
     except topic_scout.ScoutError as error:
         lines = [f'Scout skipped: {error}']
     text = '\n'.join(lines)

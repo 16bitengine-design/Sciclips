@@ -14,6 +14,13 @@
       "category": "chemistry",
       "template": "chemistry_experiment",
       "status": "published"
+    },
+    {
+      "id": "physics-002",
+      "title": "Why do some things float and others sink?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
     }
   ]
 }

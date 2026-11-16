@@ -1,0 +1,181 @@
+{
+  "id": "physics-002",
+  "title": "Why do some things float and others sink?",
+  "category": "physics",
+  "subject_area": "fluid mechanics",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "How can a heavy ball of clay sink, but the exact same clay shaped like a boat float?",
+  "template": "principle",
+  "principle_statement": "An object floats if the upward buoyant force exerted by the displaced fluid is equal to or greater than the weight of the object.",
+  "domain_of_validity": "Objects placed in a fluid where gravity acts; assumes the object is not porous enough to take on water and sink.",
+  "scientific_explanation": {
+    "level_1": "When you put something in water, it pushes some water out of the way. This pushed-away water pushes back up on the object. If you shape clay like a boat, it pushes more water out of the way than a ball of clay, so the water pushes back harder and keeps the boat afloat.",
+    "level_2": "Gravity pulls an object down, which causes it to displace, or move, a certain volume of water. This displaced water exerts an upward force called buoyancy. If the shape of the object allows it to displace enough water so that the buoyant force equals the object's weight, it will float. A wide, hollow shape displaces more water than a compact, dense shape.",
+    "level_3": "Buoyancy is the result of the pressure difference in a fluid, which increases with depth. the buoyant force is equal to the weight of the fluid displaced by the object. An object floats when the buoyant force, determined by the volume of displaced fluid, balances the gravitational force acting on the object's mass."
+  },
+  "supporting_evidence": [
+    "A flat, wide piece of aluminum foil floats and can carry weight, while the same amount of foil crumpled into a compact ball sinks.",
+    "Boats are designed with wide, hollow shapes to maximize the volume of water displaced, thereby increasing the buoyant force."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Water Density",
+      "publisher": "U.S. Geological Survey",
+      "url": "https://www.usgs.gov/water-science-school/science/water-density",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-16",
+      "kind": "education_resource"
+    },
+    {
+      "id": "s2",
+      "title": "Build a boat",
+      "publisher": "National Oceanic and Atmospheric Administration",
+      "url": "https://www.noaa.gov/office-education/outreach-communication/hands-on-science-activities/build-a-boat",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-16",
+      "kind": "education_resource"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Density is defined as the mass of a substance per unit volume.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "An object floats if the upward buoyant force is greater than or equal to the weight of the object and its load.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "The buoyant force is equal to the weight of the water displaced by the object.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Wide or hollow shapes displace more water than compact shapes, which increases the buoyant force.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Density definition",
+      "latex": "rho = m / V",
+      "dimension_check": {
+        "lhs": "kg m^-3",
+        "rhs": "kg m^-3"
+      }
+    }
+  ],
+  "assumptions": [
+    "The fluid is stationary.",
+    "The object is fully or partially submerged in the fluid.",
+    "Gravity is the primary force acting downward."
+  ],
+  "variables": [
+    {
+      "symbol": "rho",
+      "name": "density",
+      "unit": "kg m^-3"
+    },
+    {
+      "symbol": "m",
+      "name": "mass",
+      "unit": "kg"
+    },
+    {
+      "symbol": "V",
+      "name": "volume",
+      "unit": "m^3"
+    }
+  ],
+  "practical_applications": [
+    "Designing ships to carry cargo without sinking.",
+    "Using hydrometers to measure the density of liquids.",
+    "Understanding why icebergs float in ocean water."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Heavy objects always sink.",
+      "correction": "Floating depends on the object's density relative to the fluid and the volume of fluid displaced, not just the total weight."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if we use a denser liquid than water?",
+      "summary": "Objects that sink in water might float in a denser liquid.",
+      "correct": "A denser liquid exerts a greater buoyant force for the same volume displaced, making it easier for objects to float.",
+      "overlooked": "Assuming that an object's ability to float is a fixed property regardless of the liquid it is in.",
+      "what_changes": "The density of the surrounding fluid increases.",
+      "consequences": "The buoyant force increases, potentially allowing a previously sinking object to float.",
+      "why": "Buoyancy depends on the weight of the displaced fluid; denser fluid weighs more for the same volume.",
+      "prevention": "Consider the density of both the object and the fluid when predicting floating behavior.",
+      "claim_ids": [
+        "c2",
+        "c3"
+      ]
+    },
+    {
+      "title": "What if we compress the boat into a ball?",
+      "summary": "The boat will likely sink.",
+      "correct": "Compressing the boat reduces the volume of water it displaces, decreasing the buoyant force.",
+      "overlooked": "Assuming that the shape of an object does not affect its buoyancy.",
+      "what_changes": "The volume of the object decreases while the mass remains the same.",
+      "consequences": "The object displaces less water, the buoyant force drops below the object's weight, and it sinks.",
+      "why": "The buoyant force is directly tied to the volume of fluid displaced by the object's shape.",
+      "prevention": "Maintain a shape that maximizes water displacement to keep the object afloat.",
+      "claim_ids": [
+        "c3",
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Spilled water on the floor",
+      "Small parts (weights) posing choking hazards"
+    ],
+    "safety_equipment": [
+      "Towel for spills"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Demonstrating how changing the shape of foil from a ball to a boat changes its ability to float."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "A detailed look at how boat design, volume, and density interact to create buoyancy."
+  },
+  "production_status": "queued"
+}

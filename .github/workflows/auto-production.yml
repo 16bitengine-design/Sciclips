@@ -1,12 +1,8 @@
 name: Automatic production
 
 # Runs by itself every day. It can also be started by hand with "Run workflow".
-# A workflow-file push also starts a one-off recovery run; it counts toward the daily video limit.
 # Safety rules live in config/automation.json (on/off, rehearsal mode, videos per day) and in scripts/auto_run.py.
 on:
-  push:
-    paths:
-      - ".github/workflows/auto-production.yml"
   schedule:
     - cron: "0 15 * * *"     # 15:00 UTC (18:00 in Uganda).
     - cron: "0 18 * * *"     # 18:00 UTC (21:00 in Uganda).
@@ -88,7 +84,8 @@ jobs:
         run: |
           git config user.name "sciclips-bot"
           git config user.email "sciclips-bot@users.noreply.github.com"
-          git add records/production_history.json records/auto_state.json records/pending_publications.json topics/topic_queue.json topics/records || true
+          git add records/production_history.json records/auto_state.json topics/topic_queue.json topics/records
+          if [ -f records/pending_publications.json ]; then git add records/pending_publications.json; fi
           if git diff --cached --quiet; then
             echo "Nothing new to save."
           else

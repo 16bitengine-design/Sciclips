@@ -250,7 +250,8 @@ def test_buffer_publisher_uploads_once_to_github_then_posts_to_each_channel(tmp_
     net = FakePublishingNet()
     result = make_publisher(net).publish_video(video, "T" * 150, "Long description", "Short caption",
                                                {"youtube": "c_yt", "tiktok": "c_tt"}, [], False)
-    assert result["youtube"] == "https://www.youtube.com/watch?v=test123" and result["youtube_post_id"] == "p1"\n    assert result["youtube_sent_at"] == "2026-11-16T18:00:00Z" and result["tiktok"] == "Buffer post p1"
+    assert result["youtube"] == "https://www.youtube.com/watch?v=test123" and result["youtube_post_id"] == "p1"
+    assert result["youtube_sent_at"] == "2026-11-16T18:00:00Z" and result["tiktok"] == "Buffer post p1"
     assert result["failed"] == {}
     uploads = [r for r in net.requests if r[1].startswith("https://uploads.github.com/")]
     posts = [json.loads(r[3])["query"] for r in net.requests if r[1] == "https://api.buffer.com"]

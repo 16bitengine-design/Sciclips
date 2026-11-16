@@ -1,7 +1,7 @@
 """Scheduled topic scout using Google's supported Gemini API.
 
-GitHub Models was retired in July 2026. Topic generation now uses the
-Gemini OpenAI-compatible endpoint directly. Model output still passes the
+Topic generation uses the Gemini OpenAI-compatible endpoint directly.
+Model output still passes the
 existing source, science, claim, script and storyboard validation pipeline.
 """
 import json

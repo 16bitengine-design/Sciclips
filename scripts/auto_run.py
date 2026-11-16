@@ -181,7 +181,7 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
                          "run_kind": "schedule" if run_kind == "schedule" else "manual",
                          "youtube_url": published.get("youtube", ""),
                          "youtube_buffer_post_id": published.get("youtube_post_id", ""),
-                         "tiktok_url": published.get("tiktok", "")
+                         "tiktok_url": published.get("tiktok", "")}
         if run_kind == "schedule" and schedule_cron:
             history_entry["schedule_slot"] = f"{today}|{schedule_cron}"
         history["productions"].append(history_entry)

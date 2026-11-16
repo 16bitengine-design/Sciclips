@@ -142,12 +142,12 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
 
     if not cfg["enabled"]:
         return 0, ["Automation is switched off (config/automation.json)."]
-    if state["paused"]:
-        return 0, ["Automation has paused itself after repeated failures. Set paused to false in "
-                   "records/auto_state.json when the cause is fixed."]
     pending_result = _resolve_pending_publication(root, env, history, history_path, state, state_path)
     if pending_result is not None:
         return pending_result
+    if state["paused"]:
+        return 0, ["Automation has paused itself after repeated failures. Set paused to false in "
+                   "records/auto_state.json when the cause is fixed."]
     run_kind = env.get("SCICLIPS_RUN_KIND", "schedule")
     schedule_cron = env.get("SCICLIPS_SCHEDULE_CRON", "").strip()
     # Scheduled slots are counted independently of manual test runs. Older records

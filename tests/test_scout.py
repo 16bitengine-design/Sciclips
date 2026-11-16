@@ -322,3 +322,16 @@ def test_download_searches_for_trusted_replacements_when_suggested_links_are_dea
     pages = ts.download(fetch, original, search=lambda query: replacements, query="floating and sinking")
     assert set(pages) == set(replacements)
     assert calls[-2:] == replacements
+
+
+def test_tidy_supplies_required_video_planning_fields_when_ai_omits_them():
+    record = base_record()
+    record.pop("short_video_potential", None)
+    record.pop("long_video_potential", None)
+    idea = {"title": "Why do some things float?", "central_question": "Why do some things float?",
+            "category": "physics", "template": "principle"}
+    tidy = ts.tidy(record, idea, "physics-002", {}, TODAY)
+    assert tidy["short_video_potential"]["suitable"] is True
+    assert tidy["short_video_potential"]["angle"] == idea["central_question"]
+    assert tidy["long_video_potential"]["suitable"] is True
+    assert "deeper explanation" in tidy["long_video_potential"]["angle"]

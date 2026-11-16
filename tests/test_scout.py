@@ -26,6 +26,10 @@ def make_repo(tmp_path):
     for name in ("principle", "chemistry_experiment"):
         shutil.copy(ROOT / "templates" / f"{name}.json", repo / "templates" / f"{name}.json")
     shutil.copy(ROOT / "topics" / "topic_queue.json", repo / "topics" / "topic_queue.json")
+    queue_path = repo / "topics" / "topic_queue.json"
+    queue = json.loads(queue_path.read_text())
+    queue["topics"] = [topic for topic in queue["topics"] if topic["id"] in {"physics-001", "chem-001"}]
+    queue_path.write_text(json.dumps(queue, indent=2) + "\\n")
     return repo
 
 

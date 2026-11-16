@@ -3,7 +3,7 @@ name: Topic scout
 # Daily check: when fewer than 8 topics remain, refill the bank toward 14. The scout never publishes anything.
 on:
   schedule:
-    - cron: "0 2 * * *"   # Daily at 05:00 Uganda time; refill when the bank is low
+    - cron: "0 2,8,14,20 * * *"   # Every six hours: 05:00, 11:00, 17:00 and 23:00 Uganda time
   workflow_dispatch:
 
 permissions:

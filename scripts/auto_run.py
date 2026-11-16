@@ -129,7 +129,7 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
                 scouted = True
                 if _refill_queue(root, scout_notes):
                     continue
-            return 0, scout_notes + ["No topic is waiting in the queue. Nothing to do today."]
+            return 1, scout_notes + ["BLOCKED: no validated topic is available; production did not run."]
         if state["attempts"].get(entry["id"], 0) >= cfg["max_attempts_per_topic"]:
             tm.set_status(str(root), entry["id"], "failed")
             continue

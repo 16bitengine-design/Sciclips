@@ -150,6 +150,17 @@ def fetch(url):
 def search_trusted_sources(query):
     """Find replacement pages when model-suggested trusted URLs are stale or unavailable."""
     found = []
+    lowered = query.casefold()
+    water_terms = ("water", "float", "sink", "buoyancy", "density", "insect", "strider", "surface tension")
+    if any(term in lowered for term in water_terms):
+        # Stable, first-party science education pages for the recurring water/float topics.
+        found.extend([
+            "https://www.usgs.gov/water-science-school/science/water-density",
+            "https://www.noaa.gov/office-education/outreach-communication/hands-on-science-activities/build-a-boat",
+            "https://www.usgs.gov/water-science-school/science/surface-tension-and-water",
+            "https://www.nps.gov/articles/pecies-spotlight-water-strider.htm",
+            "https://serc.carleton.edu/sp/mnstep/activities/26468.html",
+        ])
     search_queries = (
         f"{query} science explanation buoyancy density",
         f"{query} site:usgs.gov OR site:noaa.gov OR site:nasa.gov",

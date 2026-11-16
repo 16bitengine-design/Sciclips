@@ -112,6 +112,7 @@ Rules, all checked automatically:
   (scientific_explanation, supporting_evidence, practical_applications, misconceptions, what_if_scenarios, principle_statement).
 - supporting_evidence and practical_applications are lists of plain sentences. principle_statement and domain_of_validity are required for the template 'principle'.
 - what_if_scenarios: exactly 2 complete scenarios with all the fields shown in the example (omit their "simulation" and "diagram" keys).
+- Required video-planning fields: short_video_potential and long_video_potential, each with suitable true and a clear angle.
 - Safety: risk_level "low", hazards and safety_equipment lists, supervision_required true for experiments, production_status "queued".
 - Do not include the keys simulation, scene3d, diagrams or attributions.
 Reply with the JSON object only."""
@@ -188,6 +189,14 @@ def tidy(record, idea, new_id, pages, today):
     record["central_question"] = idea["central_question"]
     record["category"], record["template"] = idea["category"], idea["template"]
     record["production_status"] = "queued"
+    record.setdefault("short_video_potential", {
+        "suitable": True,
+        "angle": idea["central_question"],
+    })
+    record.setdefault("long_video_potential", {
+        "suitable": True,
+        "angle": "Explore the science behind " + idea["title"] + " with a deeper explanation and safe what-if comparisons.",
+    })
     for key in ("simulation", "scene3d", "diagrams", "attributions"):
         record.pop(key, None)
     for scenario in record.get("what_if_scenarios", []):

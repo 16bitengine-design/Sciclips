@@ -8,6 +8,10 @@ import json
 import os
 import sys
 import time
+import re
+import html
+import urllib.parse
+import urllib.request
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -143,6 +147,28 @@ def fetch(url):
     raise last_error
 
 
+def search_trusted_sources(query):
+    """Find replacement pages when model-suggested trusted URLs are stale or unavailable."""
+    params = urllib.parse.urlencode({"q": f"{query} science explanation site:.gov OR site:.edu OR site:nasa.gov OR site:noaa.gov"})
+    request = urllib.request.Request(
+        "https://html.duckduckgo.com/html/?" + params,
+        headers={"User-Agent": "Mozilla/5.0 (compatible; SciclipsScout/1.0)", "Accept": "text/html"},
+    )
+    with urllib.request.urlopen(request, timeout=20) as response:
+        document = response.read(2_000_000).decode("utf-8", errors="ignore")
+    found = []
+    for raw in re.findall(r'href=["\\']([^"\\']+)["\\']', document):
+        link = html.unescape(raw)
+        parsed = urllib.parse.urlparse(link)
+        if "duckduckgo.com" in (parsed.hostname or ""):
+            link = urllib.parse.parse_qs(parsed.query).get("uddg", [""])[0]
+        link = urllib.parse.urldefrag(urllib.parse.unquote(link))[0]
+        if link.startswith("https://") and topic_scout.domain_tier(link) == "preferred" and link not in found:
+            found.append(link)
+        if len(found) >= 6:
+            break
+    return found
+
 # Rolling reserve policy: two scheduled videos consume two topics each day.
 TOPIC_BANK_TARGET = 14
 TOPIC_BANK_LOW_WATERMARK = 8
@@ -154,7 +180,7 @@ def queued_count(root):
     return sum(1 for item in queue.get('topics', []) if item.get('status') == 'queued')
 
 
-def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4):
+def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4, search=None):
     root = Path(root)
     count = queued_count(root)
     if count >= TOPIC_BANK_LOW_WATERMARK:
@@ -163,7 +189,7 @@ def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4):
     added = 0
     while count < TOPIC_BANK_TARGET and added < MAX_TOPICS_PER_RUN:
         try:
-            topic_id, report = topic_scout.scout(root, ask, fetch_page, rendering, tries=tries)
+            topic_id, report = topic_scout.scout(root, ask, fetch_page, rendering, tries=tries, search=search)
         except topic_scout.ScoutError as error:
             lines.append(f'Scout unavailable: {error}')
             break
@@ -182,7 +208,7 @@ def main():
     root = Path('.')
     rendering = json.loads((root / 'config' / 'rendering.json').read_text(encoding='utf-8'))
     try:
-        lines = replenish_topic_bank(root, make_ask(), fetch, rendering, tries=2)
+        lines = replenish_topic_bank(root, make_ask(), fetch, rendering, tries=2, search=search_trusted_sources)
     except topic_scout.ScoutError as error:
         lines = [f'Scout skipped: {error}']
     text = '\n'.join(lines)

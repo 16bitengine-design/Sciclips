@@ -81,6 +81,52 @@ def _caption(record, hashtags):
     return f"{record['title']} {tags}".strip()
 
 
+def _resolve_pending_publication(root, env, history, history_path, state, state_path):
+    """Resolve an accepted Buffer post before any retry can create a duplicate."""
+    pending_path = Path(root) / "records" / "pending_publications.json"
+    pending = _read(pending_path, {"posts": []})
+    posts = pending.get("posts", [])
+    if not posts:
+        return None
+    item = posts[0]
+    try:
+        from publishing.buffer_github import Buffer
+        post = Buffer(env.get("BUFFER_API_KEY")).get_post(item["buffer_post_id"])
+    except Exception as error:
+        return 1, [f"PUBLICATION PENDING: could not verify Buffer post {item.get('buffer_post_id', '')} ({type(error).__name__}); no duplicate will be created."]
+    status = str(post.get("status", "")).lower()
+    if status == "sent" and post.get("sentAt") and post.get("externalLink"):
+        entry = {
+            "topic_id": item["topic_id"],
+            "format": item.get("format", "short"),
+            "variant": item.get("variant", VARIANT),
+            "published_at": post["sentAt"],
+            "run_kind": item.get("run_kind", "manual"),
+            "youtube_url": post["externalLink"],
+            "youtube_buffer_post_id": item["buffer_post_id"],
+            "tiktok_url": "",
+        }
+        if entry["run_kind"] == "schedule" and item.get("schedule_cron"):
+            entry["schedule_slot"] = f"{item.get('date', '')}|{item['schedule_cron']}"
+        history.setdefault("productions", []).append(entry)
+        _write(history_path, history)
+        from content import topic_manager as tm
+        tm.set_status(str(root), item["topic_id"], "published")
+        pending["posts"] = posts[1:]
+        _write(pending_path, pending)
+        state["consecutive_failures"] = 0
+        state.setdefault("attempts", {}).pop(item["topic_id"], None)
+        _write(state_path, state)
+        return 0, [f"Publication recovered and verified: {item['topic_id']} — {post['externalLink']} (Buffer sent at {post['sentAt']})."]
+    if status == "error":
+        from content import topic_manager as tm
+        tm.set_status(str(root), item["topic_id"], "failed")
+        pending["posts"] = posts[1:]
+        _write(pending_path, pending)
+        return 1, [f"Buffer post {item['buffer_post_id']} failed; topic {item['topic_id']} marked failed. No duplicate was created."]
+    return 1, [f"PUBLICATION PENDING: Buffer post {item['buffer_post_id']} is '{status or 'unknown'}'; it will be checked again before any new post is created."]
+
+
 def run(root=".", now=None, producer=None, publisher=None, env=None):
     """Returns (exit_code, lines). Exit code 1 only for a real failure worth looking at."""
     env = os.environ if env is None else env
@@ -99,6 +145,9 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
     if state["paused"]:
         return 0, ["Automation has paused itself after repeated failures. Set paused to false in "
                    "records/auto_state.json when the cause is fixed."]
+    pending_result = _resolve_pending_publication(root, env, history, history_path, state, state_path)
+    if pending_result is not None:
+        return pending_result
     run_kind = env.get("SCICLIPS_RUN_KIND", "schedule")
     schedule_cron = env.get("SCICLIPS_SCHEDULE_CRON", "").strip()
     # Scheduled slots are counted independently of manual test runs. Older records
@@ -175,6 +224,22 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
             published = client.publish_video(videos[0], record["title"], description + "\n\n" + _caption(record, cfg["hashtags"]),
                                              _caption(record, cfg["hashtags"]), accounts, cfg["hashtags"], cfg["made_for_kids"])
         except Exception as error:
+            from publishing.buffer_github import PublicationUnconfirmed
+            if isinstance(error, PublicationUnconfirmed):
+                pending_path = root / "records" / "pending_publications.json"
+                pending = _read(pending_path, {"posts": []})
+                pending.setdefault("posts", []).append({
+                    "topic_id": topic_id,
+                    "title": record["title"],
+                    "format": cfg["format"],
+                    "variant": VARIANT,
+                    "run_kind": "schedule" if run_kind == "schedule" else "manual",
+                    "schedule_cron": schedule_cron,
+                    "date": today,
+                    "buffer_post_id": error.post_id,
+                })
+                _write(pending_path, pending)
+                return fail(f"Buffer accepted post {error.post_id}, but publication is not yet confirmed ({error.status}); it has been saved for verification and will not be duplicated.")
             return fail(f"publishing failed ({type(error).__name__}: {str(error)[:150]})")
         history_entry = {"topic_id": topic_id, "format": cfg["format"], "variant": VARIANT,
                          "published_at": published.get("youtube_sent_at") or now.strftime("%Y-%m-%dT%H:%M:%SZ"),

@@ -173,7 +173,16 @@ def main():
     if summary:
         with open(summary, 'a', encoding='utf-8') as handle:
             handle.write('## Topic scout\n\n' + text + '\n')
-    return 0
+    # A low/empty bank that could not be replenished is an operational failure,
+    # not a successful scout run. This makes provider outages visible in Actions.
+    failed = any(
+        line.startswith(("Scout unavailable:", "Scout skipped:"))
+        for line in lines
+    ) or (
+        queued_count(root) < TOPIC_BANK_LOW_WATERMARK
+        and any("added 0 topic(s)" in line for line in lines)
+    )
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

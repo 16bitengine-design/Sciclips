@@ -190,7 +190,7 @@ def test_scout_ai_request_retries_transient_bad_responses(monkeypatch):
     answer = scout_topic.make_ask()([{"role": "user", "content": "test"}])
     assert answer == '{"title":"ok"}'
     assert len(calls) == 3
-    assert all(call[1] == "test-token" and call[2] == 180 for call in calls)
+    assert all(call[1] == "test-token" and call[2] == scout_topic.AI_REQUEST_TIMEOUT for call in calls)
 
 
 def test_scout_ai_request_rejects_empty_success_response(monkeypatch):

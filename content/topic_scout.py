@@ -232,10 +232,23 @@ def verify_claims(ask, record, pages):
     for claim in record["claims"]:
         result = results.get(claim["id"], {})
         quote, sid = result.get("quote", ""), result.get("source_id")
-        if not result.get("supported") or sid not in claim.get("source_ids", []):
+        if not result.get("supported"):
             raise ScoutError(f"claim {claim['id']} is not supported by its pages")
-        if len(norm(quote).split()) < 8 or norm(quote) not in norm(pages.get(by_id.get(sid), "")):
-            raise ScoutError(f"claim {claim['id']}: the supporting sentence is not really on the page")
+        if len(norm(quote).split()) < 8:
+            raise ScoutError(f"claim {claim['id']}: the supporting sentence is too short")
+        # A model may identify the correct page even when the draft listed a different
+        # source ID. Accept only an exact quote found in a downloaded, trusted page.
+        candidates = [sid] if sid in by_id else list(by_id)
+        matched = [candidate for candidate in candidates
+                   if norm(quote) in norm(pages.get(by_id.get(candidate), ""))]
+        if not matched:
+            matched = [candidate for candidate, url in by_id.items()
+                       if norm(quote) in norm(pages.get(url, ""))]
+        if not matched:
+            raise ScoutError(f"claim {claim['id']}: the supporting sentence is not really on any downloaded page")
+        verified_source = matched[0]
+        if verified_source not in claim.setdefault("source_ids", []):
+            claim["source_ids"].append(verified_source)
 
 
 def check_everything(root, record, rendering):

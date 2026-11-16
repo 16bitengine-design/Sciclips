@@ -1,6 +1,7 @@
 name: Automatic production
 
 # Runs by itself every day. It can also be started by hand with "Run workflow".
+# A workflow-file push also starts a one-off recovery run; it counts toward the daily video limit.
 # Safety rules live in config/automation.json (on/off, rehearsal mode, videos per day) and in scripts/auto_run.py.
 on:
   push:

@@ -93,7 +93,7 @@ IDEA_RULES = (
     "Suggest ONE new science topic for short explainer videos that a curious seven year old can follow and that can be "
     "SHOWN with a simple demonstration (not just explained). It must be safe at home with everyday materials, and must "
     "not be about anything dangerous, medical or political. It must not repeat any title in `already_used`. "
-    "Give 2 or 3 real web page addresses (https) from trusted sites that explain it (for example nasa.gov, noaa.gov, "
+    "Give 3 real web page addresses (https) from trusted sites that explain it (for example nasa.gov, noaa.gov, "
     "rsc.org, .edu, .gov, nature.com, aps.org). Reply with JSON only: "
     '{"title": "...", "central_question": "...", "category": "physics|chemistry|biology|earth-science|astronomy", '
     '"template": "principle|chemistry_experiment", "source_urls": ["https://..."]}')
@@ -141,15 +141,20 @@ def suggest_idea(ask, titles):
 
 
 def download(fetch, urls):
-    pages = {}
+    """Read the best available trusted pages; one dead link must not kill a valid idea."""
+    pages, failures = {}, []
     for url in urls:
         try:
             text = fetch(url)
+            if len(text) < MIN_PAGE_CHARS:
+                failures.append(f"{url} (too little readable text)")
+                continue
+            pages[url] = text[:PAGE_CHARS]
         except Exception as error:
-            raise ScoutError(f"could not read {url} ({type(error).__name__})") from error
-        if len(text) < MIN_PAGE_CHARS:
-            raise ScoutError(f"the page at {url} had too little text")
-        pages[url] = text[:PAGE_CHARS]
+            failures.append(f"{url} ({type(error).__name__})")
+    if len(pages) < 2:
+        detail = "; ".join(failures[:3]) or "fewer than two source pages were supplied"
+        raise ScoutError(f"only {len(pages)} trusted source page(s) could be read; at least 2 are required: {detail}")
     return pages
 
 

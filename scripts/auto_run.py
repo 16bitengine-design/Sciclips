@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 DEFAULTS = {"enabled": False, "dry_run": True, "videos_per_day": 1, "format": "short", "quality": "full",
             "narration": "kokoro", "max_attempts_per_topic": 2, "pause_after_failures": 3,
             "made_for_kids": False, "hashtags": ["science", "sciclips"], "publisher": "buffer",
-            "buffer_mode": "shareNow"}
+            "buffer_mode": "shareNow", "auto_scout": True}
 VARIANT = "explainer"
 
 
@@ -55,6 +55,25 @@ def _default_publisher(root, env, cfg):
     if not (accounts["youtube"] or accounts["tiktok"]):
         accounts = buffer.find_channels()
     return BufferPublisher(buffer, GithubReleaseMedia(env.get("GITHUB_TOKEN"), env.get("GITHUB_REPOSITORY")), cfg.get("buffer_mode", "shareNow")), accounts
+
+
+def _refill_queue(root, notes):
+    """Runs the topic scout (any scripts/*scout*.py) once. Returns True if it finished without error."""
+    import subprocess
+    found = sorted((Path(root) / "scripts").glob("*scout*.py"))
+    if not found:
+        notes.append("Queue is empty and no topic scout script was found in scripts/.")
+        return False
+    try:
+        done = subprocess.run([sys.executable, str(found[0])], cwd=str(root), capture_output=True,
+                              text=True, timeout=900)
+    except Exception as error:
+        notes.append(f"Queue is empty; the topic scout could not run ({type(error).__name__}).")
+        return False
+    notes.append(f"Queue was empty: ran {found[0].name} (exit code {done.returncode}).")
+    if done.returncode != 0:
+        notes.append("Scout output: " + (done.stdout + done.stderr).strip()[-300:])
+    return done.returncode == 0
 
 
 def _caption(record, hashtags):
@@ -101,16 +120,22 @@ def run(root=".", now=None, producer=None, publisher=None, env=None):
 
     from content import topic_manager as tm
     entry = None
+    scout_notes = []
+    scouted = False
     while True:
         entry = tm.select_next_topic(str(root))
         if entry is None:
-            return 0, ["No topic is waiting in the queue. Nothing to do today."]
+            if cfg["auto_scout"] and not scouted:
+                scouted = True
+                if _refill_queue(root, scout_notes):
+                    continue
+            return 0, scout_notes + ["No topic is waiting in the queue. Nothing to do today."]
         if state["attempts"].get(entry["id"], 0) >= cfg["max_attempts_per_topic"]:
             tm.set_status(str(root), entry["id"], "failed")
             continue
         break
     topic_id = entry["id"]
-    lines = [f"Topic: {topic_id} - {entry.get('title', '')}", f"Mode: {'REHEARSAL (nothing is posted)' if cfg['dry_run'] else 'LIVE'}"]
+    lines = scout_notes + [f"Topic: {topic_id} - {entry.get('title', '')}", f"Mode: {'REHEARSAL (nothing is posted)' if cfg['dry_run'] else 'LIVE'}"]
 
     def fail(reason):
         state["attempts"][topic_id] = state["attempts"].get(topic_id, 0) + 1

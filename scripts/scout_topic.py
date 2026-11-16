@@ -1,7 +1,8 @@
-"""Scheduled topic scout: add one fully checked topic whenever the queue needs replenishing.
+"""Scheduled topic scout using Google's supported Gemini API.
 
-Needs GitHub Models permission (models: read) and GITHUB_TOKEN. Temporary model/API
-failures are retried; topic_scout still rejects anything that fails source/science checks.
+GitHub Models was retired in July 2026. Topic generation now uses the
+Gemini OpenAI-compatible endpoint directly. Model output still passes the
+existing source, science, claim, script and storyboard validation pipeline.
 """
 import json
 import os
@@ -14,8 +15,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from content import ai_writer  # noqa: E402
 from content import topic_scout  # noqa: E402
 
-AI_REQUEST_ATTEMPTS = 3
-AI_RETRY_DELAYS = (2, 5)
+AI_REQUEST_ATTEMPTS = 2
+AI_RETRY_DELAYS = (2,)
+GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+GEMINI_PRIMARY_MODEL = "gemini-3.8-flash"
+GEMINI_FALLBACK_MODEL = "gemini-3.5-flash-lite"
 
 
 def _message_content(reply):
@@ -29,64 +33,92 @@ def _message_content(reply):
     return content
 
 
+def _normalise_model(value, default):
+    """Accept bare Gemini IDs and API-style models/<id> values."""
+    model = str(value or default).strip()
+    while model.startswith("models/"):
+        model = model[len("models/"):]
+    if not model or "/" in model or any(ch.isspace() for ch in model):
+        raise topic_scout.ScoutError(f"invalid Gemini model identifier: {model!r}")
+    return model
+
+
 def make_ask():
-    token = os.environ.get("GITHUB_TOKEN")
-    if not token:
-        raise topic_scout.ScoutError("no GITHUB_TOKEN")
-    model = os.environ.get("SCICLIPS_AI_MODEL", ai_writer.DEFAULT_MODEL)
-    fallback_token = os.environ.get("SCICLIPS_FALLBACK_AI_API_KEY")
-    fallback_url = os.environ.get(
-        "SCICLIPS_FALLBACK_AI_ENDPOINT",
-        "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+    # Keep the existing secret name for backwards compatibility with the
+    # repository, while exposing Gemini-specific names for future cleanup.
+    api_key = (os.environ.get("SCICLIPS_GEMINI_API_KEY")
+               or os.environ.get("SCICLIPS_FALLBACK_AI_API_KEY"))
+    if not api_key:
+        raise topic_scout.ScoutError(
+            "Gemini API key is not configured; set SCICLIPS_FALLBACK_AI_API_KEY"
+        )
+
+    endpoint = (os.environ.get("SCICLIPS_GEMINI_ENDPOINT")
+                or os.environ.get("SCICLIPS_FALLBACK_AI_ENDPOINT")
+                or GEMINI_ENDPOINT)
+    primary_model = _normalise_model(
+        os.environ.get("SCICLIPS_GEMINI_MODEL"), GEMINI_PRIMARY_MODEL
     )
-    fallback_model = os.environ.get("SCICLIPS_FALLBACK_AI_MODEL", "gemini-3.8-flash")
+    fallback_model = _normalise_model(
+        os.environ.get("SCICLIPS_GEMINI_FALLBACK_MODEL")
+        or os.environ.get("SCICLIPS_FALLBACK_AI_MODEL"),
+        GEMINI_FALLBACK_MODEL,
+    )
+    if primary_model == fallback_model:
+        fallback_model = GEMINI_FALLBACK_MODEL if primary_model != GEMINI_FALLBACK_MODEL else GEMINI_PRIMARY_MODEL
 
     def ask(messages):
-        payload = {"model": model, "temperature": 0.2, "max_tokens": 6000,
-                   "response_format": {"type": "json_object"}, "messages": messages}
-        last_error = None
-        for attempt in range(1, AI_REQUEST_ATTEMPTS + 1):
-            try:
-                reply = ai_writer._post(payload, token, timeout=180)
-                content = _message_content(reply)
-                print(f"AI provider succeeded: GitHub Models ({model})", file=sys.stderr)
-                return content
-            except Exception as error:
-                last_error = error
-                # A 200 response containing plain text such as "OK" is a protocol
-                # failure, not a transient model-generation failure. Switch providers
-                # immediately instead of repeating the same invalid response.
-                protocol_failure = "not JSON" in str(error)
-                if attempt < AI_REQUEST_ATTEMPTS and not protocol_failure:
-                    delay = AI_RETRY_DELAYS[min(attempt - 1, len(AI_RETRY_DELAYS) - 1)]
-                    print(f"Primary AI attempt {attempt}/{AI_REQUEST_ATTEMPTS} failed; retrying in {delay}s: "
-                          f"{type(error).__name__}: {str(error)[:160]}", file=sys.stderr)
-                    time.sleep(delay)
-                elif protocol_failure:
-                    print("Primary AI returned a non-JSON success response; switching provider.", file=sys.stderr)
+        base_payload = {
+            "temperature": 0.2,
+            "max_tokens": 6000,
+            "response_format": {"type": "json_object"},
+            "messages": messages,
+        }
+        errors = []
+        for model in (primary_model, fallback_model):
+            payload = dict(base_payload, model=model)
+            for attempt in range(1, AI_REQUEST_ATTEMPTS + 1):
+                try:
+                    reply = ai_writer._post(payload, api_key, timeout=180, url=endpoint)
+                    content = _message_content(reply)
+                    print(f"AI provider succeeded: Google Gemini ({model})", file=sys.stderr)
+                    return content
+                except Exception as error:
+                    errors.append((model, error))
+                    # Invalid model/configuration and malformed protocol responses
+                    # will not improve by repeating the same request.
+                    message = str(error).casefold()
+                    permanent = (
+                        "404" in message or "not found" in message
+                        or "not json" in message or "invalid" in message
+                        or "400" in message or "401" in message or "403" in message
+                    )
+                    if permanent:
+                        print(
+                            f"Gemini model {model} is unavailable/configuration-invalid; "
+                            "moving to the alternate model.",
+                            file=sys.stderr,
+                        )
+                        break
+                    if attempt < AI_REQUEST_ATTEMPTS:
+                        delay = AI_RETRY_DELAYS[min(attempt - 1, len(AI_RETRY_DELAYS) - 1)]
+                        print(
+                            f"Gemini {model} attempt {attempt}/{AI_REQUEST_ATTEMPTS} "
+                            f"failed; retrying in {delay}s: {type(error).__name__}: {str(error)[:180]}",
+                            file=sys.stderr,
+                        )
+                        time.sleep(delay)
+                        continue
                     break
 
-        if fallback_token:
-            fallback_payload = dict(payload, model=fallback_model)
-            try:
-                reply = ai_writer._post(fallback_payload, fallback_token, timeout=180, url=fallback_url)
-                content = _message_content(reply)
-                print(f"AI provider succeeded: Gemini fallback ({fallback_model})", file=sys.stderr)
-                return content
-            except Exception as fallback_error:
-                print(f"Fallback AI failed ({type(fallback_error).__name__}: "
-                      f"{str(fallback_error)[:160]})", file=sys.stderr)
-                raise topic_scout.ScoutError(
-                    "primary and fallback AI providers were unavailable "
-                    f"(primary: {type(last_error).__name__}: {str(last_error)[:100]}; "
-                    f"fallback: {type(fallback_error).__name__}: {str(fallback_error)[:100]})"
-                ) from fallback_error
-
+        details = "; ".join(
+            f"{model}: {type(error).__name__}: {str(error)[:140]}"
+            for model, error in errors
+        )
         raise topic_scout.ScoutError(
-            f"the primary AI was unavailable after {AI_REQUEST_ATTEMPTS} attempts "
-            f"({type(last_error).__name__}: {str(last_error)[:160]}); "
-            "no fallback key is configured"
-        ) from last_error
+            "Google Gemini primary and alternate models were unavailable (" + details + ")"
+        ) from (errors[-1][1] if errors else None)
+
     return ask
 
 
@@ -104,9 +136,11 @@ TOPIC_BANK_TARGET = 14
 TOPIC_BANK_LOW_WATERMARK = 8
 MAX_TOPICS_PER_RUN = 4
 
+
 def queued_count(root):
     queue = json.loads((Path(root) / 'topics' / 'topic_queue.json').read_text(encoding='utf-8'))
     return sum(1 for item in queue.get('topics', []) if item.get('status') == 'queued')
+
 
 def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4):
     root = Path(root)
@@ -128,8 +162,9 @@ def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4):
         count = queued_count(root)
     lines.append(f'Topic bank after refill: {count} queued; added {added} topic(s).')
     if count < TOPIC_BANK_TARGET:
-        lines.append('The bank will be checked again on the next daily scout run.')
+        lines.append('The bank will be checked again on the next six-hour scout run.')
     return lines
+
 
 def main():
     root = Path('.')
@@ -145,6 +180,7 @@ def main():
         with open(summary, 'a', encoding='utf-8') as handle:
             handle.write('## Topic scout\n\n' + text + '\n')
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

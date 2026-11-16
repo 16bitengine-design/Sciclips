@@ -62,7 +62,7 @@ def _refill_queue(root, notes):
     import subprocess
     found = sorted((Path(root) / "scripts").glob("*scout*.py"))
     if not found:
-        notes.append("Queue is empty and no topic scout script was found in scripts/.")
+        notes.append("No topic is waiting: queue is empty and no topic scout script was found in scripts/.")
         return False
     try:
         done = subprocess.run([sys.executable, str(found[0])], cwd=str(root), capture_output=True,

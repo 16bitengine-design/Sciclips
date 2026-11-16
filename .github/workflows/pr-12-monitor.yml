@@ -85,7 +85,7 @@ jobs:
               report.push("", "This monitor does not merge or modify the pull request.");
             }
 
-            const body = report.join("\\n");
+            const body = report.join("\n");
             const { data: comments } = await github.rest.issues.listComments({
               owner, repo, issue_number: pull_number, per_page: 100
             });

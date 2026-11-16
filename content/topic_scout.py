@@ -133,8 +133,8 @@ def suggest_idea(ask, titles):
         raise ScoutError("only chemistry topics may use the chemistry template")
     urls = [u for u in idea.get("source_urls", []) if isinstance(u, str) and u.startswith("https://")]
     urls = [u for u in urls if domain_tier(u) == "preferred"][:3]
-    if len(urls) < 2:
-        raise ScoutError("fewer than 2 pages from trusted sites")
+    # Source links are suggestions, not a hard dependency: the trusted-source
+    # search fallback can replace missing or stale links before any draft is made.
     if norm(idea.get("title", "")) in {norm(t) for t in titles}:
         raise ScoutError("that topic already exists")
     idea["source_urls"] = urls

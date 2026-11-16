@@ -177,7 +177,7 @@ def test_scout_ai_request_retries_transient_bad_responses(monkeypatch):
     import os
     from scripts import scout_topic
 
-    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "test-token")
+    monkeypatch.setenv("SCICLIPS_GEMINI_API_KEY", "test-token")
     calls = []
     def flaky(payload, token, timeout=60, url=None):
         calls.append((payload, token, timeout))
@@ -198,7 +198,7 @@ def test_scout_ai_request_rejects_empty_success_response(monkeypatch):
     from scripts import scout_topic
 
     monkeypatch.delenv("SCICLIPS_GEMINI_API_KEY", raising=False)
-    monkeypatch.delenv("SCICLIPS_FALLBACK_AI_API_KEY", raising=False)
+    monkeypatch.delenv("SCICLIPS_GEMINI_API_KEY", raising=False)
     with pytest.raises(ts.ScoutError, match="Gemini API key is not configured"):
         scout_topic.make_ask()
 
@@ -206,7 +206,7 @@ def test_scout_ai_request_rejects_empty_success_response(monkeypatch):
 def test_scout_switches_to_gemini_when_primary_returns_non_json(monkeypatch):
     from scripts import scout_topic
 
-    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "gemini-token")
+    monkeypatch.setenv("SCICLIPS_GEMINI_API_KEY", "gemini-token")
     calls = []
 
     def post(payload, token, timeout=60, url=None):
@@ -228,7 +228,7 @@ def test_scout_switches_to_gemini_when_primary_returns_non_json(monkeypatch):
 def test_gemini_model_ids_accept_models_prefix(monkeypatch):
     from scripts import scout_topic
 
-    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "gemini-token")
+    monkeypatch.setenv("SCICLIPS_GEMINI_API_KEY", "gemini-token")
     monkeypatch.setenv("SCICLIPS_GEMINI_MODEL", "models/gemini-3.8-flash")
     monkeypatch.setenv("SCICLIPS_GEMINI_FALLBACK_MODEL", "models/gemini-3.5-flash-lite")
     calls = []
@@ -245,7 +245,7 @@ def test_gemini_model_ids_accept_models_prefix(monkeypatch):
 def test_scout_keeps_primary_provider_when_it_works(monkeypatch):
     from scripts import scout_topic
 
-    monkeypatch.setenv("SCICLIPS_FALLBACK_AI_API_KEY", "gemini-token")
+    monkeypatch.setenv("SCICLIPS_GEMINI_API_KEY", "gemini-token")
     calls = []
 
     def post(payload, token, timeout=60, url=None):

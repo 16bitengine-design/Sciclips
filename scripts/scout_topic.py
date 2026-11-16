@@ -149,24 +149,33 @@ def fetch(url):
 
 def search_trusted_sources(query):
     """Find replacement pages when model-suggested trusted URLs are stale or unavailable."""
-    params = urllib.parse.urlencode({"q": f"{query} science explanation site:.gov OR site:.edu OR site:nasa.gov OR site:noaa.gov"})
-    request = urllib.request.Request(
-        "https://html.duckduckgo.com/html/?" + params,
-        headers={"User-Agent": "Mozilla/5.0 (compatible; SciclipsScout/1.0)", "Accept": "text/html"},
-    )
-    with urllib.request.urlopen(request, timeout=20) as response:
-        document = response.read(2_000_000).decode("utf-8", errors="ignore")
     found = []
-    for raw in re.findall(r"""href=['"]([^'"]+)['"]""", document):
-        link = html.unescape(raw)
-        parsed = urllib.parse.urlparse(urllib.parse.urljoin("https://html.duckduckgo.com", link))
-        if "duckduckgo.com" in (parsed.hostname or ""):
-            link = urllib.parse.parse_qs(parsed.query).get("uddg", [""])[0]
-        link = urllib.parse.urldefrag(urllib.parse.unquote(link))[0]
-        if link.startswith("https://") and topic_scout.domain_tier(link) == "preferred" and link not in found:
-            found.append(link)
-        if len(found) >= 6:
-            break
+    search_queries = (
+        f"{query} science explanation buoyancy density",
+        f"{query} site:usgs.gov OR site:noaa.gov OR site:nasa.gov",
+        f"{query} site:.edu physics science education",
+    )
+    for search_query in search_queries:
+        params = urllib.parse.urlencode({"q": search_query})
+        request = urllib.request.Request(
+            "https://html.duckduckgo.com/html/?" + params,
+            headers={"User-Agent": "Mozilla/5.0 (compatible; SciclipsScout/1.0)", "Accept": "text/html"},
+        )
+        try:
+            with urllib.request.urlopen(request, timeout=15) as response:
+                document = response.read(2_000_000).decode("utf-8", errors="ignore")
+        except Exception:
+            continue
+        for raw in re.findall(r"""href=['"]([^'"]+)['"]""", document):
+            link = html.unescape(raw)
+            parsed = urllib.parse.urlparse(urllib.parse.urljoin("https://html.duckduckgo.com", link))
+            if "duckduckgo.com" in (parsed.hostname or ""):
+                link = urllib.parse.parse_qs(parsed.query).get("uddg", [""])[0]
+            link = urllib.parse.urldefrag(urllib.parse.unquote(link))[0]
+            if link.startswith("https://") and topic_scout.domain_tier(link) == "preferred" and link not in found:
+                found.append(link)
+            if len(found) >= 9:
+                return found
     return found
 
 # Rolling reserve policy: two scheduled videos consume two topics each day.

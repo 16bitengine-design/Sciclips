@@ -189,7 +189,10 @@ def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4, search=None)
     added = 0
     while count < TOPIC_BANK_TARGET and added < MAX_TOPICS_PER_RUN:
         try:
-            topic_id, report = topic_scout.scout(root, ask, fetch_page, rendering, tries=tries, search=search)
+            if search:
+                topic_id, report = topic_scout.scout(root, ask, fetch_page, rendering, tries=tries, search=search)
+            else:
+                topic_id, report = topic_scout.scout(root, ask, fetch_page, rendering, tries=tries)
         except topic_scout.ScoutError as error:
             lines.append(f'Scout unavailable: {error}')
             break

@@ -291,3 +291,19 @@ def test_topic_bank_does_not_spend_ai_calls_when_above_low_watermark(tmp_path, m
     monkeypatch.setattr(scout_topic.topic_scout, 'scout', should_not_run)
     lines = scout_topic.replenish_topic_bank(repo, None, None, {})
     assert 'Topic bank healthy' in lines[0]
+
+def test_trusted_source_matching_rejects_lookalike_domains():
+    from research.source_collector import domain_tier
+    assert domain_tier("https://www.nasa.gov/education") == "preferred"
+    assert domain_tier("https://nasa.gov.evil.example/page") == "needs_review"
+    assert domain_tier("https://notnasa.gov/page") == "needs_review"
+
+
+def test_download_keeps_two_good_sources_when_one_link_is_dead():
+    urls = ["https://www.nasa.gov/a", "https://www.noaa.gov/b", "https://www.acs.org/c"]
+    def fetch(url):
+        if url == urls[1]:
+            raise OSError("404")
+        return "Readable science page. " * 100
+    pages = ts.download(fetch, urls)
+    assert set(pages) == {urls[0], urls[2]}

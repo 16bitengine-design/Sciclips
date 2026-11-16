@@ -335,3 +335,13 @@ def test_tidy_supplies_required_video_planning_fields_when_ai_omits_them():
     assert tidy["short_video_potential"]["angle"] == idea["central_question"]
     assert tidy["long_video_potential"]["suitable"] is True
     assert "deeper explanation" in tidy["long_video_potential"]["angle"]
+
+
+def test_tidy_removes_unlisted_attribution_phrases_from_scriptable_text():
+    record = base_record()
+    record["scientific_explanation"]["level_3"] = "According to Archimedes' Principle: the buoyant force equals the weight displaced."
+    idea = {"title": "Why do objects float?", "central_question": "Why do objects float?",
+            "category": "physics", "template": "principle"}
+    tidy = ts.tidy(record, idea, "physics-002", {}, TODAY)
+    assert "According to" not in tidy["scientific_explanation"]["level_3"]
+    assert "the buoyant force equals" in tidy["scientific_explanation"]["level_3"]

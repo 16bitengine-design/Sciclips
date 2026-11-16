@@ -229,6 +229,11 @@ class FakePublishingNet:
                 return 200, json.dumps({"data": {"account": {"organizations": [{"id": "org1"}]}}}).encode()
             if "channels(" in query:
                 return 200, json.dumps({"data": {"channels": [{"id": "c_yt", "service": "youtube"}, {"id": "c_tt", "service": "tiktok"}]}}).encode()
+            if "post(input:" in query:
+                return 200, json.dumps({"data": {"post": {
+                    "id": "p1", "status": "sent", "sentAt": "2026-11-16T18:00:00Z",
+                    "externalLink": "https://www.youtube.com/watch?v=test123"
+                }}}).encode()
             reply = self.buffer_reply or {"data": {"createPost": {"post": {"id": "p1"}}}}
             return 200, json.dumps(reply).encode()
         raise AssertionError("Unexpected request: " + url)
@@ -245,7 +250,7 @@ def test_buffer_publisher_uploads_once_to_github_then_posts_to_each_channel(tmp_
     net = FakePublishingNet()
     result = make_publisher(net).publish_video(video, "T" * 150, "Long description", "Short caption",
                                                {"youtube": "c_yt", "tiktok": "c_tt"}, [], False)
-    assert result["youtube"] == "Buffer post p1" and result["tiktok"] == "Buffer post p1"
+    assert result["youtube"] == "https://www.youtube.com/watch?v=test123" and result["youtube_post_id"] == "p1"\n    assert result["youtube_sent_at"] == "2026-11-16T18:00:00Z" and result["tiktok"] == "Buffer post p1"
     assert result["failed"] == {}
     uploads = [r for r in net.requests if r[1].startswith("https://uploads.github.com/")]
     posts = [json.loads(r[3])["query"] for r in net.requests if r[1] == "https://api.buffer.com"]

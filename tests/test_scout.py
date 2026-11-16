@@ -307,3 +307,18 @@ def test_download_keeps_two_good_sources_when_one_link_is_dead():
         return "Readable science page. " * 100
     pages = ts.download(fetch, urls)
     assert set(pages) == {urls[0], urls[2]}
+
+
+def test_download_searches_for_trusted_replacements_when_suggested_links_are_dead():
+    original = ["https://www.nasa.gov/dead-page", "https://www.rsc.org/dead-page"]
+    replacements = ["https://www.usgs.gov/water-science-school/science/water-density",
+                    "https://www.noaa.gov/office-education/outreach-communication/hands-on-science-activities/build-a-boat"]
+    calls = []
+    def fetch(url):
+        calls.append(url)
+        if url in original:
+            raise OSError("404")
+        return "Trusted source text with enough readable words. " * 50
+    pages = ts.download(fetch, original, search=lambda query: replacements, query="floating and sinking")
+    assert set(pages) == set(replacements)
+    assert calls[-2:] == replacements

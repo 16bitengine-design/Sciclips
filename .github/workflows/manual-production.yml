@@ -43,7 +43,7 @@ on:
           - draft
           - full
       ai_writer:
-        description: "AI script planner (free GitHub AI model). off = normal template writer only"
+        description: "AI script planner (Gemini). off = normal template writer only"
         required: true
         default: "off"
         type: choice
@@ -62,7 +62,6 @@ on:
 
 permissions:
   contents: read
-  models: read
 
 jobs:
   produce:
@@ -119,7 +118,8 @@ jobs:
           TOPIC_ID: ${{ inputs.topic_id }}
           VIDEO_FORMAT: ${{ inputs.video_format }}
           SCICLIPS_AI: ${{ inputs.ai_writer == 'on' && '1' || '0' }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCICLIPS_GEMINI_API_KEY: ${{ secrets.SCICLIPS_FALLBACK_AI_API_KEY }}
+          SCICLIPS_GEMINI_MODEL: ${{ vars.SCICLIPS_GEMINI_MODEL }}
         run: python scripts/generate_content.py
 
       - name: Produce finished videos
@@ -129,7 +129,8 @@ jobs:
           RENDER_QUALITY: ${{ inputs.quality }}
           NARRATION_PROVIDER: ${{ inputs.narration }}
           SCICLIPS_AI: ${{ inputs.ai_writer == 'on' && '1' || '0' }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCICLIPS_GEMINI_API_KEY: ${{ secrets.SCICLIPS_FALLBACK_AI_API_KEY }}
+          SCICLIPS_GEMINI_MODEL: ${{ vars.SCICLIPS_GEMINI_MODEL }}
           KOKORO_MODEL: models/kokoro-v1.0.onnx
           KOKORO_VOICES: models/voices-v1.0.bin
         run: python scripts/produce_video.py

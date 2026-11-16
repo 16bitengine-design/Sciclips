@@ -29,6 +29,14 @@ class PublishError(Exception):
     pass
 
 
+class PublicationUnconfirmed(PublishError):
+    """Buffer accepted a post, but its final publication state is not yet confirmed."""
+    def __init__(self, post_id, status):
+        self.post_id = post_id
+        self.status = status
+        super().__init__(f"Buffer post {post_id} is not confirmed published (status: {status}).")
+
+
 def default_transport(method, url, headers, body=None, timeout=600):
     request = urllib.request.Request(url, data=body, headers=headers, method=method)
     try:
@@ -185,21 +193,29 @@ class BufferPublisher:
         self.buffer, self.media_host, self.mode = buffer, media_host, mode
 
     def _wait_until_sent(self, post_id, attempts=20, interval=15):
-        """Only report publication after Buffer says sent and supplies sentAt."""
+        """Only report publication after Buffer says sent and supplies sentAt and a URL."""
         last = None
         for attempt in range(attempts):
-            last = self.buffer.get_post(post_id)
+            try:
+                last = self.buffer.get_post(post_id)
+            except Exception as error:
+                if attempt + 1 == attempts:
+                    raise PublicationUnconfirmed(post_id, "verification_unavailable") from error
+                time.sleep(interval)
+                continue
             status = str(last.get("status", "")).lower()
-            if status == "sent" and last.get("sentAt"):
+            if status == "sent" and last.get("sentAt") and last.get("externalLink"):
                 return last
             if status == "error":
                 raise PublishError(f"Buffer post {post_id} failed: {last.get('error') or 'platform rejected it'}")
             if status in ("draft", "needs_approval"):
-                raise PublishError(f"Buffer post {post_id} is {status}, not published.")
+                raise PublicationUnconfirmed(post_id, status)
+            if status == "sent":
+                raise PublicationUnconfirmed(post_id, "sent_but_public_url_unavailable")
             if attempt + 1 < attempts:
                 time.sleep(interval)
         status = (last or {}).get("status", "unknown")
-        raise PublishError(f"Publication unconfirmed: Buffer post {post_id} remains {status}; it is not counted as published.")
+        raise PublicationUnconfirmed(post_id, status)
 
     def publish_video(self, video, title, description, tiktok_caption, accounts, tags=(), made_for_kids=False):
         if not accounts.get("youtube"):

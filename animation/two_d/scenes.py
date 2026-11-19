@@ -376,3 +376,5 @@ SCENE_FUNCTIONS = {
     "simulation": simulation_scene,
     "graph": diagram_cards,
 }
+
+from animation.two_d import plan_scenes  # noqa: E402,F401

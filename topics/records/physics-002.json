@@ -177,5 +177,352 @@
     "suitable": true,
     "angle": "A detailed look at how boat design, volume, and density interact to create buoyancy."
   },
-  "production_status": "queued"
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 73,
+            "w": 134,
+            "h": 50,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 72,
+            "w": 130,
+            "h": 46,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "ellipse",
+            "x": 45,
+            "y": 20,
+            "w": 14,
+            "h": 14,
+            "color": "warn",
+            "dy": 50,
+            "from": 0.15,
+            "to": 0.7
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                98,
+                40
+              ],
+              [
+                132,
+                40
+              ],
+              [
+                126,
+                52
+              ],
+              [
+                104,
+                52
+              ]
+            ],
+            "color": "warn",
+            "bob": 1
+          },
+          {
+            "type": "text",
+            "x": 45,
+            "y": 8,
+            "text": "Clay ball",
+            "size": 6
+          },
+          {
+            "type": "text",
+            "x": 115,
+            "y": 28,
+            "text": "Same clay, new shape",
+            "size": 5,
+            "appear": 0.5
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 73,
+            "w": 134,
+            "h": 50,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 72,
+            "w": 130,
+            "h": 46,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                98,
+                40
+              ],
+              [
+                132,
+                40
+              ],
+              [
+                126,
+                52
+              ],
+              [
+                104,
+                52
+              ]
+            ],
+            "color": "warn",
+            "bob": 1
+          },
+          {
+            "type": "arrow",
+            "x": 115,
+            "y": 24,
+            "x2": 115,
+            "y2": 40,
+            "color": "bad",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 115,
+            "y": 70,
+            "x2": 115,
+            "y2": 54,
+            "color": "good",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 137,
+            "y": 28,
+            "text": "Weight",
+            "size": 6,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 115,
+            "y": 84,
+            "text": "Water pushes up",
+            "size": 6,
+            "appear": 0.5
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 73,
+            "w": 134,
+            "h": 50,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 72,
+            "w": 130,
+            "h": 46,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 28,
+            "w": 14,
+            "h": 14,
+            "color": "warn",
+            "dy": 48,
+            "from": 0.1,
+            "to": 0.6
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 88,
+            "x2": 80,
+            "y2": 80,
+            "color": "good",
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Ball moves little water",
+            "size": 5
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 73,
+            "w": 134,
+            "h": 50,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 72,
+            "w": 130,
+            "h": 46,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                98,
+                40
+              ],
+              [
+                132,
+                40
+              ],
+              [
+                126,
+                52
+              ],
+              [
+                104,
+                52
+              ]
+            ],
+            "color": "warn",
+            "bob": 1
+          },
+          {
+            "type": "arrow",
+            "x": 108,
+            "y": 24,
+            "x2": 108,
+            "y2": 40,
+            "color": "bad",
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 122,
+            "y": 70,
+            "x2": 122,
+            "y2": 54,
+            "color": "good",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Equal push: it floats!",
+            "size": 6,
+            "appear": 0.5
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 73,
+            "w": 134,
+            "h": 50,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 72,
+            "w": 130,
+            "h": 46,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                98,
+                40
+              ],
+              [
+                132,
+                40
+              ],
+              [
+                126,
+                52
+              ],
+              [
+                104,
+                52
+              ]
+            ],
+            "color": "warn",
+            "bob": 1
+          },
+          {
+            "type": "arrow",
+            "x": 115,
+            "y": 88,
+            "x2": 115,
+            "y2": 56,
+            "color": "good",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 115,
+            "y": 92,
+            "text": "Buoyancy",
+            "size": 6,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 30,
+            "text": "Wide shape",
+            "size": 6,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 40,
+            "text": "= more water moved",
+            "size": 5,
+            "appear": 0.6
+          }
+        ]
+      }
+    }
+  }
 }

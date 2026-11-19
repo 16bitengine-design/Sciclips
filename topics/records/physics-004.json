@@ -1,0 +1,784 @@
+{
+  "id": "physics-004",
+  "title": "Why do we see lightning before we hear thunder?",
+  "category": "physics",
+  "subject_area": "waves and sound",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "How can the gap between a flash of lightning and the sound of thunder tell you how far away the storm is?",
+  "template": "principle",
+  "principle_statement": "The flash from lightning reaches you almost instantly, but thunder is sound, so the delay between flash and thunder grows with the distance to the strike.",
+  "domain_of_validity": "Lightning within hearing range, roughly 10 miles; the speed of sound changes a little with air temperature.",
+  "scientific_explanation": {
+    "level_1": "Lightning heats the air around it to about 30,000 degrees Celsius in a split second. The air bursts outward and makes a sound wave, which we hear as thunder. You see the flash first, because sound travels only about one mile every five seconds. Count the seconds between the flash and the thunder, divide by five, and you get the distance to the lightning in miles.",
+    "level_2": "Thunder is the shock wave made when lightning heats the air so fast that it expands explosively. Millions of small shock waves along the path of the bolt reach you at slightly different times, which is why thunder rumbles. Sound moves roughly 750 miles per hour, about one mile every five seconds, and it moves faster in warm air than in cool air. Dividing the delay in seconds by five gives the distance in miles.",
+    "level_3": "The light from the flash arrives almost instantly, so the delay t between flash and thunder is the time sound needs to cover the distance d. This gives d = v t, where v is the speed of sound in air, which depends on temperature. With v of about 1,200 kilometres per hour, which is roughly 330 metres per second, every 3 seconds of delay is about 1 kilometre."
+  },
+  "supporting_evidence": [
+    "Counting the seconds from flash to thunder and dividing by five gives the distance to the strike in miles. Fifteen seconds means about three miles.",
+    "Thunder from a close strike is a sharp crack, while thunder from a distant strike is a continuous rumble."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Lightning Safety",
+      "publisher": "National Oceanic and Atmospheric Administration (NOAA JetStream)",
+      "url": "https://www.noaa.gov/jetstream/lightning/lightning-safety",
+      "date_published": null,
+      "date_updated": "2026-06-22",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "The Sound of Thunder",
+      "publisher": "National Oceanic and Atmospheric Administration (NOAA JetStream)",
+      "url": "https://www.noaa.gov/jetstream/lightning/sound-of-thunder",
+      "date_published": null,
+      "date_updated": "2023-04-05",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s3",
+      "title": "Learning Lesson: Determining distance to a Thunderstorm",
+      "publisher": "National Oceanic and Atmospheric Administration (NOAA JetStream)",
+      "url": "https://www.noaa.gov/jetstream/lightning/sound-of-thunder/learning-lesson-determining-distance-to-thunderstorm",
+      "date_published": null,
+      "date_updated": "2023-04-05",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Dividing the seconds between seeing lightning and hearing thunder by five gives the distance to the strike in miles, or by three in kilometres.",
+      "source_ids": [
+        "s1",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Thunder is the shock wave produced when lightning heats the surrounding air so quickly that it expands explosively.",
+      "source_ids": [
+        "s2",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Lightning can heat the air around its channel to about 30,000 degrees Celsius in a fraction of a second.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Sound travels roughly one mile every five seconds and moves faster in warm air than in cool air, and thunder can normally be heard up to about 10 miles away.",
+      "source_ids": [
+        "s2",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "Lightning can strike beyond the range where thunder can be heard, so if you hear thunder the storm is close enough for lightning to strike where you are.",
+      "source_ids": [
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The delay between flash and thunder equals the distance divided by the speed of sound, so distance equals speed times time.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Distance from speed and time",
+      "latex": "d = v t",
+      "dimension_check": {
+        "lhs": "m",
+        "rhs": "m s^-1 s"
+      }
+    }
+  ],
+  "assumptions": [
+    "The light from the flash reaches you almost instantly.",
+    "The speed of sound stays about the same along the path.",
+    "The strike is within the range where thunder can be heard."
+  ],
+  "variables": [
+    {
+      "symbol": "d",
+      "name": "distance to the lightning strike",
+      "unit": "m"
+    },
+    {
+      "symbol": "v",
+      "name": "speed of sound in air",
+      "unit": "m s^-1"
+    },
+    {
+      "symbol": "t",
+      "name": "delay between flash and thunder",
+      "unit": "s"
+    }
+  ],
+  "practical_applications": [
+    "Estimating how far away a storm is.",
+    "Judging when a storm is close enough that it is time to go indoors.",
+    "Telling if a storm is coming closer by watching if the delay gets shorter."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Thunder and lightning are two separate events.",
+      "correction": "Thunder is the sound that lightning makes. Both start at the same moment and in the same place."
+    },
+    {
+      "statement": "If it is not raining where you are, lightning cannot reach you.",
+      "correction": "Lightning can strike well away from the rain. If you can hear thunder, it is time to go indoors."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the air is warmer than usual?",
+      "summary": "Sound moves a little faster, so the delay is a little shorter.",
+      "correct": "Treat the divide-by-five rule as a good estimate, because the speed of sound changes with air temperature.",
+      "overlooked": "Assuming that sound always travels at exactly the same speed.",
+      "what_changes": "The air temperature changes, and so does the speed of sound.",
+      "consequences": "For the same distance the delay is a little different, so the count gives an estimate and not an exact measurement.",
+      "why": "Sound moves faster in warm air than in cool air.",
+      "prevention": "Use the count as a good estimate and round the distance.",
+      "claim_ids": [
+        "c1",
+        "c4"
+      ]
+    },
+    {
+      "title": "What if you can see lightning but cannot hear thunder?",
+      "summary": "No thunder does not mean no danger.",
+      "correct": "Remember that lightning can strike beyond the range where thunder can be heard.",
+      "overlooked": "Assuming that no thunder means a storm is harmless.",
+      "what_changes": "The strike is too far away for its sound to reach you.",
+      "consequences": "You see the flash but hear nothing, even though the storm is real and can still be dangerous.",
+      "why": "Thunder can normally be heard only up to about 10 miles, but lightning can strike beyond that range.",
+      "prevention": "When a storm is in the area, plan to go indoors early and do not wait for thunder.",
+      "claim_ids": [
+        "c4",
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Real lightning during a storm",
+      "Standing outdoors during a thunderstorm"
+    ],
+    "safety_equipment": [
+      "A safe indoor place during storms"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Count the seconds between flash and thunder to find how far away lightning is."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Why thunder rumbles, how fast sound travels, and what the count of seconds really measures."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "ellipse",
+            "x": 32,
+            "y": 20,
+            "w": 40,
+            "h": 16,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 48,
+            "y": 15,
+            "w": 30,
+            "h": 14,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                40,
+                26
+              ],
+              [
+                48,
+                26
+              ],
+              [
+                43,
+                40
+              ],
+              [
+                51,
+                40
+              ],
+              [
+                37,
+                64
+              ],
+              [
+                41,
+                46
+              ],
+              [
+                34,
+                46
+              ]
+            ],
+            "color": "warn",
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 135,
+            "y": 66,
+            "w": 8,
+            "h": 8,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 135,
+            "y": 77,
+            "w": 8,
+            "h": 14,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 135,
+            "y": 56,
+            "text": "You",
+            "size": 5
+          },
+          {
+            "type": "text",
+            "x": 105,
+            "y": 10,
+            "text": "A flash, then a rumble",
+            "size": 6,
+            "appear": 0.4
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "ellipse",
+            "x": 32,
+            "y": 20,
+            "w": 40,
+            "h": 16,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 48,
+            "y": 15,
+            "w": 30,
+            "h": 14,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                40,
+                26
+              ],
+              [
+                48,
+                26
+              ],
+              [
+                43,
+                40
+              ],
+              [
+                51,
+                40
+              ],
+              [
+                37,
+                64
+              ],
+              [
+                41,
+                46
+              ],
+              [
+                34,
+                46
+              ]
+            ],
+            "color": "warn",
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 135,
+            "y": 66,
+            "w": 8,
+            "h": 8,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 135,
+            "y": 77,
+            "w": 8,
+            "h": 14,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 135,
+            "y": 56,
+            "text": "You",
+            "size": 5
+          },
+          {
+            "type": "ellipse",
+            "x": 52,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "warn",
+            "dx": 80,
+            "from": 0.2,
+            "to": 0.3
+          },
+          {
+            "type": "rect",
+            "x": 54,
+            "y": 72,
+            "w": 2,
+            "h": 12,
+            "color": "blue",
+            "dx": 76,
+            "from": 0.3,
+            "to": 0.9
+          },
+          {
+            "type": "rect",
+            "x": 48,
+            "y": 72,
+            "w": 2,
+            "h": 12,
+            "color": "blue",
+            "dx": 76,
+            "from": 0.3,
+            "to": 0.9,
+            "alpha": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 30,
+            "text": "Light: almost instant",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 40,
+            "text": "Sound: much slower",
+            "size": 5.5,
+            "appear": 0.5
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "ellipse",
+            "x": 32,
+            "y": 20,
+            "w": 40,
+            "h": 16,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 48,
+            "y": 15,
+            "w": 30,
+            "h": 14,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                40,
+                26
+              ],
+              [
+                48,
+                26
+              ],
+              [
+                43,
+                40
+              ],
+              [
+                51,
+                40
+              ],
+              [
+                37,
+                64
+              ],
+              [
+                41,
+                46
+              ],
+              [
+                34,
+                46
+              ]
+            ],
+            "color": "warn",
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 135,
+            "y": 66,
+            "w": 8,
+            "h": 8,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 135,
+            "y": 77,
+            "w": 8,
+            "h": 14,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 135,
+            "y": 56,
+            "text": "You",
+            "size": 5
+          },
+          {
+            "type": "ellipse",
+            "x": 43,
+            "y": 45,
+            "w": 14,
+            "h": 40,
+            "color": "warn",
+            "alpha": 0.35,
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 43,
+            "y": 45,
+            "w": 26,
+            "h": 56,
+            "color": "warn",
+            "alpha": 0.18,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 14,
+            "text": "Same moment, same place",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 24,
+            "text": "Heated air bursts out",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "ellipse",
+            "x": 32,
+            "y": 20,
+            "w": 40,
+            "h": 16,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 48,
+            "y": 15,
+            "w": 30,
+            "h": 14,
+            "color": "muted",
+            "alpha": 0.8
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                40,
+                26
+              ],
+              [
+                48,
+                26
+              ],
+              [
+                43,
+                40
+              ],
+              [
+                51,
+                40
+              ],
+              [
+                37,
+                64
+              ],
+              [
+                41,
+                46
+              ],
+              [
+                34,
+                46
+              ]
+            ],
+            "color": "warn",
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 135,
+            "y": 66,
+            "w": 8,
+            "h": 8,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 135,
+            "y": 77,
+            "w": 8,
+            "h": 14,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 135,
+            "y": 56,
+            "text": "You",
+            "size": 5
+          },
+          {
+            "type": "arrow",
+            "x": 52,
+            "y": 88,
+            "x2": 128,
+            "y2": 88,
+            "color": "muted",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 90,
+            "y": 30,
+            "text": "15 s / 5 = 3 miles",
+            "size": 6.5,
+            "appear": 0.4
+          },
+          {
+            "type": "ellipse",
+            "x": 52,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "warn",
+            "dx": 76,
+            "from": 0.1,
+            "to": 0.2
+          },
+          {
+            "type": "rect",
+            "x": 54,
+            "y": 72,
+            "w": 2,
+            "h": 12,
+            "color": "blue",
+            "dx": 72,
+            "from": 0.2,
+            "to": 0.9
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "line",
+            "x": 20,
+            "y": 38,
+            "x2": 145,
+            "y2": 38,
+            "color": "muted"
+          },
+          {
+            "type": "line",
+            "x": 20,
+            "y": 66,
+            "x2": 145,
+            "y2": 66,
+            "color": "muted"
+          },
+          {
+            "type": "line",
+            "x": 145,
+            "y": 24,
+            "x2": 145,
+            "y2": 80,
+            "color": "text"
+          },
+          {
+            "type": "ellipse",
+            "x": 22,
+            "y": 38,
+            "w": 6,
+            "h": 6,
+            "color": "warn",
+            "dx": 120,
+            "from": 0.1,
+            "to": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 22,
+            "y": 66,
+            "w": 6,
+            "h": 6,
+            "color": "blue",
+            "dx": 120,
+            "from": 0.15,
+            "to": 0.9
+          },
+          {
+            "type": "text",
+            "x": 48,
+            "y": 30,
+            "text": "Light: fast",
+            "size": 5.5,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 52,
+            "y": 58,
+            "text": "Sound: slower",
+            "size": 5.5,
+            "appear": 0.15
+          },
+          {
+            "type": "text",
+            "x": 145,
+            "y": 16,
+            "text": "You",
+            "size": 5.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Delay shows distance",
+            "size": 6,
+            "appear": 0.6
+          }
+        ]
+      }
+    }
+  }
+}

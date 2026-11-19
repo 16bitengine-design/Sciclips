@@ -90,10 +90,10 @@ def next_id(root, category):
 
 # ------------------------------------------------------------------ the AI steps
 IDEA_RULES = (
-    "Suggest ONE new science topic for short explainer videos that a curious seven year old can follow and that can be "
+    "Suggest ONE new science topic for short explainer videos for a general audience of all ages (a curious beginner can follow it, an adult still learns something) and that can be "
     "SHOWN with a simple demonstration (not just explained). It must be safe at home with everyday materials, and must "
     "not be about anything dangerous, medical or political. It must not repeat any title in `already_used`. "
-    "Give 3 real web page addresses (https) from trusted sites that explain it (for example nasa.gov, noaa.gov, "
+    "Give 2 or 3 real web page addresses (https) from trusted sites that explain it (for example nasa.gov, noaa.gov, "
     "rsc.org, .edu, .gov, nature.com, aps.org). Reply with JSON only: "
     '{"title": "...", "central_question": "...", "category": "physics|chemistry|biology|earth-science|astronomy", '
     '"template": "principle|chemistry_experiment", "source_urls": ["https://..."]}')
@@ -107,14 +107,14 @@ Rules, all checked automatically:
 - equations: at least one. A non-chemical equation needs dimension_check {lhs, rhs} written ONLY with the units
   m kg s A K mol cd N J W Pa L g M (powers like m^-3), and the two sides must have the same units. Do NOT add numeric_checks.
   A chemical equation must have type "chemical" and balanced atoms, written with "->".
-- Plain words for a seven year old in scientific_explanation.level_1, a little more in level_2, precise in level_3.
+- Plain words anyone can follow in scientific_explanation.level_1 (no jargon, short sentences), more detail in level_2, precise in level_3.
 - NEVER mention websites, organisations, 'sources', 'studies' or 'research shows' in any sentence a video could speak
   (scientific_explanation, supporting_evidence, practical_applications, misconceptions, what_if_scenarios, principle_statement).
 - supporting_evidence and practical_applications are lists of plain sentences. principle_statement and domain_of_validity are required for the template 'principle'.
 - what_if_scenarios: exactly 2 complete scenarios with all the fields shown in the example (omit their "simulation" and "diagram" keys).
-- Required video-planning fields: short_video_potential and long_video_potential, each with suitable true and a clear angle.
-- Never use attribution phrases such as "According to Archimedes’ Principle:" or credit an idea as a person; explain the principle directly.
 - Safety: risk_level "low", hazards and safety_equipment lists, supervision_required true for experiments, production_status "queued".
+- Include EVERY top-level key that example_record has (for example risk_level, hazards, safety_equipment, supervision_required, simulation_only, expected_results), filled in for this topic. The checks reject a record with any key missing.
+- `template_requirements` is what the checks demand for this template. Include every field it requires, with exactly those key names, at the top level of the record.
 - Do not include the keys simulation, scene3d, diagrams or attributions.
 Reply with the JSON object only."""
 
@@ -134,83 +134,64 @@ def suggest_idea(ask, titles):
         raise ScoutError("only chemistry topics may use the chemistry template")
     urls = [u for u in idea.get("source_urls", []) if isinstance(u, str) and u.startswith("https://")]
     urls = [u for u in urls if domain_tier(u) == "preferred"][:3]
-    # Source links are suggestions, not a hard dependency: the trusted-source
-    # search fallback can replace missing or stale links before any draft is made.
+    if len(urls) < 2:
+        raise ScoutError("fewer than 2 pages from trusted sites")
     if norm(idea.get("title", "")) in {norm(t) for t in titles}:
         raise ScoutError("that topic already exists")
     idea["source_urls"] = urls
     return idea
 
 
-def download(fetch, urls, search=None, query=""):
-    """Read trusted pages, searching for replacements when model-suggested links are stale."""
-    pages, failures = {}, []
+def download(fetch, urls):
+    pages = {}
     for url in urls:
         try:
             text = fetch(url)
-            if len(text) < MIN_PAGE_CHARS:
-                failures.append(f"{url} (too little readable text)")
-                continue
-            pages[url] = text[:PAGE_CHARS]
         except Exception as error:
-            failures.append(f"could not read {url} ({type(error).__name__})")
-    if len(pages) < 2 and search:
-        try:
-            alternatives = search(query)
-        except Exception as error:
-            alternatives = []
-            failures.append(f"trusted-source search failed ({type(error).__name__})")
-        for url in alternatives:
-            if not isinstance(url, str) or url in urls or url in pages or domain_tier(url) != "preferred":
-                continue
-            try:
-                text = fetch(url)
-                if len(text) >= MIN_PAGE_CHARS:
-                    pages[url] = text[:PAGE_CHARS]
-            except Exception as error:
-                failures.append(f"replacement source unavailable {url} ({type(error).__name__})")
-            if len(pages) >= 2:
-                break
-    if len(pages) < 2:
-        detail = "; ".join(failures[:4]) or "fewer than two source pages were supplied"
-        raise ScoutError(f"only {len(pages)} trusted source page(s) could be read; at least 2 are required: {detail}")
+            raise ScoutError(f"could not read {url} ({type(error).__name__})") from error
+        if len(text) < MIN_PAGE_CHARS:
+            raise ScoutError(f"the page at {url} had too little text")
+        pages[url] = text[:PAGE_CHARS]
     return pages
 
 
-def draft_record(ask, idea, pages, example, today):
+def pick_example(root, template):
+    """An existing record that uses the same template, so the AI copies the right shape (chemistry needs safety keys)."""
+    for path in sorted((Path(root) / "topics" / "records").glob("*.json")):
+        try:
+            record = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if isinstance(record, dict) and record.get("template") == template:
+            for key in ("simulation", "scene3d", "diagrams", "attributions"):
+                record.pop(key, None)
+            return record
+    return None
+
+
+def template_requirements(root, name):
+    """What the science checks demand for this template (shown to the AI so it includes every required field)."""
+    try:
+        return tm.load_template(str(root), name)
+    except Exception:
+        return None
+
+
+def draft_record(ask, idea, pages, example, today, requirements=None):
     payload = {"task": DRAFT_RULES, "today": today, "topic": {k: idea[k] for k in ("title", "central_question", "category", "template")},
                "pages": [{"url": u, "text": t} for u, t in pages.items()], "example_record": example}
+    if requirements:
+        payload["template_requirements"] = requirements
     return _json_from(ask([{"role": "system", "content": "You write careful, plain-spoken science records. Reply with JSON only."},
                            {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}]))
 
 
 def tidy(record, idea, new_id, pages, today):
-    """Forces required fields and removes unlisted attribution phrases before production."""
-    attribution = re.compile(r"\bAccording to [A-Z][^:,.]{1,60}[:,]\s*", re.IGNORECASE)
-    def clean(value):
-        if isinstance(value, str):
-            return attribution.sub("", value)
-        if isinstance(value, list):
-            return [clean(item) for item in value]
-        if isinstance(value, dict):
-            return {key: clean(item) for key, item in value.items()}
-        return value
-    record = clean(record)
+    """Forces the fields the AI must not decide, and removes anything the pipeline cannot draw."""
     record["id"], record["title"] = new_id, idea["title"]
     record["central_question"] = idea["central_question"]
     record["category"], record["template"] = idea["category"], idea["template"]
     record["production_status"] = "queued"
-    if not isinstance(record.get("short_video_potential"), dict):
-        record["short_video_potential"] = {}
-    record["short_video_potential"].setdefault("suitable", True)
-    record["short_video_potential"].setdefault("angle", idea["central_question"])
-    if not isinstance(record.get("long_video_potential"), dict):
-        record["long_video_potential"] = {}
-    record["long_video_potential"].setdefault("suitable", True)
-    record["long_video_potential"].setdefault(
-        "angle",
-        "Explore the science behind " + idea["title"] + " with a deeper explanation and safe what-if comparisons.",
-    )
     for key in ("simulation", "scene3d", "diagrams", "attributions"):
         record.pop(key, None)
     for scenario in record.get("what_if_scenarios", []):
@@ -232,23 +213,10 @@ def verify_claims(ask, record, pages):
     for claim in record["claims"]:
         result = results.get(claim["id"], {})
         quote, sid = result.get("quote", ""), result.get("source_id")
-        if not result.get("supported"):
+        if not result.get("supported") or sid not in claim.get("source_ids", []):
             raise ScoutError(f"claim {claim['id']} is not supported by its pages")
-        if len(norm(quote).split()) < 8:
-            raise ScoutError(f"claim {claim['id']}: the supporting sentence is too short")
-        # A model may identify the correct page even when the draft listed a different
-        # source ID. Accept only an exact quote found in a downloaded, trusted page.
-        candidates = [sid] if sid in by_id else list(by_id)
-        matched = [candidate for candidate in candidates
-                   if norm(quote) in norm(pages.get(by_id.get(candidate), ""))]
-        if not matched:
-            matched = [candidate for candidate, url in by_id.items()
-                       if norm(quote) in norm(pages.get(url, ""))]
-        if not matched:
-            raise ScoutError(f"claim {claim['id']}: the supporting sentence is not really on any downloaded page")
-        verified_source = matched[0]
-        if verified_source not in claim.setdefault("source_ids", []):
-            claim["source_ids"].append(verified_source)
+        if len(norm(quote).split()) < 8 or norm(quote) not in norm(pages.get(by_id.get(sid), "")):
+            raise ScoutError(f"claim {claim['id']}: the supporting sentence is not really on the page")
 
 
 def check_everything(root, record, rendering):
@@ -273,7 +241,7 @@ def check_everything(root, record, rendering):
                 raise ScoutError(f"{fmt}/{variant}: {problems[0]}")
 
 
-def scout(root, ask, fetch, rendering, today=None, tries=2, log=None, search=None):
+def scout(root, ask, fetch, rendering, today=None, tries=2, log=None):
     """Adds at most one new topic. Returns (topic_id or None, [report lines])."""
     today = today or date.today().isoformat()
     root = Path(root)
@@ -289,9 +257,10 @@ def scout(root, ask, fetch, rendering, today=None, tries=2, log=None, search=Non
         try:
             idea = suggest_idea(ask, titles)
             idea_title = idea["title"]
-            pages = download(fetch, idea["source_urls"], search=search, query=idea["title"] + " " + idea["central_question"])
+            pages = download(fetch, idea["source_urls"])
             new_id = next_id(root, idea["category"])
-            record = tidy(draft_record(ask, idea, pages, example, today), idea, new_id, pages, today)
+            record = tidy(draft_record(ask, idea, pages, pick_example(root, idea["template"]) or example, today,
+                                         template_requirements(root, idea["template"])), idea, new_id, pages, today)
             # the AI names pages by url; make sure each source url is one we actually downloaded
             for source in record.get("sources", []):
                 if source.get("url") not in pages:

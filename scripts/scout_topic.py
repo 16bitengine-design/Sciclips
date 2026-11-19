@@ -1,7 +1,7 @@
-"""Scheduled topic scout using Google's supported Gemini API.
+"""Scheduled topic scout using Google's Gemini API, with Groq and Cloudflare Workers AI as back-ups.
 
-Topic generation uses the Gemini OpenAI-compatible endpoint directly.
-Model output still passes the
+Topic generation tries Gemini first (its OpenAI-compatible endpoint). If every Gemini model fails, it tries Groq,
+then Cloudflare, but only for the providers whose keys are set. Model output still passes the
 existing source, science, claim, script and storyboard validation pipeline.
 """
 import json
@@ -25,6 +25,12 @@ AI_REQUEST_TIMEOUT = 30
 GEMINI_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 GEMINI_PRIMARY_MODEL = "gemini-3.8-flash"
 GEMINI_FALLBACK_MODELS = ("gemini-3.5-flash-lite", "gemini-3.1-flash-lite", "gemini-3.6-flash")
+# Back-up providers. Secrets: GROQ_API_KEY, CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID.
+# Optional repository variables SCICLIPS_GROQ_MODEL / SCICLIPS_CLOUDFLARE_MODEL change the model.
+GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile"
+CLOUDFLARE_ENDPOINT = "https://api.cloudflare.com/client/v4/accounts/{account}/ai/v1/chat/completions"
+CLOUDFLARE_DEFAULT_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast"
 
 
 def _message_content(reply):
@@ -48,77 +54,106 @@ def _normalise_model(value, default):
     return model
 
 
+def _backup_model(value, default):
+    """Groq and Cloudflare model names can contain '/' and '@', so only blanks and spaces are rejected."""
+    model = str(value or default).strip()
+    if not model or any(ch.isspace() for ch in model):
+        raise topic_scout.ScoutError(f"invalid model identifier: {model!r}")
+    return model
+
+
+def _providers():
+    """The AI services to try, in order. Only services whose keys are set are included."""
+    providers = []
+    gemini_key = os.environ.get("SCICLIPS_GEMINI_API_KEY")
+    if gemini_key:
+        endpoint = os.environ.get("SCICLIPS_GEMINI_ENDPOINT") or GEMINI_ENDPOINT
+        primary_model = _normalise_model(os.environ.get("SCICLIPS_GEMINI_MODEL"), GEMINI_PRIMARY_MODEL)
+        configured_fallback = os.environ.get("SCICLIPS_GEMINI_FALLBACK_MODEL")
+        fallback_models = [
+            _normalise_model(configured_fallback, GEMINI_FALLBACK_MODELS[0]),
+            *GEMINI_FALLBACK_MODELS,
+        ]
+        models = []
+        for model in (primary_model, *fallback_models):
+            if model not in models:
+                models.append(model)
+        providers.append({"name": "Google Gemini", "endpoint": endpoint, "key": gemini_key,
+                          "models": models, "json_mode": True})
+    groq_key = os.environ.get("GROQ_API_KEY")
+    if groq_key:
+        providers.append({"name": "Groq", "endpoint": GROQ_ENDPOINT, "key": groq_key,
+                          "models": [_backup_model(os.environ.get("SCICLIPS_GROQ_MODEL"), GROQ_DEFAULT_MODEL)],
+                          "json_mode": False})
+    cloudflare_key = os.environ.get("CLOUDFLARE_API_TOKEN")
+    cloudflare_account = os.environ.get("CLOUDFLARE_ACCOUNT_ID")
+    if cloudflare_key and cloudflare_account:
+        providers.append({"name": "Cloudflare", "endpoint": CLOUDFLARE_ENDPOINT.format(account=cloudflare_account.strip()),
+                          "key": cloudflare_key,
+                          "models": [_backup_model(os.environ.get("SCICLIPS_CLOUDFLARE_MODEL"), CLOUDFLARE_DEFAULT_MODEL)],
+                          "json_mode": False})
+    return providers
+
+
 def make_ask():
-    api_key = os.environ.get("SCICLIPS_GEMINI_API_KEY")
-    if not api_key:
+    providers = _providers()
+    if not providers:
         raise topic_scout.ScoutError(
             "Gemini API key is not configured; set SCICLIPS_GEMINI_API_KEY"
         )
 
-    endpoint = os.environ.get("SCICLIPS_GEMINI_ENDPOINT") or GEMINI_ENDPOINT
-    primary_model = _normalise_model(
-        os.environ.get("SCICLIPS_GEMINI_MODEL"), GEMINI_PRIMARY_MODEL
-    )
-    configured_fallback = os.environ.get("SCICLIPS_GEMINI_FALLBACK_MODEL")
-    fallback_models = [
-        _normalise_model(configured_fallback, GEMINI_FALLBACK_MODELS[0]),
-        *GEMINI_FALLBACK_MODELS,
-    ]
-    models = []
-    for model in (primary_model, *fallback_models):
-        if model not in models:
-            models.append(model)
-
     def ask(messages):
-        base_payload = {
-            "temperature": 0.2,
-            "max_tokens": 6000,
-            "response_format": {"type": "json_object"},
-            "messages": messages,
-        }
         errors = []
-        for model in models:
-            payload = dict(base_payload, model=model)
-            for attempt in range(1, AI_REQUEST_ATTEMPTS + 1):
-                try:
-                    reply = ai_writer._post(payload, api_key, timeout=AI_REQUEST_TIMEOUT, url=endpoint)
-                    content = _message_content(reply)
-                    print(f"AI provider succeeded: Google Gemini ({model})", file=sys.stderr)
-                    return content
-                except Exception as error:
-                    errors.append((model, error))
-                    # Invalid model/configuration and malformed protocol responses
-                    # will not improve by repeating the same request.
-                    message = str(error).casefold()
-                    permanent = (
-                        "404" in message or "not found" in message
-                        or "not json" in message or "invalid" in message
-                        or "400" in message or "401" in message or "403" in message
-                    )
-                    if permanent:
-                        print(
-                            f"Gemini model {model} is unavailable/configuration-invalid; "
-                            "moving to the alternate model.",
-                            file=sys.stderr,
+        for provider in providers:
+            for model in provider["models"]:
+                payload = {"temperature": 0.2, "max_tokens": 6000, "messages": messages, "model": model}
+                if provider["json_mode"]:
+                    payload["response_format"] = {"type": "json_object"}
+                for attempt in range(1, AI_REQUEST_ATTEMPTS + 1):
+                    try:
+                        reply = ai_writer._post(payload, provider["key"], timeout=AI_REQUEST_TIMEOUT,
+                                                url=provider["endpoint"])
+                        content = _message_content(reply)
+                        print(f"AI provider succeeded: {provider['name']} ({model})", file=sys.stderr)
+                        return content
+                    except Exception as error:
+                        errors.append((f"{provider['name']} {model}", error))
+                        # Invalid model/configuration and malformed protocol responses
+                        # will not improve by repeating the same request.
+                        message = str(error).casefold()
+                        permanent = (
+                            "404" in message or "not found" in message
+                            or "not json" in message or "invalid" in message
+                            or "400" in message or "401" in message or "403" in message
                         )
+                        if permanent:
+                            print(
+                                f"{provider['name']} model {model} is unavailable/configuration-invalid; "
+                                "moving to the next model or provider.",
+                                file=sys.stderr,
+                            )
+                            break
+                        if attempt < AI_REQUEST_ATTEMPTS:
+                            delay = AI_RETRY_DELAYS[min(attempt - 1, len(AI_RETRY_DELAYS) - 1)]
+                            print(
+                                f"{provider['name']} {model} attempt {attempt}/{AI_REQUEST_ATTEMPTS} "
+                                f"failed; retrying in {delay}s: {type(error).__name__}: {str(error)[:180]}",
+                                file=sys.stderr,
+                            )
+                            time.sleep(delay)
+                            continue
                         break
-                    if attempt < AI_REQUEST_ATTEMPTS:
-                        delay = AI_RETRY_DELAYS[min(attempt - 1, len(AI_RETRY_DELAYS) - 1)]
-                        print(
-                            f"Gemini {model} attempt {attempt}/{AI_REQUEST_ATTEMPTS} "
-                            f"failed; retrying in {delay}s: {type(error).__name__}: {str(error)[:180]}",
-                            file=sys.stderr,
-                        )
-                        time.sleep(delay)
-                        continue
-                    break
 
         details = "; ".join(
-            f"{model}: {type(error).__name__}: {str(error)[:140]}"
-            for model, error in errors
+            f"{name}: {type(error).__name__}: {str(error)[:140]}"
+            for name, error in errors
         )
+        if len(providers) == 1 and providers[0]["name"] == "Google Gemini":
+            raise topic_scout.ScoutError(
+                "Google Gemini primary and alternate models were unavailable (" + details + ")"
+            ) from (errors[-1][1] if errors else None)
         raise topic_scout.ScoutError(
-            "Google Gemini primary and alternate models were unavailable (" + details + ")"
+            "All AI providers were unavailable (" + details + ")"
         ) from (errors[-1][1] if errors else None)
 
     return ask

@@ -35,6 +35,27 @@
       "category": "physics",
       "template": "principle",
       "status": "queued"
+    },
+    {
+      "id": "earth-001",
+      "title": "Why do we have seasons?",
+      "category": "earth-science",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "astro-001",
+      "title": "Why does the Moon seem to change shape?",
+      "category": "astronomy",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "bio-001",
+      "title": "How do plants make their own food?",
+      "category": "biology",
+      "template": "principle",
+      "status": "queued"
     }
   ]
 }

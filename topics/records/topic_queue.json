@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "topics": [
+    {
+      "id": "physics-001",
+      "title": "Why do objects fall at the same rate in a vacuum?",
+      "category": "physics",
+      "template": "principle",
+      "status": "published"
+    },
+    {
+      "id": "chem-001",
+      "title": "What happens when baking soda meets vinegar?",
+      "category": "chemistry",
+      "template": "chemistry_experiment",
+      "status": "published"
+    },
+    {
+      "id": "physics-002",
+      "title": "Why do some things float and others sink?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "physics-003",
+      "title": "How does surface tension allow insects to walk on water?",
+      "category": "physics",
+      "template": "principle",
+      "status": "published"
+    },
+    {
+      "id": "physics-004",
+      "title": "Why do we see lightning before we hear thunder?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "earth-001",
+      "title": "Why do we have seasons?",
+      "category": "earth-science",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "astro-001",
+      "title": "Why does the Moon seem to change shape?",
+      "category": "astronomy",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "bio-001",
+      "title": "How do plants make their own food?",
+      "category": "biology",
+      "template": "principle",
+      "status": "queued"
+    }
+  ]
+}

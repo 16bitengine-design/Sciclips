@@ -1,0 +1,869 @@
+{
+  "id": "astro-001",
+  "title": "Why does the Moon seem to change shape?",
+  "category": "astronomy",
+  "subject_area": "Earth and Moon",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "If the Moon is always the same shape, why does it look like a crescent one night and a full circle another night?",
+  "template": "principle",
+  "principle_statement": "The Moon is always half lit by the Sun, and the part of that lit half we can see from Earth changes as the Moon orbits Earth.",
+  "domain_of_validity": "The Moon as seen from Earth; lunar eclipses, when Earth's shadow falls on the Moon, are a separate event.",
+  "scientific_explanation": {
+    "level_1": "The Moon does not make its own light. It shines because the Sun lights up one half of it, the half facing the Sun. As the Moon travels around Earth, we see more or less of that lit half. The Moon itself never changes shape. Only our view of it changes, from a thin crescent to a full circle and back again.",
+    "level_2": "Moonlight is sunlight reflecting off the Moon's surface. The Sun always lights the half of the Moon that faces it, and the other half is dark. Depending on where the Moon is in its orbit, we see all, part or none of the lit half. This gives eight phases, from new moon to full moon and back. At new moon the side facing Earth is dark, and at full moon we see the whole lit side.",
+    "level_3": "The Moon takes about 27.3 days to orbit Earth, but about 29.5 days to go from one new moon to the next because of how sunlight hits the Moon. The difference D = S - O is about 2.2 days, since S is about 29.5 days and O is about 27.3 days. The eight phases in order are new, waxing crescent, first quarter, waxing gibbous, full, waning gibbous, third quarter and waning crescent."
+  },
+  "supporting_evidence": [
+    "Over a month the Moon goes through eight phases, one after the other.",
+    "At new moon the side of the Moon facing Earth is dark, even though the Moon is still there."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "What Are the Moon's Phases?",
+      "publisher": "NASA Space Place (Jet Propulsion Laboratory)",
+      "url": "https://spaceplace.nasa.gov/moon-phases/en/",
+      "date_published": null,
+      "date_updated": "2023-06-12",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Earth's Moon",
+      "publisher": "NASA Science",
+      "url": "https://science.nasa.gov/moon/",
+      "date_published": "2023-03-27",
+      "date_updated": "2026-10-14",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "The Moon does not produce its own light, and moonlight is sunlight reflecting off the Moon's surface.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "The shape of the Moon does not change; the Sun always lights the half of the Moon that faces it, and how much of that lit half we see from Earth changes as the Moon orbits Earth.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "The Moon shows eight phases in order: new, waxing crescent, first quarter, waxing gibbous, full, waning gibbous, third quarter and waning crescent.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "During a new moon the side of the Moon facing Earth is dark, and during a full moon we see the whole illuminated side.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "It takes the Moon about 27.3 days to orbit Earth, but about 29.5 days to go from one new moon to the next.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The time from one new moon to the next is about 2.2 days longer than one orbit of the Moon, 29.5 days compared with 27.3 days.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Extra time from one new moon to the next",
+      "latex": "D = S - O",
+      "dimension_check": {
+        "lhs": "s",
+        "rhs": "s"
+      }
+    }
+  ],
+  "assumptions": [
+    "The Moon is viewed from Earth.",
+    "Lunar eclipses are not included.",
+    "The Sun always lights the half of the Moon that faces it."
+  ],
+  "variables": [
+    {
+      "symbol": "D",
+      "name": "extra time compared with one orbit",
+      "unit": "s"
+    },
+    {
+      "symbol": "S",
+      "name": "time from one new moon to the next",
+      "unit": "s"
+    },
+    {
+      "symbol": "O",
+      "name": "time for one orbit of the Moon",
+      "unit": "s"
+    }
+  ],
+  "practical_applications": [
+    "Telling roughly what time of the month it is from the Moon's shape.",
+    "Planning when the night sky will be darker or brighter for stargazing.",
+    "Understanding why a month on a lunar calendar is about 29.5 days long."
+  ],
+  "misconceptions": [
+    {
+      "statement": "The Moon makes its own light.",
+      "correction": "The Moon does not produce its own light. Moonlight is sunlight that reflects off the Moon's surface."
+    },
+    {
+      "statement": "The Moon really changes shape during the month.",
+      "correction": "The shape of the Moon does not change. Our view of the lit half of the Moon changes as the Moon orbits Earth."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the Moon made its own light?",
+      "summary": "It would shine fully all month, but the Moon only reflects sunlight.",
+      "correct": "Remember that moonlight is sunlight reflecting off the Moon, and that the Sun lights only the half facing it.",
+      "overlooked": "Assuming the Moon glows on its own.",
+      "what_changes": "We imagine a light source on the Moon itself.",
+      "consequences": "We would expect the whole face to shine all month, but we see crescents, half moons and a dark new moon.",
+      "why": "The Moon does not produce its own light, and the Sun lights only the half facing it.",
+      "prevention": "Ask where the light comes from before explaining what we see.",
+      "claim_ids": [
+        "c1",
+        "c2"
+      ]
+    },
+    {
+      "title": "What if the Moon is between Earth and the Sun?",
+      "summary": "We see the dark side, so we cannot see the Moon.",
+      "correct": "Expect a new moon: the side of the Moon facing Earth is dark.",
+      "overlooked": "Assuming the Moon has vanished.",
+      "what_changes": "The lit half of the Moon faces away from Earth.",
+      "consequences": "The side facing Earth is dark, so the Moon cannot be seen even though it is still there.",
+      "why": "The Sun lights the side of the Moon that faces the Sun, which at new moon is the far side.",
+      "prevention": "Check where the Moon is in its orbit before saying it has gone.",
+      "claim_ids": [
+        "c2",
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Dark outdoor spaces at night",
+      "Walking while looking up at the sky"
+    ],
+    "safety_equipment": [
+      "A flashlight",
+      "An adult when observing the sky at night"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "The Sun always lights half the Moon, and we see different amounts of it as the Moon orbits Earth."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "The eight Moon phases, why the Moon seems to change shape, and why a lunar month is about 29.5 days."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 14,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 38,
+            "x2": 40,
+            "y2": 38,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 50,
+            "x2": 40,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 62,
+            "x2": 40,
+            "y2": 62,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 18,
+            "h": 18,
+            "color": "blue"
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 50,
+            "w": 10.0,
+            "h": 10.0,
+            "color": "muted",
+            "alpha": 0.45,
+            "appear": 0.2
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                110.0,
+                45.0
+              ],
+              [
+                107.5,
+                45.67
+              ],
+              [
+                105.67,
+                47.5
+              ],
+              [
+                105.0,
+                50.0
+              ],
+              [
+                105.67,
+                52.5
+              ],
+              [
+                107.5,
+                54.33
+              ],
+              [
+                110.0,
+                55.0
+              ]
+            ],
+            "color": "text",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Sun lights half the Moon",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 74,
+            "text": "Lit side faces the Sun",
+            "size": 5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 14,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 38,
+            "x2": 40,
+            "y2": 38,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 50,
+            "x2": 40,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 62,
+            "x2": 40,
+            "y2": 62,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 18,
+            "h": 18,
+            "color": "blue"
+          },
+          {
+            "type": "ellipse",
+            "x": 50,
+            "y": 50,
+            "w": 10.0,
+            "h": 10.0,
+            "color": "muted",
+            "alpha": 0.45,
+            "appear": 0.15
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                50.0,
+                45.0
+              ],
+              [
+                47.5,
+                45.67
+              ],
+              [
+                45.67,
+                47.5
+              ],
+              [
+                45.0,
+                50.0
+              ],
+              [
+                45.67,
+                52.5
+              ],
+              [
+                47.5,
+                54.33
+              ],
+              [
+                50.0,
+                55.0
+              ]
+            ],
+            "color": "text",
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 18,
+            "w": 10.0,
+            "h": 10.0,
+            "color": "muted",
+            "alpha": 0.45,
+            "appear": 0.3
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                80.0,
+                13.0
+              ],
+              [
+                77.5,
+                13.67
+              ],
+              [
+                75.67,
+                15.5
+              ],
+              [
+                75.0,
+                18.0
+              ],
+              [
+                75.67,
+                20.5
+              ],
+              [
+                77.5,
+                22.33
+              ],
+              [
+                80.0,
+                23.0
+              ]
+            ],
+            "color": "text",
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 50,
+            "w": 10.0,
+            "h": 10.0,
+            "color": "muted",
+            "alpha": 0.45,
+            "appear": 0.45
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                110.0,
+                45.0
+              ],
+              [
+                107.5,
+                45.67
+              ],
+              [
+                105.67,
+                47.5
+              ],
+              [
+                105.0,
+                50.0
+              ],
+              [
+                105.67,
+                52.5
+              ],
+              [
+                107.5,
+                54.33
+              ],
+              [
+                110.0,
+                55.0
+              ]
+            ],
+            "color": "text",
+            "appear": 0.45
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 82,
+            "w": 10.0,
+            "h": 10.0,
+            "color": "muted",
+            "alpha": 0.45,
+            "appear": 0.6
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                80.0,
+                77.0
+              ],
+              [
+                77.5,
+                77.67
+              ],
+              [
+                75.67,
+                79.5
+              ],
+              [
+                75.0,
+                82.0
+              ],
+              [
+                75.67,
+                84.5
+              ],
+              [
+                77.5,
+                86.33
+              ],
+              [
+                80.0,
+                87.0
+              ]
+            ],
+            "color": "text",
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 50,
+            "y": 63,
+            "text": "New",
+            "size": 5,
+            "appear": 0.15
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 7,
+            "text": "First quarter",
+            "size": 5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 110,
+            "y": 63,
+            "text": "Full",
+            "size": 5,
+            "appear": 0.45
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Third quarter",
+            "size": 5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 14,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 38,
+            "x2": 40,
+            "y2": 38,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 50,
+            "x2": 40,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 62,
+            "x2": 40,
+            "y2": 62,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 18,
+            "h": 18,
+            "color": "blue"
+          },
+          {
+            "type": "ellipse",
+            "x": 50,
+            "y": 50,
+            "w": 10.0,
+            "h": 10.0,
+            "color": "muted",
+            "alpha": 0.45,
+            "appear": 0.1
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                50.0,
+                45.0
+              ],
+              [
+                47.5,
+                45.67
+              ],
+              [
+                45.67,
+                47.5
+              ],
+              [
+                45.0,
+                50.0
+              ],
+              [
+                45.67,
+                52.5
+              ],
+              [
+                47.5,
+                54.33
+              ],
+              [
+                50.0,
+                55.0
+              ]
+            ],
+            "color": "text",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 71,
+            "y": 50,
+            "x2": 59,
+            "y2": 50,
+            "color": "muted",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 28,
+            "text": "Dark side faces Earth",
+            "size": 5.5,
+            "appear": 0.35
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 72,
+            "text": "The Moon is still there",
+            "size": 5.5,
+            "appear": 0.65
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 14,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 38,
+            "x2": 40,
+            "y2": 38,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 50,
+            "x2": 40,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 62,
+            "x2": 40,
+            "y2": 62,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 18,
+            "h": 18,
+            "color": "blue"
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 50,
+            "w": 10.0,
+            "h": 10.0,
+            "color": "muted",
+            "alpha": 0.45,
+            "appear": 0.1
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                110.0,
+                45.0
+              ],
+              [
+                107.5,
+                45.67
+              ],
+              [
+                105.67,
+                47.5
+              ],
+              [
+                105.0,
+                50.0
+              ],
+              [
+                105.67,
+                52.5
+              ],
+              [
+                107.5,
+                54.33
+              ],
+              [
+                110.0,
+                55.0
+              ]
+            ],
+            "color": "text",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 90,
+            "y": 50,
+            "x2": 102,
+            "y2": 50,
+            "color": "muted",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 105,
+            "y": 28,
+            "text": "Lit side faces Earth",
+            "size": 5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 105,
+            "y": 74,
+            "text": "Full moon: we see it all",
+            "size": 5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 74.6,
+            "y": 38,
+            "w": 109,
+            "h": 10,
+            "color": "blue",
+            "appear": 0.1
+          },
+          {
+            "type": "rect",
+            "x": 79,
+            "y": 64,
+            "w": 118,
+            "h": 10,
+            "color": "accent",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 74,
+            "y": 28,
+            "text": "27.3 days: one orbit",
+            "size": 5.5,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 54,
+            "text": "29.5 days: new to new",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "About 2 days more",
+            "size": 5.5,
+            "appear": 0.75
+          }
+        ]
+      }
+    }
+  }
+}

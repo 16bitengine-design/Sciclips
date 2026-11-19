@@ -1,0 +1,616 @@
+{
+  "id": "earth-001",
+  "title": "Why do we have seasons?",
+  "category": "earth-science",
+  "subject_area": "Earth and space science",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "If Earth is closest to the Sun in January, why is it winter in the Northern Hemisphere then?",
+  "template": "principle",
+  "principle_statement": "Earth's tilted axis always points in the same direction, so over the year different parts of Earth receive the Sun's most direct rays, and this causes the seasons.",
+  "domain_of_validity": "Earth in orbit around the Sun; the tilt of Earth's axis stays nearly fixed over a single year.",
+  "scientific_explanation": {
+    "level_1": "Earth spins on a tilted axis, a bit like a spinning top that leans to one side. As Earth travels around the Sun, the axis keeps pointing the same way. So for part of the year the north leans toward the Sun and gets its most direct rays, which gives summer there. Half a year later the south leans toward the Sun, and it is winter in the north.",
+    "level_2": "Earth's axis is an imaginary pole through its centre, tilted about 23.45 degrees from the perpendicular to its orbit. Because it always points in the same direction, the North Pole tilts toward the Sun around June and away from it around December. A hemisphere that tilts toward the Sun gets more direct sunlight, which means summer. Earth is actually closest to the Sun in January, so distance is not the cause of the seasons.",
+    "level_3": "The tilt of about 23.45 degrees is thought to come from a giant impact early in Earth's history. Earth's orbit is slightly elongated: Earth is about 91.4 million miles from the Sun at its closest and about 94.5 million miles at its farthest. The difference D = A - P is over 3 million miles, which is small compared with the whole distance, so the changing angle of the sunlight, and not distance, drives the seasons."
+  },
+  "supporting_evidence": [
+    "In the Northern Hemisphere it is summer in July, when Earth is farthest from the Sun, and winter in January, when Earth is closest.",
+    "The North Pole tilts toward the Sun around June and the South Pole tilts toward the Sun around December."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "What Causes the Seasons?",
+      "publisher": "NASA Space Place (Jet Propulsion Laboratory)",
+      "url": "https://spaceplace.nasa.gov/seasons/en/",
+      "date_published": null,
+      "date_updated": "2025-07-29",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Why does Earth have Seasons?",
+      "publisher": "NOAA National Environmental Satellite, Data, and Information Service",
+      "url": "https://www.nesdis.noaa.gov/about/k-12-education/understanding-our-planet/why-does-earth-have-seasons",
+      "date_published": "2025-08-26",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Earth has seasons because its axis is tilted and always points in the same direction, so different parts of Earth get the Sun's most direct rays during the year.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "When the North Pole tilts toward the Sun, around June, it is summer in the Northern Hemisphere, and when the South Pole tilts toward the Sun, around December, it is winter in the Northern Hemisphere.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Earth is closest to the Sun in January and farthest from it in July, so Earth's distance from the Sun is not the cause of the seasons.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Earth's axis is tilted about 23.45 degrees from the perpendicular to its orbit.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "theory",
+      "text": "Scientists think a very large object hit the young Earth and knocked it off-kilter, which tilted its axis.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "Earth's farthest distance from the Sun minus its closest distance is over 3 million miles, which is small compared with the whole distance.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Difference between Earth's farthest and closest distance from the Sun",
+      "latex": "D = A - P",
+      "dimension_check": {
+        "lhs": "m",
+        "rhs": "m"
+      }
+    }
+  ],
+  "assumptions": [
+    "Earth's orbit is slightly elongated, not a perfect circle.",
+    "Earth's axis keeps pointing in the same direction as Earth orbits the Sun.",
+    "The tilt stays nearly constant over a single year."
+  ],
+  "variables": [
+    {
+      "symbol": "D",
+      "name": "difference between the farthest and closest distance",
+      "unit": "m"
+    },
+    {
+      "symbol": "A",
+      "name": "farthest distance from the Sun",
+      "unit": "m"
+    },
+    {
+      "symbol": "P",
+      "name": "closest distance to the Sun",
+      "unit": "m"
+    }
+  ],
+  "practical_applications": [
+    "Planning when to plant crops and when to expect warm or cold weather.",
+    "Understanding why the Northern and Southern Hemispheres have opposite seasons.",
+    "Explaining why the Sun's path across the sky changes during the year."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Summer happens because Earth is closer to the Sun.",
+      "correction": "Earth is closest to the Sun in January and farthest in July. The seasons come from the tilt of Earth's axis."
+    },
+    {
+      "statement": "Earth tilts back and forth during the year.",
+      "correction": "Earth's axis always points in the same direction. As Earth orbits the Sun, a different pole leans toward the Sun."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if Earth's axis stood up straight?",
+      "summary": "The Sun's most direct rays would not shift between the hemispheres during the year.",
+      "correct": "Remember that the tilt of the axis moves the Sun's most direct rays north and south as Earth orbits.",
+      "overlooked": "Assuming the seasons would stay the same with no tilt.",
+      "what_changes": "The tilt of Earth's axis is removed.",
+      "consequences": "The Sun's most direct rays would no longer move between the hemispheres through the year, so the seasons caused by the tilt would not happen.",
+      "why": "Earth has seasons because its axis does not stand up straight.",
+      "prevention": "Check whether a planet's axis is tilted before predicting its seasons.",
+      "claim_ids": [
+        "c1",
+        "c4"
+      ]
+    },
+    {
+      "title": "What if seasons depended on distance from the Sun?",
+      "summary": "The Northern Hemisphere would have summer in January, but it has winter.",
+      "correct": "Use the tilt: the hemisphere tilted toward the Sun gets more direct rays and has summer.",
+      "overlooked": "Assuming Earth is hotter when it is closer to the Sun.",
+      "what_changes": "We look at Earth's distance from the Sun instead of its tilt.",
+      "consequences": "The prediction fails, because the Northern Hemisphere has winter in January when Earth is closest to the Sun.",
+      "why": "The change in Earth's distance is small, and the tilt decides which part of Earth gets the Sun's most direct rays.",
+      "prevention": "Check an idea against real observations, such as which season it is when Earth is closest to the Sun.",
+      "claim_ids": [
+        "c2",
+        "c3"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Looking straight at the Sun",
+      "Dark outdoor spaces at night"
+    ],
+    "safety_equipment": [
+      "Never look at the Sun directly",
+      "A flashlight and a ball for a safe indoor demonstration"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Why Earth's tilt, and not its distance from the Sun, causes the seasons."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "The tilt of Earth, how sunlight angles change the seasons, and why distance is not the cause."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 130,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "blue",
+            "appear": 0.2
+          },
+          {
+            "type": "line",
+            "x": 122,
+            "y": 28,
+            "x2": 138,
+            "y2": 72,
+            "color": "text",
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 94,
+            "y": 50,
+            "x2": 114,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.3,
+            "alpha": 0.8
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Earth leans to one side",
+            "size": 5.5,
+            "appear": 0.35
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 88,
+            "text": "Its axis is tilted",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 138,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "blue",
+            "appear": 0.15
+          },
+          {
+            "type": "line",
+            "x": 130,
+            "y": 28,
+            "x2": 146,
+            "y2": 72,
+            "color": "text",
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 22,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "blue",
+            "appear": 0.3
+          },
+          {
+            "type": "line",
+            "x": 14,
+            "y": 28,
+            "x2": 30,
+            "y2": 72,
+            "color": "text",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 94,
+            "y": 50,
+            "x2": 122,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.25,
+            "alpha": 0.8
+          },
+          {
+            "type": "arrow",
+            "x": 66,
+            "y": 50,
+            "x2": 38,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.4,
+            "alpha": 0.8
+          },
+          {
+            "type": "text",
+            "x": 138,
+            "y": 88,
+            "text": "June",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 88,
+            "text": "December",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 138,
+            "y": 14,
+            "text": "North: summer",
+            "size": 5.5,
+            "appear": 0.55
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 14,
+            "text": "North: winter",
+            "size": 5.5,
+            "appear": 0.65
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Same tilt all year",
+            "size": 5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 8,
+            "text": "Northern Hemisphere",
+            "size": 5
+          },
+          {
+            "type": "ellipse",
+            "x": 18,
+            "y": 32,
+            "w": 20,
+            "h": 20,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 18,
+            "y": 66,
+            "w": 20,
+            "h": 20,
+            "color": "warn"
+          },
+          {
+            "type": "line",
+            "x": 28,
+            "y": 32,
+            "x2": 86,
+            "y2": 32,
+            "color": "muted"
+          },
+          {
+            "type": "line",
+            "x": 28,
+            "y": 66,
+            "x2": 90,
+            "y2": 66,
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 92,
+            "y": 32,
+            "w": 12,
+            "h": 12,
+            "color": "blue",
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 96,
+            "y": 66,
+            "w": 12,
+            "h": 12,
+            "color": "blue",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 92,
+            "y": 20,
+            "text": "January",
+            "size": 5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 96,
+            "y": 54,
+            "text": "July",
+            "size": 5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 132,
+            "y": 32,
+            "text": "Closest: winter",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 132,
+            "y": 66,
+            "text": "Farthest: summer",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 138,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "blue",
+            "appear": 0.15
+          },
+          {
+            "type": "line",
+            "x": 130,
+            "y": 28,
+            "x2": 146,
+            "y2": 72,
+            "color": "text",
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 22,
+            "y": 50,
+            "w": 24,
+            "h": 24,
+            "color": "blue",
+            "appear": 0.3
+          },
+          {
+            "type": "line",
+            "x": 14,
+            "y": 28,
+            "x2": 30,
+            "y2": 72,
+            "color": "text",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 94,
+            "y": 50,
+            "x2": 122,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.25,
+            "alpha": 0.8
+          },
+          {
+            "type": "arrow",
+            "x": 66,
+            "y": 50,
+            "x2": 38,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.4,
+            "alpha": 0.8
+          },
+          {
+            "type": "text",
+            "x": 138,
+            "y": 88,
+            "text": "Direct rays: summer",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 88,
+            "text": "Slanted rays: winter",
+            "size": 5.5,
+            "appear": 0.65
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Tilt decides the season",
+            "size": 5.5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "line",
+            "x": 80,
+            "y": 16,
+            "x2": 80,
+            "y2": 84,
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 30,
+            "h": 30,
+            "color": "blue",
+            "appear": 0.1
+          },
+          {
+            "type": "line",
+            "x": 68,
+            "y": 22,
+            "x2": 92,
+            "y2": 78,
+            "color": "text",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 116,
+            "y": 24,
+            "text": "Tilt: about 23.5°",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 20,
+            "text": "Axis points the",
+            "size": 5.5,
+            "appear": 0.55
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 28,
+            "text": "same way all year",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,649 @@
+{
+  "id": "bio-001",
+  "title": "How do plants make their own food?",
+  "category": "biology",
+  "subject_area": "Plant biology",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "How can a plant grow using only sunlight, air and water?",
+  "template": "principle",
+  "principle_statement": "Plants, algae and some bacteria use energy from sunlight to turn carbon dioxide and water into sugar, and they release oxygen as a by-product.",
+  "domain_of_validity": "Photosynthesis in organisms with chlorophyll, wherever there is enough sunlight.",
+  "scientific_explanation": {
+    "level_1": "Plants make their own food. Their green leaves catch energy from sunlight. The plant uses that energy to turn carbon dioxide from the air and water from the soil into sugar. Oxygen is released as a by-product, and the sugar feeds the plant.",
+    "level_2": "Inside leaves, tiny structures called chloroplasts hold chlorophyll, which absorbs energy from the red and blue parts of sunlight. Plants take in carbon dioxide through small pores called stomata and take in water through their roots. The light energy is used to split water and to build carbon dioxide into sugar, and oxygen is given off as a by-product.",
+    "level_3": "Photosynthesis is summed up by 6CO2 + 6H2O -> C6H12O6 + 6O2, powered by light. Six molecules of carbon dioxide and six of water make one molecule of glucose and six of oxygen. The rate depends on water, temperature, the concentration of carbon dioxide and nutrients, and the stomata act like valves that balance carbon dioxide intake against water loss."
+  },
+  "supporting_evidence": [
+    "Plants, algae and some bacteria make sugar and oxygen from carbon dioxide and water, using sunlight.",
+    "Photosynthesis happens even in shallow water and below clear ice, wherever there is enough sunlight."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "What is the difference between photosynthesis and chemosynthesis?",
+      "publisher": "NOAA Ocean Exploration",
+      "url": "https://oceanexplorer.noaa.gov/ocean-fact/photochemo/",
+      "date_published": "2012-09-21",
+      "date_updated": "2022-09-14",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Photosynthesis (EARTH 103: Earth in the Future)",
+      "publisher": "Penn State College of Earth and Mineral Sciences",
+      "url": "https://courses.ems.psu.edu/earth103/node/1020",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "All photosynthetic organisms use solar energy to turn carbon dioxide and water into sugar and oxygen.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Photosynthesis occurs in plants and some bacteria, wherever there is enough sunlight, including on land, in shallow water and below clear ice.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "In plants, photosynthesis takes place in the chloroplasts inside leaves, where chlorophyll absorbs solar energy in the red and blue parts of the spectrum.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Plants take in carbon dioxide through small openings called stomata, which they can open and close like valves, and the more they let in, the faster photosynthesis goes.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "Most life on Earth is based on a food chain that revolves around the Sun, because plants use sunlight to make food by photosynthesis.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "established_fact",
+      "text": "Light, six molecules of carbon dioxide and six of water produce one molecule of glucose and six of oxygen.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Photosynthesis",
+      "type": "chemical",
+      "equation": "6CO2 + 6H2O -> C6H12O6 + 6O2",
+      "latex": "6CO2 + 6H2O -> C6H12O6 + 6O2"
+    }
+  ],
+  "assumptions": [
+    "Enough sunlight reaches the plant.",
+    "Water and carbon dioxide are available.",
+    "The plant has chlorophyll."
+  ],
+  "variables": [
+    {
+      "symbol": "n",
+      "name": "amount of substance",
+      "unit": "mol"
+    }
+  ],
+  "practical_applications": [
+    "Understanding how plants produce the food that animals eat.",
+    "Explaining where much of the oxygen we breathe comes from.",
+    "Understanding how plants take in carbon dioxide from the air."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Plants get their food from the soil.",
+      "correction": "Plants make sugar from carbon dioxide and water, using energy from sunlight. The soil supplies water, not the sugar itself."
+    },
+    {
+      "statement": "Plants only make food in sunny places on land.",
+      "correction": "Photosynthesis happens wherever there is enough sunlight, even in shallow water and below clear ice."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if a plant gets no sunlight?",
+      "summary": "Without light, photosynthesis cannot run.",
+      "correct": "Remember that photosynthesis needs light, carbon dioxide and water.",
+      "overlooked": "Assuming plants can make food in the dark.",
+      "what_changes": "The light energy is removed.",
+      "consequences": "The plant cannot make sugar from carbon dioxide and water, so it cannot keep growing.",
+      "why": "Sunlight provides the energy that powers the reaction.",
+      "prevention": "Give plants enough light.",
+      "claim_ids": [
+        "c1",
+        "c3"
+      ]
+    },
+    {
+      "title": "What if the stomata stay shut?",
+      "summary": "Less carbon dioxide gets in, so photosynthesis slows down.",
+      "correct": "Plants open and close stomata like valves to balance carbon dioxide intake against water loss.",
+      "overlooked": "Assuming plants can take in as much carbon dioxide as they like.",
+      "what_changes": "The pores in the leaves close.",
+      "consequences": "Less carbon dioxide enters the leaf, so the rate of photosynthesis falls.",
+      "why": "Carbon dioxide enters through the stomata, and the more they let in, the faster photosynthesis goes.",
+      "prevention": "Remember the balance between carbon dioxide intake and water loss.",
+      "claim_ids": [
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Spilled water or soil on the floor"
+    ],
+    "safety_equipment": [
+      "A towel for spills"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Plants turn sunlight, air and water into sugar and oxygen."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "How photosynthesis works, where it happens in the leaf, and why it feeds almost all life."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 16,
+            "w": 20,
+            "h": 20,
+            "color": "warn",
+            "alpha": 1.0
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 4,
+            "h": 44,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 64,
+            "y": 44,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 97,
+            "y": 40,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 68,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 92,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 8,
+            "text": "Plants make their food",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 32,
+            "y": 22,
+            "x2": 58,
+            "y2": 40,
+            "color": "warn",
+            "appear": 0.5,
+            "alpha": 0.8
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 16,
+            "w": 20,
+            "h": 20,
+            "color": "warn",
+            "alpha": 1.0
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 4,
+            "h": 44,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 64,
+            "y": 44,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 97,
+            "y": 40,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 68,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 92,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "arrow",
+            "x": 32,
+            "y": 22,
+            "x2": 58,
+            "y2": 40,
+            "color": "warn",
+            "appear": 0.1,
+            "alpha": 0.8
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 36,
+            "text": "Light",
+            "size": 5,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 56,
+            "x2": 56,
+            "y2": 48,
+            "color": "blue",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 24,
+            "y": 64,
+            "text": "CO2",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 90,
+            "x2": 80,
+            "y2": 62,
+            "color": "blue",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 80,
+            "text": "Water",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "arrow",
+            "x": 110,
+            "y": 44,
+            "x2": 140,
+            "y2": 32,
+            "color": "good",
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 144,
+            "y": 26,
+            "text": "O2",
+            "size": 5.5,
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 62,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.85,
+            "dy": 22,
+            "from": 0.85,
+            "to": 1.0
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 16,
+            "w": 20,
+            "h": 20,
+            "color": "warn",
+            "alpha": 0.25
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 4,
+            "h": 44,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 64,
+            "y": 44,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 97,
+            "y": 40,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 68,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 92,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 36,
+            "text": "No light",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "No light, no food",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 130,
+            "y": 40,
+            "text": "No sugar",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 16,
+            "w": 20,
+            "h": 20,
+            "color": "warn",
+            "alpha": 1.0
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 4,
+            "h": 44,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 64,
+            "y": 44,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 97,
+            "y": 40,
+            "w": 26,
+            "h": 12,
+            "color": "good"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 68,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 84,
+            "x2": 92,
+            "y2": 98,
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 52,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "dy": 28,
+            "bob": 0.5,
+            "from": 0.1,
+            "to": 0.9
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 46,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "dy": 28,
+            "appear": 0.3,
+            "from": 0.3,
+            "to": 0.95
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 8,
+            "text": "Sugar feeds the plant",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 130,
+            "y": 64,
+            "text": "Sugar + oxygen",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 22,
+            "text": "6CO2 + 6H2O",
+            "size": 8,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 32,
+            "x2": 80,
+            "y2": 52,
+            "color": "warn",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 104,
+            "y": 42,
+            "text": "light",
+            "size": 6,
+            "appear": 0.3,
+            "color": "warn"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 64,
+            "text": "C6H12O6 + 6O2",
+            "size": 8,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "sugar + oxygen",
+            "size": 6,
+            "appear": 0.7
+          }
+        ]
+      }
+    }
+  }
+}

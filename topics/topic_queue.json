@@ -28,6 +28,13 @@
       "category": "physics",
       "template": "principle",
       "status": "published"
+    },
+    {
+      "id": "physics-004",
+      "title": "Why do we see lightning before we hear thunder?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
     }
   ]
 }

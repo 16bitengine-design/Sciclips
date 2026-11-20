@@ -4,8 +4,8 @@ name: Automatic production
 # Safety rules live in config/automation.json (on/off, rehearsal mode, videos per day) and in scripts/auto_run.py.
 on:
   schedule:
-    - cron: "0 15 * * *"     # 15:00 UTC (18:00 in Uganda).
-    - cron: "0 18 * * *"     # 18:00 UTC (21:00 in Uganda).
+    - cron: "0 12 * * *"     # 12:00 UTC (15:00 in Uganda).
+    - cron: "0 17 * * *"     # 17:00 UTC (20:00 in Uganda).
   workflow_dispatch:
 
 permissions:
@@ -50,21 +50,28 @@ jobs:
       - name: Run automated tests (nothing is published if any test fails)
         run: python -m pytest tests -q
 
+      - name: Add new topic records to the queue
+        run: python scripts/sync_queue.py
+
       - name: Make and publish today's video
         env:
           SCICLIPS_AI: "1"
-          SCICLIPS_GEMINI_API_KEY: ${{ secrets.SCICLIPS_FALLBACK_AI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # AI providers for the topic scout (used only when the queue is empty). Gemini first, then Groq, then Cloudflare.
+          SCICLIPS_GEMINI_API_KEY: ${{ secrets.SCICLIPS_GEMINI_API_KEY }}
           SCICLIPS_GEMINI_MODEL: ${{ vars.SCICLIPS_GEMINI_MODEL }}
+          SCICLIPS_GEMINI_FALLBACK_MODEL: ${{ vars.SCICLIPS_GEMINI_FALLBACK_MODEL }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
           BUFFER_YOUTUBE_CHANNEL_ID: ${{ secrets.BUFFER_YOUTUBE_CHANNEL_ID }}
           BUFFER_TIKTOK_CHANNEL_ID: ${{ secrets.BUFFER_TIKTOK_CHANNEL_ID }}
-          # Required only to upload generated media to GitHub Releases; Gemini uses its own API key.
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           KOKORO_MODEL: models/kokoro-v1.0.onnx
           KOKORO_VOICES: models/voices-v1.0.bin
           NARRATION_PROVIDER: kokoro
-          SCICLIPS_RUN_KIND: ${{ github.event_name == 'workflow_dispatch' && 'manual' || 'schedule' }}
+          SCICLIPS_RUN_KIND: ${{ github.event_name }}
           SCICLIPS_SCHEDULE_CRON: ${{ github.event.schedule || '' }}
         run: python scripts/auto_run.py
 
@@ -84,11 +91,11 @@ jobs:
         run: |
           git config user.name "sciclips-bot"
           git config user.email "sciclips-bot@users.noreply.github.com"
-          git add records/production_history.json records/auto_state.json topics/topic_queue.json topics/records
-          if [ -f records/pending_publications.json ]; then git add records/pending_publications.json; fi
+          git add -A -- records topics
           if git diff --cached --quiet; then
             echo "Nothing new to save."
           else
             git commit -m "Automatic production: update records [skip ci]"
+            git pull --rebase
             git push
           fi

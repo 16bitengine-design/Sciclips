@@ -20,7 +20,7 @@
       "title": "Why do some things float and others sink?",
       "category": "physics",
       "template": "principle",
-      "status": "queued"
+      "status": "published"
     },
     {
       "id": "physics-003",
@@ -54,6 +54,27 @@
       "id": "bio-001",
       "title": "How do plants make their own food?",
       "category": "biology",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "physics-005",
+      "title": "Why is the sky blue?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "earth-002",
+      "title": "What causes the tides?",
+      "category": "earth-science",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "physics-006",
+      "title": "How do airplanes stay in the air?",
+      "category": "physics",
       "template": "principle",
       "status": "queued"
     }

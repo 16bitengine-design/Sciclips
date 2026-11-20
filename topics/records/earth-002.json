@@ -1,0 +1,502 @@
+{
+  "id": "earth-002",
+  "title": "What causes the tides?",
+  "category": "earth-science",
+  "subject_area": "oceans and the Moon",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "Why does the ocean rise and fall twice a day, and what does the Moon have to do with it?",
+  "template": "principle",
+  "principle_statement": "The Moon's gravity pulls unevenly on Earth, so the ocean bulges on the side facing the Moon and on the side farthest from it, and these bulges are the high tides.",
+  "domain_of_validity": "Ocean tides on Earth; coastlines and continents change how big the tides are in each place.",
+  "scientific_explanation": {
+    "level_1": "The Moon's gravity pulls on Earth, and the ocean water can move. The pull is strongest on the side of Earth closest to the Moon and weakest on the far side. This uneven pull makes the water bulge on both sides of Earth, and the bulges are high tides. As Earth spins, a coast passes through both bulges each day, so most places have two high tides and two low tides.",
+    "level_2": "Tides are caused mostly by the Moon's gravity, with a smaller effect from the Sun. The tidal force is the difference between the Moon's pull at a place and its average pull over the whole Earth. It makes the ocean bulge toward the Moon and away from it. One full cycle of tides takes about 24 hours and 50 minutes. When the Sun and Moon work together, the tides are biggest, and when they work against each other, the tides are smaller.",
+    "level_3": "The tidal force is T = L - A, where L is the Moon's pull at a point on Earth and A is its average pull on the whole Earth. Gravity gets stronger as the distance gets smaller, so L is larger than A on the near side, which makes the near bulge, and smaller than A on the far side, which makes the far bulge. Continents get in the way of the moving water, so real tides differ a lot from place to place, and some places have only one high and one low tide a day."
+  },
+  "supporting_evidence": [
+    "Most coasts have two high tides and two low tides each day, about six hours apart.",
+    "Some places have only one high tide and one low tide a day."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "What Causes Tides?",
+      "publisher": "NOAA National Environmental Satellite, Data, and Information Service",
+      "url": "https://www.nesdis.noaa.gov/about/k-12-education/oceans-coasts/what-causes-tides",
+      "date_published": "2025-09-02",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Tides",
+      "publisher": "NOAA JetStream",
+      "url": "https://noaa.gov/jetstream/ocean/tides",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Tides are the rise and fall of ocean water, which usually reaches a high and a low twice a day, about six hours apart, and they are caused mostly by the Moon's gravity.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "The ocean bulges on the side of Earth closest to the Moon and on the side farthest from it, and these bulges are the high tides.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "mathematical_model",
+      "text": "The tidal force at a place equals the Moon's pull there minus its average pull on the whole Earth.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "The Sun also causes tides, smaller than the Moon's; when the Sun and Moon work together the tides are biggest, and when they work against each other they are smaller.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "One cycle of tides takes about 24 hours and 50 minutes, and some places have only one high tide and one low tide in a cycle.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "established_fact",
+      "text": "Continents get in the way of the moving water, so the difference between high and low tide is small in some places and large in others.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Tidal force",
+      "latex": "T = L - A",
+      "dimension_check": {
+        "lhs": "N",
+        "rhs": "N"
+      }
+    }
+  ],
+  "assumptions": [
+    "The Moon's pull gets weaker with distance.",
+    "The ocean water can move freely toward the bulges.",
+    "The tidal force is the difference between the local pull and the average pull."
+  ],
+  "variables": [
+    {
+      "symbol": "T",
+      "name": "tidal force at a place",
+      "unit": "N"
+    },
+    {
+      "symbol": "L",
+      "name": "Moon's pull at that place",
+      "unit": "N"
+    },
+    {
+      "symbol": "A",
+      "name": "Moon's average pull on the whole Earth",
+      "unit": "N"
+    }
+  ],
+  "practical_applications": [
+    "Planning boat trips and fishing around high and low tide.",
+    "Knowing when the shore is safe to walk on.",
+    "Understanding why coasts in different places have different tides."
+  ],
+  "misconceptions": [
+    {
+      "statement": "There is only one high tide a day, on the side facing the Moon.",
+      "correction": "The ocean bulges on the side facing the Moon and on the opposite side, so most places have two high tides a day."
+    },
+    {
+      "statement": "The Sun has no effect on tides.",
+      "correction": "The Sun also causes tides, but they are smaller than the tides caused by the Moon."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the Sun and Moon line up?",
+      "summary": "The tides get bigger.",
+      "correct": "Expect bigger tides when the Sun and Moon work together.",
+      "overlooked": "Assuming tides are the same size all month.",
+      "what_changes": "The Sun's pull adds to the Moon's pull.",
+      "consequences": "The high tides are higher and the low tides are lower than usual.",
+      "why": "The Sun also causes tides, and when it works together with the Moon the effects add up.",
+      "prevention": "Check the tide tables for the biggest and smallest tides.",
+      "claim_ids": [
+        "c4"
+      ]
+    },
+    {
+      "title": "What if Earth had no continents?",
+      "summary": "The water could follow the Moon's pull more freely.",
+      "correct": "Remember that continents get in the way of the moving water, so real tides differ from place to place.",
+      "overlooked": "Assuming every coast has the same tides.",
+      "what_changes": "The land that blocks the water is removed.",
+      "consequences": "The water would be less blocked, instead of the very different tides we see from place to place.",
+      "why": "Continents get in the way of the moving water and change how big the tides are.",
+      "prevention": "Look up the tides for the coast you are visiting.",
+      "claim_ids": [
+        "c2",
+        "c6"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Fast-rising water at the coast",
+      "Slippery rocks at the shore"
+    ],
+    "safety_equipment": [
+      "Tide tables",
+      "A responsible adult near the water"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "The Moon's uneven pull makes two ocean bulges, so most places have two high tides a day."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Why the ocean has two high tides a day, spring and neap tides, and why coasts differ."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 36,
+            "h": 36,
+            "color": "blue",
+            "alpha": 0.5,
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 26,
+            "h": 26,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 142,
+            "y": 50,
+            "w": 12,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "arrow",
+            "x": 98,
+            "y": 50,
+            "x2": 132,
+            "y2": 50,
+            "color": "muted",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "The Moon pulls the ocean",
+            "size": 5.5,
+            "appear": 0.4
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 46,
+            "h": 30,
+            "color": "blue",
+            "alpha": 0.55,
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 28,
+            "h": 28,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 142,
+            "y": 50,
+            "w": 12,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "text",
+            "x": 104,
+            "y": 26,
+            "text": "High tide",
+            "size": 5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 56,
+            "y": 26,
+            "text": "High tide",
+            "size": 5,
+            "appear": 0.45
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 16,
+            "text": "Low tide",
+            "size": 5,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 80,
+            "text": "Low tide",
+            "size": 5,
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 92,
+            "text": "Two bulges",
+            "size": 5.5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 92,
+            "y": 50,
+            "w": 30,
+            "h": 30,
+            "color": "blue",
+            "alpha": 0.55,
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 78,
+            "y": 50,
+            "w": 26,
+            "h": 26,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 142,
+            "y": 50,
+            "w": 12,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Only one bulge?",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 88,
+            "text": "No: both sides bulge",
+            "size": 5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 46,
+            "h": 30,
+            "color": "blue",
+            "alpha": 0.55,
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 28,
+            "h": 28,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 142,
+            "y": 50,
+            "w": 12,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 30,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "dx": 24,
+            "dy": 20,
+            "from": 0.1,
+            "to": 0.9
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Earth spins past both",
+            "size": 5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "2 high tides a day",
+            "size": 6,
+            "appear": 0.7
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "arrow",
+            "x": 45,
+            "y": 38,
+            "x2": 105,
+            "y2": 38,
+            "color": "warn",
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 45,
+            "y": 52,
+            "x2": 97,
+            "y2": 52,
+            "color": "warn",
+            "appear": 0.4
+          },
+          {
+            "type": "arrow",
+            "x": 45,
+            "y": 66,
+            "x2": 89,
+            "y2": 66,
+            "color": "warn",
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 38,
+            "text": "Near side",
+            "size": 5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 52,
+            "text": "Middle",
+            "size": 5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 66,
+            "text": "Far side",
+            "size": 5,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Moon's pull gets weaker",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 88,
+            "text": "Tide: local - average",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,473 @@
+{
+  "id": "chem-003",
+  "title": "Why does iron rust?",
+  "category": "chemistry",
+  "subject_area": "chemical reactions and metals",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "When iron turns red and flaky, has it just got dirty, or has something changed in the iron itself?",
+  "template": "principle",
+  "principle_statement": "Rust forms when iron reacts with oxygen and water: the iron loses electrons and becomes iron oxide, a new substance.",
+  "domain_of_validity": "Iron and iron-rich metal exposed to oxygen and water; other ions in the water can change how fast it rusts.",
+  "scientific_explanation": {
+    "level_1": "Rust is what happens when iron meets oxygen and water. A drop of water on iron holds a little dissolved oxygen. The iron gives up tiny charged particles called electrons and joins with oxygen to make something new, a red, powdery material. The iron has not just got dirty. Part of it has turned into a different substance.",
+    "level_2": "Iron under a drop of water that holds dissolved oxygen loses electrons, which is called oxidation, and becomes iron ions. The electrons are picked up by hydrogen ions and oxygen at the edge of the drop, and they make water. The iron ions then react further to form hydrated iron oxides, which can dry into iron(III) oxide, Fe2O3, the red, powdery stuff we call rust.",
+    "level_3": "Rusting is a redox reaction. Iron is oxidized, which means it loses electrons, and for iron to rust it needs an oxidizer, which removes electrons. Mass is conserved, so for plain iron(III) oxide the mass of the rust equals the mass of the iron plus the mass of the oxygen that joined it, R = I + O. In simple terms the overall reaction is 4Fe + 3O2 -> 2Fe2O3, with water helping. More acidic water speeds up corrosion if enough oxygen is present."
+  },
+  "supporting_evidence": [
+    "Mars is known for its rust: iron on its surface, combined with water and oxygen from the ancient past, gives the planet its red colour.",
+    "Rust is a new substance, iron oxide, and not a coat of dirt on the iron."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "How does iron rust?",
+      "publisher": "Frostburg State University (General Chemistry Online)",
+      "url": "https://antoine.frostburg.edu/chem/senese/101/redox/faq/how-iron-rusts.shtml",
+      "date_published": null,
+      "date_updated": "2018-02-23",
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    },
+    {
+      "id": "s2",
+      "title": "The Moon Is Rusting, and Researchers Want to Know Why",
+      "publisher": "NASA Jet Propulsion Laboratory",
+      "url": "https://www.nasa.gov/solar-system/moon/the-moon-is-rusting-and-researchers-want-to-know-why/",
+      "date_published": "2020-09-02",
+      "date_updated": "2024-02-05",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Rust is a form of iron oxide, produced when iron is exposed to oxygen and water.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "When a drop of water holding a little dissolved oxygen falls on iron, the iron under the drop oxidizes into iron ions, and the electrons are picked up by hydrogen ions and oxygen at the edge of the drop to make water.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "For iron to rust it needs an oxidizer, which removes electrons.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Iron ions react further to form hydrated iron oxides, which can dry into iron(III) oxide, Fe2O3, the red, powdery stuff called rust.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "More acidic water increases corrosion as long as there is enough oxygen, and other dissolved ions such as calcium and carbonate can form a crusty coating that slows corrosion under some circumstances.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "For plain iron(III) oxide, the mass of the rust equals the mass of the iron plus the mass of the oxygen that joined it.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Conservation of mass in rusting",
+      "latex": "R = I + O",
+      "dimension_check": {
+        "lhs": "kg",
+        "rhs": "kg"
+      }
+    }
+  ],
+  "assumptions": [
+    "The iron is exposed to oxygen and water.",
+    "Mass is conserved in the reaction.",
+    "The rust is plain iron(III) oxide, without extra water."
+  ],
+  "variables": [
+    {
+      "symbol": "R",
+      "name": "mass of the rust",
+      "unit": "kg"
+    },
+    {
+      "symbol": "I",
+      "name": "mass of the iron that reacted",
+      "unit": "kg"
+    },
+    {
+      "symbol": "O",
+      "name": "mass of the oxygen that joined",
+      "unit": "kg"
+    }
+  ],
+  "practical_applications": [
+    "Understanding why iron objects need paint or coatings.",
+    "Explaining why Mars looks red.",
+    "Knowing why wet, salty places make iron rust faster."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Rust is just dirt on the surface of the iron.",
+      "correction": "Rust is a new substance, iron oxide, made when iron reacts with oxygen and water."
+    },
+    {
+      "statement": "Only water makes iron rust.",
+      "correction": "Rusting needs oxygen as well. Iron under a drop of water rusts because the water holds dissolved oxygen."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the iron stays dry and away from oxygen?",
+      "summary": "Rust would not form.",
+      "correct": "Remember that rust is produced when iron is exposed to oxygen and water.",
+      "overlooked": "Assuming iron always rusts.",
+      "what_changes": "The water and oxygen are removed.",
+      "consequences": "The reaction that makes rust cannot happen.",
+      "why": "Rust needs iron, oxygen and water together.",
+      "prevention": "Keep iron dry and coated.",
+      "claim_ids": [
+        "c1",
+        "c2"
+      ]
+    },
+    {
+      "title": "What if the water is slightly acidic?",
+      "summary": "Corrosion speeds up, as long as there is enough oxygen.",
+      "correct": "Expect faster rusting in more acidic water when oxygen is available.",
+      "overlooked": "Assuming rust always forms at the same speed.",
+      "what_changes": "The water holds more hydrogen ions.",
+      "consequences": "Corrosion increases, as long as there is a good supply of oxygen.",
+      "why": "Hydrogen ions help pick up the electrons that the iron gives up.",
+      "prevention": "Keep iron out of acidic water.",
+      "claim_ids": [
+        "c2",
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Sharp or flaky rusty metal",
+      "Spilled water on the floor"
+    ],
+    "safety_equipment": [
+      "Gloves",
+      "A responsible adult"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Rust is a new substance: iron reacts with oxygen and water."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "How iron oxidizes, why rust is red and powdery, and what speeds it up."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 120,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 52,
+            "y": 66,
+            "w": 26,
+            "h": 12,
+            "color": "bad",
+            "alpha": 0.75,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Why does iron turn red?",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Its colour changes",
+            "size": 5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 120,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 60,
+            "y": 52,
+            "w": 30,
+            "h": 18,
+            "color": "blue",
+            "alpha": 0.55,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 60,
+            "y": 36,
+            "text": "Water drop",
+            "size": 5,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 30,
+            "y": 92,
+            "text": "Iron",
+            "size": 5
+          },
+          {
+            "type": "ellipse",
+            "x": 106,
+            "y": 36,
+            "w": 5,
+            "h": 5,
+            "color": "good",
+            "dx": -34,
+            "dy": 14,
+            "from": 0.2,
+            "to": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 118,
+            "y": 30,
+            "w": 5,
+            "h": 5,
+            "color": "good",
+            "dx": -46,
+            "dy": 20,
+            "from": 0.3,
+            "to": 0.8
+          },
+          {
+            "type": "text",
+            "x": 124,
+            "y": 22,
+            "text": "Oxygen",
+            "size": 5,
+            "appear": 0.2
+          },
+          {
+            "type": "rect",
+            "x": 60,
+            "y": 66,
+            "w": 26,
+            "h": 12,
+            "color": "bad",
+            "alpha": 0.75,
+            "appear": 0.85
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 45,
+            "y": 60,
+            "w": 50,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 115,
+            "y": 60,
+            "w": 50,
+            "h": 12,
+            "color": "bad",
+            "alpha": 0.75,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 45,
+            "y": 42,
+            "text": "Clean iron",
+            "size": 5.5
+          },
+          {
+            "type": "text",
+            "x": 115,
+            "y": 42,
+            "text": "Rusty iron",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Not just dirt",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "Rust is a new substance",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 120,
+            "h": 12,
+            "color": "bad",
+            "alpha": 0.35
+          },
+          {
+            "type": "rect",
+            "x": 52,
+            "y": 66,
+            "w": 26,
+            "h": 12,
+            "color": "bad",
+            "alpha": 0.8,
+            "appear": 0.2
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 26,
+            "h": 12,
+            "color": "bad",
+            "alpha": 0.8,
+            "appear": 0.4
+          },
+          {
+            "type": "rect",
+            "x": 108,
+            "y": 66,
+            "w": 26,
+            "h": 12,
+            "color": "bad",
+            "alpha": 0.8,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 30,
+            "text": "Red, powdery rust",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 88,
+            "text": "Iron oxide, Fe2O3",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "text": "Iron + oxygen + water",
+            "size": 6.5,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 30,
+            "x2": 80,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 62,
+            "text": "Rust: iron oxide",
+            "size": 7,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 84,
+            "text": "Iron loses electrons",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      }
+    }
+  }
+}

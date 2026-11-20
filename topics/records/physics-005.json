@@ -1,0 +1,634 @@
+{
+  "id": "physics-005",
+  "title": "Why is the sky blue?",
+  "category": "physics",
+  "subject_area": "light and the atmosphere",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "If sunlight looks white, why does the sky look blue?",
+  "template": "principle",
+  "principle_statement": "Sunlight is made of all colours, and the gases in the atmosphere scatter blue light more than the other colours, so the sky looks blue.",
+  "domain_of_validity": "Daytime sky on Earth; the colours change with how much air the light crosses and what is in the air.",
+  "scientific_explanation": {
+    "level_1": "Sunlight looks white, but it is really made of all the colours of the rainbow. When sunlight enters the air, the tiny gas molecules bounce its light in all directions. Blue light has short waves, so it gets bounced around much more than the other colours. That scattered blue light comes to your eyes from every part of the sky, so the sky looks blue.",
+    "level_2": "Light travels in waves, and blue light has shorter waves than red light. Sunlight is scattered in all directions by the gases and particles in the air, and blue is scattered more than the other colours. Near the horizon the sunlight has crossed more air, so the blue light has been scattered again and again, and the sky fades to a paler blue or white. At sunset the light crosses even more air, so more blue is scattered away and reds and yellows reach your eyes.",
+    "level_3": "Scattering depends on the wavelength of the light. Because blue light has a shorter wavelength than red, the molecules of air scatter it more strongly. For light, the speed equals the frequency times the wavelength, c = f L, so shorter waves also have a higher frequency. The sky colour depends on what is in the atmosphere: on Mars, fine dust scatters light differently, and the daytime sky looks orange or reddish."
+  },
+  "supporting_evidence": [
+    "Sunlight passing through a prism spreads out into all the colours of the rainbow.",
+    "The sky is a paler blue or white near the horizon, and red or orange when the Sun is low at sunset."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Why Is the Sky Blue?",
+      "publisher": "NASA Space Place (Jet Propulsion Laboratory)",
+      "url": "https://spaceplace.nasa.gov/blue-sky/en/",
+      "date_published": null,
+      "date_updated": "2022-08-29",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Why Is the Sky Blue?",
+      "publisher": "NOAA National Environmental Satellite, Data, and Information Service",
+      "url": "https://www.nesdis.noaa.gov/about/k-12-education/atmosphere/why-the-sky-blue",
+      "date_published": "2025-08-31",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Sunlight looks white but is made up of all the colours of the rainbow, and blue light waves are shorter than red light waves.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Sunlight is scattered in all directions by the gases and particles in the air, and blue light is scattered more than the other colours because it travels as shorter, smaller waves, which is why the sky looks blue most of the time.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Near the horizon the sky fades to a lighter blue or white, because the light has crossed more air and the blue light has been scattered and rescattered many times in many directions.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "At sunset the light crosses more of the atmosphere, so even more blue light is scattered away, which lets reds and yellows pass straight through to your eyes.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "The colour of a planet's sky depends on what is in its atmosphere; on Mars the daytime sky looks orange or reddish, and the sky around the Sun at sunset looks blue-gray.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "For a light wave, the speed equals the frequency times the wavelength, so light with a shorter wavelength has a higher frequency.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Wave speed from frequency and wavelength",
+      "latex": "c = f L",
+      "dimension_check": {
+        "lhs": "m s^-1",
+        "rhs": "s^-1 m"
+      }
+    }
+  ],
+  "assumptions": [
+    "Sunlight contains all the colours.",
+    "The air scatters light, and shorter wavelengths are scattered more.",
+    "Daytime clear sky on Earth."
+  ],
+  "variables": [
+    {
+      "symbol": "c",
+      "name": "speed of the light wave",
+      "unit": "m s^-1"
+    },
+    {
+      "symbol": "f",
+      "name": "frequency of the light",
+      "unit": "s^-1"
+    },
+    {
+      "symbol": "L",
+      "name": "wavelength of the light",
+      "unit": "m"
+    }
+  ],
+  "practical_applications": [
+    "Understanding why sunsets look red and orange.",
+    "Understanding why other planets can have differently coloured skies.",
+    "Explaining why the sky looks paler near the horizon."
+  ],
+  "misconceptions": [
+    {
+      "statement": "The Sun's light is yellow, and the sky is blue because the sky is a blue surface.",
+      "correction": "Sunlight looks white but is made of all the colours of the rainbow. The sky looks blue because air scatters blue light more than other colours."
+    },
+    {
+      "statement": "The sky is the same blue everywhere and at every time of day.",
+      "correction": "Near the horizon the sky is paler or white, and at sunset it can look red or orange."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the Sun is low in the sky?",
+      "summary": "The sky glows red and yellow, as at sunset.",
+      "correct": "Expect more blue light to be scattered away, leaving reds and yellows.",
+      "overlooked": "Assuming the sky is always blue.",
+      "what_changes": "Sunlight crosses more of the atmosphere before it reaches you.",
+      "consequences": "Most of the blue light is scattered away, so the Sun and the sky near it look red, orange or yellow.",
+      "why": "A longer path through the air scatters more of the blue light.",
+      "prevention": "Think about how much air the light crosses before it reaches you.",
+      "claim_ids": [
+        "c2",
+        "c4"
+      ]
+    },
+    {
+      "title": "What if a planet had a dusty atmosphere, like Mars?",
+      "summary": "The sky would not be blue.",
+      "correct": "Remember that sky colour depends on what is in the atmosphere.",
+      "overlooked": "Assuming every planet has a blue sky.",
+      "what_changes": "The gases and dust in the atmosphere are different.",
+      "consequences": "On Mars the daytime sky looks orange or reddish, and the sky around the Sun at sunset looks blue-gray.",
+      "why": "Fine dust particles scatter light differently from the gases and particles in Earth's air.",
+      "prevention": "Ask what the atmosphere is made of before predicting the sky colour.",
+      "claim_ids": [
+        "c2",
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Looking straight at the Sun",
+      "Staring at the Sun at sunset"
+    ],
+    "safety_equipment": [
+      "Never look at the Sun directly",
+      "Use a prism or a glass of water to see the colours safely"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Sunlight holds all colours, and the air scatters blue light the most."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Why the sky is blue, why sunsets are red, and why other planets have different skies."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 18,
+            "w": 16,
+            "h": 16,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 58,
+            "w": 160,
+            "h": 50,
+            "color": "blue",
+            "alpha": 0.22
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 22,
+            "x2": 68,
+            "y2": 46,
+            "color": "text",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 14,
+            "text": "Sunlight looks white",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 24,
+            "text": "but holds every colour",
+            "size": 5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 18,
+            "w": 16,
+            "h": 16,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 58,
+            "w": 160,
+            "h": 50,
+            "color": "blue",
+            "alpha": 0.22
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 22,
+            "x2": 68,
+            "y2": 46,
+            "color": "text",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 70,
+            "y": 48,
+            "x2": 112,
+            "y2": 86,
+            "color": "bad",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 70,
+            "y": 48,
+            "x2": 48,
+            "y2": 74,
+            "color": "blue",
+            "appear": 0.45
+          },
+          {
+            "type": "arrow",
+            "x": 70,
+            "y": 48,
+            "x2": 38,
+            "y2": 40,
+            "color": "blue",
+            "appear": 0.5
+          },
+          {
+            "type": "arrow",
+            "x": 70,
+            "y": 48,
+            "x2": 100,
+            "y2": 28,
+            "color": "blue",
+            "appear": 0.55
+          },
+          {
+            "type": "arrow",
+            "x": 70,
+            "y": 48,
+            "x2": 96,
+            "y2": 62,
+            "color": "blue",
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 124,
+            "y": 76,
+            "text": "Red goes straight",
+            "size": 5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 46,
+            "y": 86,
+            "text": "Blue scatters everywhere",
+            "size": 5,
+            "appear": 0.65
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 22,
+            "w": 160,
+            "h": 44,
+            "color": "blue",
+            "alpha": 0.8
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 58,
+            "w": 160,
+            "h": 28,
+            "color": "blue",
+            "alpha": 0.45
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 80,
+            "w": 160,
+            "h": 16,
+            "color": "text",
+            "alpha": 0.5
+          },
+          {
+            "type": "text",
+            "x": 50,
+            "y": 22,
+            "text": "Overhead: deep blue",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 50,
+            "y": 58,
+            "text": "Lower: paler",
+            "size": 5.5,
+            "appear": 0.45
+          },
+          {
+            "type": "text",
+            "x": 50,
+            "y": 80,
+            "text": "Horizon: nearly white",
+            "size": 5.5,
+            "appear": 0.7,
+            "color": "panel2"
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 45,
+            "w": 160,
+            "h": 90,
+            "color": "blue",
+            "alpha": 0.25
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "ellipse",
+            "x": 136,
+            "y": 76,
+            "w": 18,
+            "h": 18,
+            "color": "bad",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 124,
+            "y": 76,
+            "x2": 44,
+            "y2": 76,
+            "color": "bad",
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 34,
+            "y": 72,
+            "w": 6,
+            "h": 6,
+            "color": "text"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Sunset: more air to pass",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 26,
+            "text": "Blue is scattered away",
+            "size": 5,
+            "appear": 0.65
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "line",
+            "x": 20,
+            "y": 32,
+            "x2": 31,
+            "y2": 44,
+            "color": "blue",
+            "appear": 0.05
+          },
+          {
+            "type": "line",
+            "x": 31,
+            "y": 44,
+            "x2": 42,
+            "y2": 32,
+            "color": "blue",
+            "appear": 0.1
+          },
+          {
+            "type": "line",
+            "x": 42,
+            "y": 32,
+            "x2": 53,
+            "y2": 44,
+            "color": "blue",
+            "appear": 0.15000000000000002
+          },
+          {
+            "type": "line",
+            "x": 53,
+            "y": 44,
+            "x2": 64,
+            "y2": 32,
+            "color": "blue",
+            "appear": 0.2
+          },
+          {
+            "type": "line",
+            "x": 64,
+            "y": 32,
+            "x2": 75,
+            "y2": 44,
+            "color": "blue",
+            "appear": 0.25
+          },
+          {
+            "type": "line",
+            "x": 75,
+            "y": 44,
+            "x2": 86,
+            "y2": 32,
+            "color": "blue",
+            "appear": 0.30000000000000004
+          },
+          {
+            "type": "line",
+            "x": 86,
+            "y": 32,
+            "x2": 97,
+            "y2": 44,
+            "color": "blue",
+            "appear": 0.35000000000000003
+          },
+          {
+            "type": "line",
+            "x": 97,
+            "y": 44,
+            "x2": 108,
+            "y2": 32,
+            "color": "blue",
+            "appear": 0.4
+          },
+          {
+            "type": "line",
+            "x": 108,
+            "y": 32,
+            "x2": 119,
+            "y2": 44,
+            "color": "blue",
+            "appear": 0.45
+          },
+          {
+            "type": "line",
+            "x": 20,
+            "y": 66,
+            "x2": 42,
+            "y2": 78,
+            "color": "bad",
+            "appear": 0.1
+          },
+          {
+            "type": "line",
+            "x": 42,
+            "y": 78,
+            "x2": 64,
+            "y2": 66,
+            "color": "bad",
+            "appear": 0.2
+          },
+          {
+            "type": "line",
+            "x": 64,
+            "y": 66,
+            "x2": 86,
+            "y2": 78,
+            "color": "bad",
+            "appear": 0.30000000000000004
+          },
+          {
+            "type": "line",
+            "x": 86,
+            "y": 78,
+            "x2": 108,
+            "y2": 66,
+            "color": "bad",
+            "appear": 0.4
+          },
+          {
+            "type": "line",
+            "x": 108,
+            "y": 66,
+            "x2": 130,
+            "y2": 78,
+            "color": "bad",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 22,
+            "text": "Blue: short waves",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 56,
+            "text": "Red: long waves",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 92,
+            "text": "Short waves scatter more",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

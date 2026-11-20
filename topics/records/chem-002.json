@@ -1,0 +1,682 @@
+{
+  "id": "chem-002",
+  "title": "Why does ice float on water?",
+  "category": "chemistry",
+  "subject_area": "water and molecules",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "Why does a solid like ice float on its own liquid, when most solids sink in their liquid?",
+  "template": "principle",
+  "principle_statement": "Water is unusual: hydrogen bonds hold ice in an open, ordered structure that is less dense than liquid water, so ice floats.",
+  "domain_of_validity": "Ordinary water ice floating on liquid water near freezing, at normal pressure.",
+  "scientific_explanation": {
+    "level_1": "Most solids sink in their own liquid, but ice floats on water. Water molecules stick to each other with special links called hydrogen bonds. When water freezes, these links lock the molecules into a neat, open pattern with gaps between them. That takes up more space, so ice is less dense than liquid water, and less dense things float.",
+    "level_2": "Each water molecule is one oxygen atom bonded to two hydrogen atoms, and neighbouring molecules attract each other through hydrogen bonds. In liquid water these bonds keep forming and breaking. Below about 4 degrees Celsius the molecules move so little that the bonds form more often than they break, and an ordered, hexagonal structure appears. This structure is more spaced out than the disordered liquid, so ice is less dense than liquid water and floats.",
+    "level_3": "Density is mass divided by volume, rho = m / V. When water freezes the mass stays the same, but the open hexagonal structure takes up a larger volume, so the density of ice is lower than the density of liquid water. An object that is less dense than the fluid it is in floats. For comparison, solid argon would sink in liquid argon, as the solids of most other substances sink in their own liquids."
+  },
+  "supporting_evidence": [
+    "Ice cubes float in a glass of water.",
+    "Solid argon would sink in liquid argon, and so would the solids of most other substances."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Water (Its Volume Expansion Upon Freezing)",
+      "publisher": "Penn State College of Earth and Mineral Sciences (MATSE 81)",
+      "url": "https://courses.ems.psu.edu/matse81/node/2119",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    },
+    {
+      "id": "s2",
+      "title": "Life, Page 15: Other Unique Qualities of Water",
+      "publisher": "University of Cincinnati (astronomy lecture notes)",
+      "url": "https://homepages.uc.edu/~hansonmm/ASTRO/LECTURENOTES/ET/Earth2/Page40.html",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Ice is less dense than liquid water, which is unusual, because solid argon would sink in liquid argon and so would the solids of most other substances.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Each water molecule is one oxygen atom bonded to two hydrogen atoms, and water molecules attract each other through hydrogen bonds.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "In liquid water hydrogen bonds constantly form and break, but below about 4 degrees Celsius the energy of the molecules falls below the energy of the hydrogen bonds, so bonds form much more often than they break.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "In ice, hydrogen bonds hold the molecules in an ordered, hexagonal structure that is more spaced out and less dense than liquid water, and an object that is less dense than the fluid it is in floats.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "If ice sank, lakes and oceans would freeze from the bottom up, harming the living things in them.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "Density is mass divided by volume, so ice, which has the same mass in a larger volume than liquid water, has a lower density.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Density definition",
+      "latex": "rho = m / V",
+      "dimension_check": {
+        "lhs": "kg m^-3",
+        "rhs": "kg m^-3"
+      }
+    }
+  ],
+  "assumptions": [
+    "Water at normal pressure near its freezing point.",
+    "The mass of the water stays the same when it freezes.",
+    "An object floats if it is less dense than the fluid it is in."
+  ],
+  "variables": [
+    {
+      "symbol": "rho",
+      "name": "density",
+      "unit": "kg m^-3"
+    },
+    {
+      "symbol": "m",
+      "name": "mass",
+      "unit": "kg"
+    },
+    {
+      "symbol": "V",
+      "name": "volume",
+      "unit": "m^3"
+    }
+  ],
+  "practical_applications": [
+    "Floating ice keeps lakes and oceans from freezing solid from the bottom up.",
+    "White polar ice floats and reflects sunlight that would otherwise warm the planet.",
+    "Explaining why ice stays on top in a cold drink."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Ice floats because it is lighter in weight.",
+      "correction": "A big block of ice can be heavy. It floats because it is less dense than liquid water, which means it has less mass for the space it takes up."
+    },
+    {
+      "statement": "Water molecules pack closer together when water freezes.",
+      "correction": "In ice the molecules lock into an ordered, hexagonal structure that is more spaced out than in liquid water."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if ice sank?",
+      "summary": "Lakes and oceans could freeze from the bottom up.",
+      "correct": "Remember that ice floats, so freezing starts at the top and liquid water can stay below.",
+      "overlooked": "Assuming ice would sink like most solids.",
+      "what_changes": "Ice becomes denser than liquid water.",
+      "consequences": "Ponds, lakes and oceans would freeze from the bottom up, harming the living things in them.",
+      "why": "Floating ice stays on top, so the water below is not frozen solid.",
+      "prevention": "Remember that water is unusual: its solid is less dense than its liquid.",
+      "claim_ids": [
+        "c1",
+        "c5"
+      ]
+    },
+    {
+      "title": "What if water behaved like argon?",
+      "summary": "Ice cubes would sink.",
+      "correct": "Remember that water is an exception because of its hydrogen bonds.",
+      "overlooked": "Assuming every solid is denser than its liquid.",
+      "what_changes": "Water would lose the open, hydrogen-bonded structure of ice.",
+      "consequences": "Ice cubes would drop to the bottom of the glass, as solid argon does in liquid argon.",
+      "why": "Most other substances sink as solids, but the hydrogen bonds in water hold ice in an open structure.",
+      "prevention": "Check how a substance bonds before predicting if its solid floats.",
+      "claim_ids": [
+        "c1",
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Cold ice and cold water",
+      "Spilled water on the floor"
+    ],
+    "safety_equipment": [
+      "A towel for spills",
+      "A responsible adult"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Ice floats because hydrogen bonds hold it in an open, less dense structure."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Hydrogen bonds, the open structure of ice, density, and why floating ice protects life."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 62,
+            "w": 56,
+            "h": 60,
+            "color": "muted",
+            "alpha": 0.25
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 68,
+            "w": 52,
+            "h": 48,
+            "color": "blue",
+            "alpha": 0.5
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 46,
+            "w": 16,
+            "h": 16,
+            "color": "text",
+            "alpha": 0.9,
+            "bob": 1.0
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Why does ice float?",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 92,
+            "text": "Most solids would sink",
+            "size": 5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 22,
+            "y": 38,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 32,
+            "y": 34,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 44,
+            "y": 40,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 54,
+            "y": 36,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 26,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 38,
+            "y": 52,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 50,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 60,
+            "y": 48,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 22,
+            "y": 62,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 34,
+            "y": 66,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 46,
+            "y": 62,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 58,
+            "y": 64,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 115.0,
+            "y": 46.0,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 110.0,
+            "y": 54.66,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.34
+          },
+          {
+            "type": "ellipse",
+            "x": 100.0,
+            "y": 54.66,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.38
+          },
+          {
+            "type": "ellipse",
+            "x": 95.0,
+            "y": 46.0,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.42
+          },
+          {
+            "type": "ellipse",
+            "x": 100.0,
+            "y": 37.34,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.46
+          },
+          {
+            "type": "ellipse",
+            "x": 110.0,
+            "y": 37.34,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 138.0,
+            "y": 68.0,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.55
+          },
+          {
+            "type": "ellipse",
+            "x": 133.0,
+            "y": 76.66,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.59
+          },
+          {
+            "type": "ellipse",
+            "x": 123.0,
+            "y": 76.66,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.63
+          },
+          {
+            "type": "ellipse",
+            "x": 118.0,
+            "y": 68.0,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.67
+          },
+          {
+            "type": "ellipse",
+            "x": 123.0,
+            "y": 59.34,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.71
+          },
+          {
+            "type": "ellipse",
+            "x": 133.0,
+            "y": 59.34,
+            "w": 5,
+            "h": 5,
+            "color": "text",
+            "appear": 0.75
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 22,
+            "text": "Liquid: crowded",
+            "size": 5.5,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 116,
+            "y": 22,
+            "text": "Ice: open gaps",
+            "size": 5.5,
+            "appear": 0.3
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 45,
+            "y": 56,
+            "w": 18,
+            "h": 18,
+            "color": "blue",
+            "alpha": 0.8
+          },
+          {
+            "type": "rect",
+            "x": 115,
+            "y": 52,
+            "w": 26,
+            "h": 26,
+            "color": "text",
+            "alpha": 0.9,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 45,
+            "y": 38,
+            "text": "Liquid water",
+            "size": 5
+          },
+          {
+            "type": "text",
+            "x": 115,
+            "y": 30,
+            "text": "Ice",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 45,
+            "y": 78,
+            "text": "1 kg",
+            "size": 5.5
+          },
+          {
+            "type": "text",
+            "x": 115,
+            "y": 78,
+            "text": "1 kg",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Same mass, more space",
+            "size": 5.5,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 92,
+            "text": "Not packed tighter",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 62,
+            "w": 56,
+            "h": 60,
+            "color": "muted",
+            "alpha": 0.25
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 68,
+            "w": 52,
+            "h": 48,
+            "color": "blue",
+            "alpha": 0.5
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 49,
+            "w": 16,
+            "h": 16,
+            "color": "text",
+            "alpha": 0.9,
+            "bob": 1.0
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 80,
+            "x2": 80,
+            "y2": 62,
+            "color": "good",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 26,
+            "x2": 80,
+            "y2": 38,
+            "color": "bad",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Less dense: it floats",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 114,
+            "y": 30,
+            "text": "Weight",
+            "size": 5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 118,
+            "y": 76,
+            "text": "Push up",
+            "size": 5,
+            "appear": 0.3
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "text": "density = mass / volume",
+            "size": 7,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 42,
+            "text": "Same mass, bigger volume",
+            "size": 6,
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 50,
+            "x2": 80,
+            "y2": 64,
+            "color": "warn",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 76,
+            "text": "Lower density = floats",
+            "size": 7,
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 92,
+            "text": "Thanks to hydrogen bonds",
+            "size": 5,
+            "appear": 0.85
+          }
+        ]
+      }
+    }
+  }
+}

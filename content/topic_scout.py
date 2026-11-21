@@ -22,11 +22,14 @@ from content import topic_manager as tm
 from content.storyboard_generator import generate_storyboard
 from research import science_validator as science
 from research.source_collector import domain_tier
+from animation.two_d import scene_plan
 
 PREFIX = {"physics": "physics", "chemistry": "chem", "biology": "bio", "earth-science": "earth", "astronomy": "astro"}
 TEMPLATES = ("principle", "chemistry_experiment")
 SUPPORTED_SIMULATIONS = {"free_fall": {"vacuum", "with_air", "air_vs_vacuum", "terminal_speed", "wrong_mass_model"},
                          "gas_release": {"open", "sealed", "sealed_pop", "balance_open", "balance_sealed"}}
+REQUIRE_PICTURES = False   # scripts/scout_topic.py switches this on: every automatic topic must carry its own picture plan
+MAX_REPAIRS = 2          # how many times the checks' complaints are fed back to the AI before an idea is dropped
 MAX_QUEUED = 14        # a fortnight of topics is plenty; no AI calls are spent when the queue is this full
 PAGE_CHARS = 7000
 MIN_PAGE_CHARS = 1200
@@ -142,16 +145,35 @@ def suggest_idea(ask, titles):
     return idea
 
 
-def download(fetch, urls):
-    pages = {}
-    for url in urls:
+def download(fetch, urls, search=None, query=None):
+    """Downloads the pages. Dead links are skipped; if fewer than 2 good pages remain, `search(query)` supplies trusted replacements."""
+    pages, problems = {}, []
+
+    def take(url):
         try:
             text = fetch(url)
         except Exception as error:
-            raise ScoutError(f"could not read {url} ({type(error).__name__})") from error
+            problems.append(f"could not read {url} ({type(error).__name__})")
+            return
         if len(text) < MIN_PAGE_CHARS:
-            raise ScoutError(f"the page at {url} had too little text")
+            problems.append(f"the page at {url} had too little text")
+            return
         pages[url] = text[:PAGE_CHARS]
+
+    for url in urls:
+        take(url)
+    if len(pages) < 2 and search:
+        try:
+            found = list(search(query) or [])
+        except Exception:
+            found = []
+        for url in found:
+            if len(pages) >= 3:
+                break
+            if url not in pages and url not in urls and domain_tier(url) == "preferred":
+                take(url)
+    if len(pages) < 2:
+        raise ScoutError(problems[0] if problems else "fewer than 2 readable pages")
     return pages
 
 
@@ -163,7 +185,7 @@ def pick_example(root, template):
         except (OSError, ValueError):
             continue
         if isinstance(record, dict) and record.get("template") == template:
-            for key in ("simulation", "scene3d", "diagrams", "attributions"):
+            for key in ("simulation", "scene3d", "diagrams", "attributions", "scene_plan"):
                 record.pop(key, None)
             return record
     return None
@@ -186,23 +208,52 @@ def draft_record(ask, idea, pages, example, today, requirements=None):
                            {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}]))
 
 
+ATTRIBUTION = re.compile(r"(^|(?<=[.!?]\s))(?:According to|As (?:stated|reported|explained|noted) by|As per)\s+[^:,;.]{1,80}[:,]\s+", re.I)
+
+
+def _unattributed(text):
+    return ATTRIBUTION.sub(r"\1", text) if isinstance(text, str) else text
+
+
 def tidy(record, idea, new_id, pages, today):
-    """Forces the fields the AI must not decide, and removes anything the pipeline cannot draw."""
+    """Forces the fields the AI must not decide, supplies the fields it often forgets, and removes anything the pipeline cannot draw."""
     record["id"], record["title"] = new_id, idea["title"]
     record["central_question"] = idea["central_question"]
     record["category"], record["template"] = idea["category"], idea["template"]
     record["production_status"] = "queued"
-    for key in ("simulation", "scene3d", "diagrams", "attributions"):
+    for key in ("simulation", "scene3d", "diagrams", "attributions", "scene_plan"):
         record.pop(key, None)
     for scenario in record.get("what_if_scenarios", []):
         scenario.pop("simulation", None)
         scenario.pop("diagram", None)
     for source in record.get("sources", []):
         source["date_accessed"] = today
+    if not isinstance(record.get("short_video_potential"), dict) or not record["short_video_potential"].get("angle"):
+        record["short_video_potential"] = {"suitable": True, "angle": idea["central_question"]}
+    if not isinstance(record.get("long_video_potential"), dict) or not record["long_video_potential"].get("angle"):
+        record["long_video_potential"] = {"suitable": True, "angle": "A deeper explanation of " + idea["title"].rstrip("?").strip()}
+    # sentences a video can speak never name a source: "According to X, ..." is cut back to the plain statement
+    explanation = record.get("scientific_explanation")
+    if isinstance(explanation, dict):
+        for key in explanation:
+            explanation[key] = _unattributed(explanation[key])
+    for key in ("supporting_evidence", "practical_applications"):
+        if isinstance(record.get(key), list):
+            record[key] = [_unattributed(item) for item in record[key]]
+    record["principle_statement"] = _unattributed(record.get("principle_statement"))
+    for item in record.get("misconceptions", []):
+        if isinstance(item, dict):
+            for key in ("statement", "correction"):
+                item[key] = _unattributed(item.get(key))
+    for scenario in record.get("what_if_scenarios", []):
+        for key in ("summary", "correct", "overlooked", "what_changes", "consequences", "why", "prevention"):
+            if key in scenario:
+                scenario[key] = _unattributed(scenario[key])
     return record
 
 
 def verify_claims(ask, record, pages):
+    """A second AI pass must quote, word for word, a sentence from a downloaded page for every claim that cites sources."""
     by_id = {s["id"]: s.get("url") for s in record.get("sources", [])}
     payload = {"task": VERIFY_RULES,
                "claims": [{"id": c["id"], "text": c["text"], "source_ids": c.get("source_ids", [])} for c in record["claims"]],
@@ -211,12 +262,22 @@ def verify_claims(ask, record, pages):
                              {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}]))
     results = {r.get("id"): r for r in answer.get("results", []) if isinstance(r, dict)}
     for claim in record["claims"]:
+        if not claim.get("source_ids") and claim.get("kind") == "mathematical_model":
+            continue    # a model claim without a source is checked by the equation checks instead
         result = results.get(claim["id"], {})
-        quote, sid = result.get("quote", ""), result.get("source_id")
-        if not result.get("supported") or sid not in claim.get("source_ids", []):
+        if not result.get("supported"):
             raise ScoutError(f"claim {claim['id']} is not supported by its pages")
-        if len(norm(quote).split()) < 8 or norm(quote) not in norm(pages.get(by_id.get(sid), "")):
-            raise ScoutError(f"claim {claim['id']}: the supporting sentence is not really on the page")
+        quote, claimed = result.get("quote", ""), result.get("source_id")
+        found = None
+        if len(norm(quote).split()) >= 8:
+            for candidate in [claimed] + [sid for sid in by_id if sid != claimed]:
+                if candidate in by_id and norm(quote) in norm(pages.get(by_id[candidate], "")):
+                    found = candidate
+                    break
+        if found is None:
+            raise ScoutError(f"claim {claim['id']}: the supporting sentence is not really on any downloaded page")
+        if found not in claim.setdefault("source_ids", []):
+            claim["source_ids"].append(found)    # the quote is real, it just came from another downloaded page
 
 
 def check_everything(root, record, rendering):
@@ -241,15 +302,76 @@ def check_everything(root, record, rendering):
                 raise ScoutError(f"{fmt}/{variant}: {problems[0]}")
 
 
-def scout(root, ask, fetch, rendering, today=None, tries=2, log=None):
+REPAIR_RULES = """The checks rejected your draft of the topic record. Fix ONLY what the problems list, keep everything else, and reply with the
+complete corrected record as ONE JSON object in the same shape as `example_record`. Use only facts from `pages`. If a problem says a field is
+missing, add it with the exact key name. Never mention websites or sources in spoken sentences."""
+
+PLAN_RULES = """Design the pictures for a short science video about this topic, as JSON only:
+{"views": {"intro": {"elements": [...]}, "demo": {...}, "problem": {...}, "result": {...}, "explain": {...}}}
+Each view is ONE simple animated drawing on a stage 160 wide and 100 tall (x from 0 to 160, y from 0 to 100, y grows downward).
+- Draw THIS topic's own objects and what happens to them (the real objects, liquids, forces, molecules), never generic boxes or only text.
+- intro = the situation at the start. demo = the main thing happening. problem = the common mistake or what goes wrong.
+  result = the outcome. explain = the idea made visible with arrows and short labels. Use all five views.
+- 8 to 24 elements per view. Every view needs at least 2 elements that move or appear.
+- Element types: rect and ellipse (x, y = centre, w, h), polygon (points = [[x, y], ...], 3 to 8 points),
+  line and arrow (x, y = start, x2, y2 = end), text (x, y = centre, text of at most 24 characters, size 4 to 10).
+- color is one of: blue, accent, good, warn, bad, violet, text, muted, panel2.
+- Optional on any element: alpha (0.15 to 1), appear (0 to 0.9: when it shows up, default 0), dx and dy (how far it moves, at most 120),
+  from and to (0 to 1: when the move starts and ends, default 0.1 and 0.9), bob (0 to 3: gentle up and down wobble).
+- The list order is the drawing order, first = at the back. Put water or other backgrounds first.
+- Everything must stay inside the stage, also after it has moved. Labels use plain words. Arrows for forces point the way the force pushes.
+- Show only what the topic record says."""
+
+
+def repair_record(ask, record, problem, idea, pages, example, today):
+    payload = {"task": REPAIR_RULES, "problems": problem, "previous_draft": record, "today": today,
+               "topic": {k: idea[k] for k in ("title", "central_question", "category", "template")},
+               "pages": [{"url": u, "text": t} for u, t in pages.items()], "example_record": example}
+    return _json_from(ask([{"role": "system", "content": "You fix careful, plain-spoken science records. Reply with JSON only."},
+                           {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}]))
+
+
+def draft_scene_plan(ask, record, tries=2):
+    """The topic's own pictures, checked by animation/two_d/scene_plan.py. Raises ScoutError if no valid plan comes back."""
+    payload = {"task": PLAN_RULES,
+               "topic": {"title": record["title"], "central_question": record["central_question"],
+                         "explanation": record["scientific_explanation"],
+                         "scenarios": [{k: sc.get(k) for k in ("title", "correct", "overlooked", "consequences")}
+                                       for sc in record.get("what_if_scenarios", [])]},
+               "example_view": {"elements": [
+                   {"type": "rect", "x": 80, "y": 72, "w": 130, "h": 46, "color": "blue", "alpha": 0.55},
+                   {"type": "ellipse", "x": 45, "y": 20, "w": 14, "h": 14, "color": "warn", "dy": 50, "from": 0.15, "to": 0.7},
+                   {"type": "arrow", "x": 115, "y": 70, "x2": 115, "y2": 54, "color": "good", "appear": 0.5},
+                   {"type": "text", "x": 80, "y": 10, "text": "Clay ball", "size": 6}]}}
+    last = "no plan"
+    for _ in range(tries):
+        try:
+            plan = _json_from(ask([{"role": "system", "content": "You design simple animated science pictures. Reply with JSON only."},
+                                   {"role": "user", "content": json.dumps(payload, ensure_ascii=False)}]))
+            scene_plan.validate(plan)
+            return plan                                   # the original shape is what the renderer reads
+        except (ScoutError, scene_plan.PlanError) as error:
+            last = str(error)
+            payload["previous_answer_was_rejected_because"] = last
+    raise ScoutError(f"the picture plan was not valid ({last})")
+
+
+def _own_pages_only(record, pages):
+    for source in record.get("sources", []):
+        if source.get("url") not in pages:
+            raise ScoutError("a source is not one of the downloaded pages")
+
+
+def scout(root, ask, fetch, rendering, today=None, tries=2, log=None, search=None, pictures=None):
     """Adds at most one new topic. Returns (topic_id or None, [report lines])."""
     today = today or date.today().isoformat()
+    pictures = REQUIRE_PICTURES if pictures is None else pictures
     root = Path(root)
     queue, titles = existing_titles(root)
     if sum(1 for t in queue if t.get("status") == "queued") >= MAX_QUEUED:
         return None, [f"The queue already holds {MAX_QUEUED} topics. Nothing to do tonight."]
     example = json.loads((root / "topics" / "records" / "physics-001.json").read_text(encoding="utf-8")) if (root / "topics" / "records" / "physics-001.json").exists() else {}
-    for key in ("simulation", "scene3d", "diagrams", "attributions"):
+    for key in ("simulation", "scene3d", "diagrams", "attributions", "scene_plan"):
         example.pop(key, None)
     report = []
     for attempt in range(1, tries + 1):
@@ -257,16 +379,22 @@ def scout(root, ask, fetch, rendering, today=None, tries=2, log=None):
         try:
             idea = suggest_idea(ask, titles)
             idea_title = idea["title"]
-            pages = download(fetch, idea["source_urls"])
+            pages = download(fetch, idea["source_urls"], search=search, query=idea["title"])
             new_id = next_id(root, idea["category"])
-            record = tidy(draft_record(ask, idea, pages, pick_example(root, idea["template"]) or example, today,
-                                         template_requirements(root, idea["template"])), idea, new_id, pages, today)
-            # the AI names pages by url; make sure each source url is one we actually downloaded
-            for source in record.get("sources", []):
-                if source.get("url") not in pages:
-                    raise ScoutError("a source is not one of the downloaded pages")
-            check_everything(root, record, rendering)
+            shape = pick_example(root, idea["template"]) or example
+            record = tidy(draft_record(ask, idea, pages, shape, today, template_requirements(root, idea["template"])), idea, new_id, pages, today)
+            for repair in range(MAX_REPAIRS + 1):
+                try:
+                    _own_pages_only(record, pages)
+                    check_everything(root, record, rendering)
+                    break
+                except ScoutError as error:
+                    if repair == MAX_REPAIRS:
+                        raise
+                    record = tidy(repair_record(ask, record, str(error), idea, pages, shape, today), idea, new_id, pages, today)
             verify_claims(ask, record, pages)
+            if pictures:
+                record["scene_plan"] = draft_scene_plan(ask, record)
         except ScoutError as error:
             report.append(f"Try {attempt}: dropped '{idea_title}' - {error}")
             titles = titles + [idea_title]

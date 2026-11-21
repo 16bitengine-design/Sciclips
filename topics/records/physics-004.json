@@ -431,7 +431,7 @@
           },
           {
             "type": "text",
-            "x": 80,
+            "x": 106,
             "y": 30,
             "text": "Light: almost instant",
             "size": 5.5,
@@ -439,7 +439,7 @@
           },
           {
             "type": "text",
-            "x": 80,
+            "x": 106,
             "y": 40,
             "text": "Sound: much slower",
             "size": 5.5,

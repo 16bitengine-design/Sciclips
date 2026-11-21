@@ -34,7 +34,7 @@
       "title": "Why do we see lightning before we hear thunder?",
       "category": "physics",
       "template": "principle",
-      "status": "queued"
+      "status": "published"
     },
     {
       "id": "earth-001",
@@ -75,6 +75,20 @@
       "id": "physics-006",
       "title": "How do airplanes stay in the air?",
       "category": "physics",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "chem-002",
+      "title": "Why does ice float on water?",
+      "category": "chemistry",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "chem-003",
+      "title": "Why does iron rust?",
+      "category": "chemistry",
       "template": "principle",
       "status": "queued"
     }

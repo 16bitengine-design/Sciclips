@@ -21,6 +21,15 @@ VIEW_FOR_KIND = {
     "consequences": "result", "conclusion": "result", "answer": "result",
     "explanation_l2": "explain", "explanation_l3": "explain", "why": "explain",
 }
+# Which views may illustrate a section. Long narration is split into several scenes, and consecutive scenes
+# take turns among the choices, so the picture keeps changing while the explanation moves on.
+VIEW_CHOICES = {
+    "hook": ("intro",), "intro": ("intro", "demo"), "question": ("intro", "demo"), "scenario_intro": ("intro", "demo"),
+    "demonstration": ("demo", "explain", "demo", "result"), "correct_procedure": ("demo", "explain"), "application": ("demo", "explain", "result"),
+    "overlooked": ("problem",), "what_changes": ("problem",), "misconception": ("problem",),
+    "consequences": ("result", "explain"), "conclusion": ("result", "explain"), "answer": ("result", "demo"),
+    "explanation_l2": ("explain", "demo"), "explanation_l3": ("explain", "demo"), "why": ("explain", "demo"),
+}
 MIN_ELEMENTS, MAX_ELEMENTS = 3, 30
 MIN_ANIMATED = 2
 X_RANGE, Y_RANGE = (-10.0, 170.0), (-10.0, 110.0)
@@ -118,6 +127,12 @@ def validate(plan):
     return {"views": views}
 
 
+def view_for(scene):
+    """The name of the view that illustrates this scene."""
+    choices = VIEW_CHOICES.get(scene.get("section_kind"), ("demo",))
+    return choices[(int(scene.get("scene_number", 1)) - 1) % len(choices)]
+
+
 def _ease(x):
     x = max(0.0, min(1.0, x))
     return 3 * x * x - 2 * x ** 3
@@ -130,8 +145,7 @@ def draw(c, t, scene, plan, box):
     except PlanError:
         return False
     from animation.two_d.canvas import appear
-    name = VIEW_FOR_KIND.get(scene.get("section_kind"), "demo")
-    elements = clean["views"].get(name) or clean["views"]["demo"]
+    elements = clean["views"].get(view_for(scene)) or clean["views"]["demo"]
     x0, y0, x1, y1 = box
     scale = min((x1 - x0) / STAGE_W, (y1 - y0) / STAGE_H)
     if scale * STAGE_W < c.px(300):

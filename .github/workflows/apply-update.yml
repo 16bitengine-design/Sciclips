@@ -1,0 +1,51 @@
+name: Apply update
+
+# Upload update.zip to the repository root, then run this workflow ("Run workflow").
+# It unpacks the zip, runs the whole test suite, and only if every test passes does it save the changes.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-update
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Apply update.zip
+        run: python scripts/apply_update.py
+
+      - name: Install FFmpeg and fonts
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core espeak-ng
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run the whole test suite (nothing is saved if any test fails)
+        run: python -m pytest tests -q
+
+      - name: Save the update
+        run: |
+          git config user.name "sciclips-bot"
+          git config user.email "sciclips-bot@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+          else
+            git commit -m "Apply update.zip"
+            git pull --rebase
+            git push
+          fi

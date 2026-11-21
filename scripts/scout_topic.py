@@ -272,6 +272,7 @@ def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4, search=None)
 def main():
     root = Path('.')
     rendering = json.loads((root / 'config' / 'rendering.json').read_text(encoding='utf-8'))
+    topic_scout.REQUIRE_PICTURES = True    # automatic topics must come with their own picture plan
     try:
         lines = replenish_topic_bank(root, make_ask(), fetch, rendering, tries=2, search=search_trusted_sources)
     except topic_scout.ScoutError as error:

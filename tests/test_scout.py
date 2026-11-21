@@ -370,3 +370,84 @@ def test_claim_verification_accepts_an_exact_quote_from_another_downloaded_sourc
         }]})
     ts.verify_claims(ask, record, pages)
     assert record["claims"][0]["source_ids"] == ["s1", "s2"]
+
+
+# ---------------------------------------------------------------- self-repair and picture plans
+GOOD_PLAN = {"views": {name: {"elements": [
+    {"type": "rect", "x": 80, "y": 70, "w": 120, "h": 40, "color": "blue", "alpha": 0.5},
+    {"type": "ellipse", "x": 40, "y": 20, "w": 12, "h": 12, "color": "warn", "dy": 40},
+    {"type": "text", "x": 80, "y": 10, "text": "Bubbles rise", "appear": 0.4}]} for name in ("intro", "demo", "problem", "result", "explain")}}
+
+
+class RepairFake(Fake):
+    """First draft is missing a required field; the repair request returns the good record."""
+
+    def __init__(self, plan=GOOD_PLAN, **kwargs):
+        super().__init__(**kwargs)
+        self.broken = base_record()
+        self.broken.pop("hazards", None)
+        self.plan, self.requests = plan, []
+
+    def ask(self, messages):
+        payload = json.loads(messages[1]["content"])
+        if "example_view" in payload:
+            self.requests.append("plan")
+            return json.dumps(self.plan)
+        if "problems" in payload:
+            self.requests.append("repair:" + payload["problems"])
+            return json.dumps(self.record)
+        if "example_record" in payload:
+            self.requests.append("draft")
+            return json.dumps(self.broken)
+        return super().ask(messages)
+
+
+def test_a_draft_the_checks_reject_is_repaired_from_their_own_complaint(tmp_path):
+    fake = RepairFake()
+    repo, topic_id, lines = go(tmp_path, fake)
+    assert topic_id == "chem-002", lines
+    assert fake.requests[0] == "draft" and fake.requests[1].startswith("repair:") and "hazards" in fake.requests[1]
+
+
+def test_a_draft_that_cannot_be_repaired_is_dropped_after_two_repairs(tmp_path):
+    class Stubborn(RepairFake):
+        def ask(self, messages):
+            payload = json.loads(messages[1]["content"])
+            if "problems" in payload:
+                self.requests.append("repair")
+                return json.dumps(self.broken)
+            return super().ask(messages)
+    fake = Stubborn()
+    repo, topic_id, lines = go(tmp_path, fake)
+    assert topic_id is None and "hazards" in lines[0]
+    assert fake.requests.count("repair") == ts.MAX_REPAIRS
+
+
+def test_with_pictures_on_the_topic_carries_a_checked_scene_plan(tmp_path):
+    fake = RepairFake()
+    repo = make_repo(tmp_path)
+    topic_id, lines = ts.scout(repo, fake.ask, fake.fetch, rendering(), today=TODAY, tries=1, pictures=True)
+    assert topic_id == "chem-002", lines
+    saved = json.loads((repo / "topics" / "records" / "chem-002.json").read_text())
+    assert saved["scene_plan"] == GOOD_PLAN
+
+
+def test_a_topic_without_a_valid_scene_plan_is_dropped_when_pictures_are_required(tmp_path):
+    fake = RepairFake(plan={"views": {"demo": {"elements": []}}})
+    repo = make_repo(tmp_path)
+    topic_id, lines = ts.scout(repo, fake.ask, fake.fetch, rendering(), today=TODAY, tries=1, pictures=True)
+    assert topic_id is None and "picture plan" in lines[0]
+    assert not (repo / "topics" / "records" / "chem-002.json").exists()
+
+
+def test_tidy_never_keeps_a_scene_plan_written_by_the_draft_step():
+    record = base_record()
+    record["scene_plan"] = GOOD_PLAN
+    idea = {"title": "T?", "central_question": "Q?", "category": "physics", "template": "principle"}
+    assert "scene_plan" not in ts.tidy(record, idea, "physics-009", {}, TODAY)
+
+
+def test_a_model_claim_without_a_source_does_not_need_a_page_quote():
+    record = {"sources": [{"id": "s1", "url": "https://www.nasa.gov/a"}],
+              "claims": [{"id": "c1", "kind": "mathematical_model", "text": "d = v t", "source_ids": []}]}
+    ts.verify_claims(lambda _m: json.dumps({"results": []}), record, {"https://www.nasa.gov/a": "x " * 50})

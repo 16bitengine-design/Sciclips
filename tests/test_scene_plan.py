@@ -55,3 +55,14 @@ def test_junk_is_rejected():
     for junk in (None, [], {}, {"views": []}, {"views": {"demo": {"elements": "x"}}}):
         with pytest.raises(sp.PlanError):
             sp.validate(junk)
+
+
+def test_consecutive_scenes_of_one_section_take_turns_among_the_views():
+    names = [sp.view_for({"section_kind": "demonstration", "scene_number": n}) for n in range(1, 9)]
+    assert set(names) >= {"demo", "explain"} and all(a != b for a, b in zip(names, names[1:]))
+
+
+def test_every_section_kind_has_choices_that_are_real_views():
+    for kind, choices in sp.VIEW_CHOICES.items():
+        assert choices and set(choices) <= set(sp.VIEWS), kind
+    assert sp.view_for({"section_kind": "something_new", "scene_number": 3}) == "demo"

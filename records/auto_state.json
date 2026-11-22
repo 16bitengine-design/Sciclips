@@ -1,8 +1,6 @@
 {
   "paused": false,
-  "consecutive_failures": 1,
-  "attempts": {
-    "astro-001": 1
-  },
-  "last_run": "2026-11-21"
+  "consecutive_failures": 0,
+  "attempts": {},
+  "last_run": "2026-11-22"
 }

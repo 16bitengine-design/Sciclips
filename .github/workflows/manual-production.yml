@@ -106,12 +106,12 @@ jobs:
         run: python scripts/validate_config.py
 
       - name: Check topic records
-        run: python content/topic_manager.py validate
+        run: python content/core.py validate
 
       - name: Check science records for the chosen topic
         env:
           TOPIC_ID: ${{ inputs.topic_id }}
-        run: python research/science_validator.py "$TOPIC_ID"
+        run: python research/checks.py "$TOPIC_ID"
 
       - name: Generate script and storyboard
         env:

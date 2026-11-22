@@ -6,9 +6,8 @@ on:
     paths:
       - ".github/workflows/scout-topics.yml"
       - "scripts/scout_topic.py"
-      - "content/ai_writer.py"
-      - "content/topic_scout.py"
-      - "research/source_collector.py"
+      - "content/core.py"
+      - "research/checks.py"
       - "tests/test_scout.py"
       - "config/rendering.json"
   schedule:

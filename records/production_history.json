@@ -72,6 +72,17 @@
       "youtube_buffer_post_id": "6b0339f2bf5d5a73b6b32731",
       "tiktok_url": "Buffer post 6b0339f5cc364169c178ae8c",
       "schedule_slot": "2026-11-22|0 12 * * *"
+    },
+    {
+      "topic_id": "bio-001",
+      "format": "short",
+      "variant": "explainer",
+      "published_at": "2026-11-22T22:16:16.820Z",
+      "run_kind": "schedule",
+      "youtube_url": "https://www.youtube.com/watch?v=3FHSxK7vKh4",
+      "youtube_buffer_post_id": "6b0369aecc364169c18cc834",
+      "tiktok_url": "Buffer post 6b0369b1cc364169c18cc8ec",
+      "schedule_slot": "2026-11-22|0 17 * * *"
     }
   ]
 }

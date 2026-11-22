@@ -31,8 +31,8 @@ def run(root, topic_id, video_format, out_dir):
         record = load_topic_record(root, topic_id)
     except FileNotFoundError:
         return False, [f"No topic record at topics/records/{topic_id}.json"]
-    with open(Path(root) / "config" / "rendering.json", encoding="utf-8") as handle:
-        rendering = json.load(handle)
+    with open(Path(root) / "config" / "config.json", encoding="utf-8") as handle:
+        rendering = json.load(handle)["rendering"]
 
     science = validate_topic_id(root, topic_id)
     lines.append(f"Science check: {science['status']} (human review still required)")

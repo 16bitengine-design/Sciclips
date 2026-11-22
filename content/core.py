@@ -313,7 +313,7 @@ WHAT_IF_PARTS = (
     ("prevention", "What to do.", "prevention"),
 )
 AI_MAX_WORDS = 110  # keeps an AI-planned short video under the time limit
-SHOW_STEPS_FILE = Path(__file__).resolve().parents[1] / "config" / "show_steps.json"
+SHOW_STEPS_FILE = Path(__file__).resolve().parents[1] / "config" / "config.json"      # section "show_steps"
 SHORT_TRIM_ORDER = ("terminology", "application", "intro")
 VARIANTS = ("explainer", "what_if")
 FORMATS = ("short", "long")
@@ -491,14 +491,17 @@ def _reusable_text(record):
 def _show_steps(record):
     """The 'say this while showing that' steps for a topic.
 
-    They come from config/show_steps.json when the topic has an entry there. Every line must be
+    They come from the show_steps section of config/config.json when the topic has an entry there. Every line must be
     copied word for word from the topic record, so no new science is introduced. Without an entry,
     the first explanation is simply split into sentences and each one is shown over the simulation.
     """
     steps = []
     try:
         with open(SHOW_STEPS_FILE, encoding="utf-8") as handle:
-            steps = json.load(handle).get(record.get("id"), [])
+            data = json.load(handle)
+            if Path(SHOW_STEPS_FILE).name == "config.json":
+                data = data.get("show_steps", {})
+            steps = data.get(record.get("id"), [])
     except (OSError, ValueError, AttributeError):
         steps = []
     if steps:

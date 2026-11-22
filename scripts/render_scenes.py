@@ -29,8 +29,8 @@ def run(root, topic_id, video_format, out_dir, quality="draft", narration=None):
         record = load_topic_record(root, topic_id)
     except FileNotFoundError:
         return False, [f"No topic record at topics/records/{topic_id}.json"]
-    with open(Path(root) / "config" / "rendering.json", encoding="utf-8") as handle:
-        rendering = json.load(handle)
+    with open(Path(root) / "config" / "config.json", encoding="utf-8") as handle:
+        rendering = json.load(handle)["rendering"]
     max_mb = rendering.get("max_output_size_mb", 200)
 
     science = validate_topic_id(root, topic_id)
@@ -83,8 +83,8 @@ def main():
     topic_id = os.environ.get("TOPIC_ID", "physics-001")
     video_format = os.environ.get("VIDEO_FORMAT", "short")
     quality = os.environ.get("RENDER_QUALITY", "draft")
-    with open("config/rendering.json", encoding="utf-8") as handle:
-        configured = json.load(handle).get("narration", {}).get("provider", "none")
+    with open("config/config.json", encoding="utf-8") as handle:
+        configured = json.load(handle)["rendering"].get("narration", {}).get("provider", "none")
     narration = os.environ.get("NARRATION_PROVIDER") or configured
     if video_format not in ("short", "long", "both"):
         print(f"Unknown video format: {video_format}")

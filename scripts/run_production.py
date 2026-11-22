@@ -38,9 +38,9 @@ def plan(root, topic_id, video_format, complexity, mode):
             "pipeline is finished and you enable other modes explicitly."
         ]
 
-    settings = load_json(root, "config/settings.json")
+    settings = load_json(root, "config/config.json").get("settings", {})
     if settings.get("operating_mode") != "TEST":
-        return False, ["settings.json operating_mode must be TEST at this stage."]
+        return False, ["config.json (settings) operating_mode must be TEST at this stage."]
 
     topics = load_json(root, "topics/topic_queue.json").get("topics", [])
     match = [t for t in topics if t.get("id") == topic_id]

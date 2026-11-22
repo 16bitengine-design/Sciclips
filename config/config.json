@@ -1,0 +1,255 @@
+{
+  "settings": {
+    "project_name": "Science Animation Studio",
+    "config_version": 1,
+    "operating_mode": "AUTOMATIC",
+    "allowed_modes": [
+      "TEST",
+      "APPROVAL",
+      "AUTOMATIC"
+    ],
+    "automatic_publishing_enabled": true,
+    "free_services_only": true,
+    "never_switch_to_paid_service": true,
+    "on_quota_exhausted": "pause_and_log",
+    "require_human_approval_for_unverified_science": true,
+    "safety": {
+      "simulate_dangerous_experiments_only": true,
+      "block_unsafe_replication_instructions": true
+    },
+    "limits": {
+      "max_topics_per_day": 2,
+      "max_long_videos_per_week": 1
+    }
+  },
+  "rendering": {
+    "short": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 30,
+      "min_duration_seconds": 30,
+      "max_duration_seconds": 90
+    },
+    "long": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "min_duration_seconds": 300,
+      "max_duration_seconds": 720
+    },
+    "video_codec": "libx264",
+    "audio_codec": "aac",
+    "container": "mp4",
+    "cpu_only": true,
+    "animation_complexity_default": "low",
+    "max_render_minutes_per_job": 60,
+    "max_output_size_mb": 200,
+    "narration": {
+      "provider": "kokoro",
+      "voice": "af_heart",
+      "language": "en-us",
+      "speaking_speed": 1.0,
+      "music": true,
+      "music_volume_db": -26,
+      "target_lufs": -16,
+      "profile": "deep_american"
+    },
+    "branding": {
+      "channel_name": "Sciclips",
+      "outro_line": "Science you can see.",
+      "outro": {
+        "short": false,
+        "long": true
+      }
+    },
+    "final": {
+      "crf": 20,
+      "preset": "medium"
+    },
+    "style": {
+      "theme": "vector_pop"
+    }
+  },
+  "publishing": {
+    "provider": "buffer",
+    "secret_names": {
+      "api_key": "BUFFER_API_KEY",
+      "youtube_account_id": "BUFFER_YOUTUBE_CHANNEL_ID",
+      "tiktok_account_id": "BUFFER_TIKTOK_CHANNEL_ID"
+    },
+    "test_publishing_enabled": false,
+    "platforms": {
+      "youtube_short": {
+        "enabled": true,
+        "format": "short"
+      },
+      "youtube_long": {
+        "enabled": false,
+        "format": "long"
+      },
+      "tiktok": {
+        "enabled": true,
+        "format": "short"
+      }
+    },
+    "default_schedule_delay_hours": 0,
+    "use_idempotency_keys": true,
+    "max_retries": 2,
+    "never_log_credentials": true,
+    "media_hosting": {
+      "provider": "github_releases",
+      "token": "GITHUB_TOKEN",
+      "repository": "GITHUB_REPOSITORY",
+      "public_assets": true
+    }
+  },
+  "voices": {
+    "note": "Voice profiles for the narrator. A profile blends Kokoro voices (weights add up to 1), sets the pace, and adds a 'radio' sound: warmth, presence, gentle compression and a slightly lower pitch. Run the 'Voice samples' workflow to hear them, then set narration.profile in config/rendering.json.",
+    "sample_text": "Here is a question. If a heavier object is pulled harder by gravity, why does it not fall faster? Take the air away, and a hammer and a feather land together. In symbols: a equals G M divided by r squared.",
+    "radio_chain": {
+      "highpass_hz": 70,
+      "warmth_db": 3.0,
+      "presence_db": 1.5,
+      "deess_db": -3.0,
+      "compress": true,
+      "pitch": 0.97
+    },
+    "profiles": {
+      "smooth_american": {
+        "description": "Warm, relaxed American male. The closest to a classic FM presenter.",
+        "blend": {
+          "am_michael": 1.0
+        },
+        "speed": 0.95,
+        "post": {
+          "pitch": 0.97
+        }
+      },
+      "deep_american": {
+        "description": "A fuller, deeper American male made by blending two voices.",
+        "blend": {
+          "am_michael": 0.6,
+          "am_fenrir": 0.4
+        },
+        "speed": 0.94,
+        "post": {
+          "pitch": 0.96
+        }
+      },
+      "british_broadcaster": {
+        "description": "A calm British broadcaster, like a documentary or radio host.",
+        "blend": {
+          "bm_george": 0.6,
+          "bm_fable": 0.4
+        },
+        "speed": 0.95,
+        "post": {
+          "pitch": 0.97
+        }
+      },
+      "transatlantic": {
+        "description": "A blend of American and British male voices, a little hard to place.",
+        "blend": {
+          "am_michael": 0.5,
+          "bm_george": 0.5
+        },
+        "speed": 0.95,
+        "post": {
+          "pitch": 0.96
+        }
+      }
+    }
+  },
+  "pronunciations": {
+    "note": "How the voice should say things that are written in symbols. Edit this file to fix mispronunciations.",
+    "phrases": {
+      "measured in m^3 kg^-1 s^-2": "measured in cubic metres per kilogram per second squared",
+      "m^3 kg^-1 s^-2": "cubic metres per kilogram per second squared",
+      "m s^-2": "metres per second squared",
+      "measured in N": "measured in newtons",
+      "measured in kg": "measured in kilograms",
+      "measured in m": "measured in metres",
+      "measured in mol": "measured in moles",
+      "measured in K": "measured in kelvin",
+      "measured in s": "measured in seconds"
+    },
+    "words": {
+      "NaHCO3": "sodium hydrogen carbonate",
+      "CH3COOH": "ethanoic acid",
+      "CH3COONa": "sodium ethanoate",
+      "CO2": "carbon dioxide",
+      "H2O": "water",
+      "NASA": "NASA",
+      "NIST": "N I S T",
+      "NSSDCA": "N S S D C A",
+      "APOD": "A P O D",
+      "RSC": "R S C"
+    }
+  },
+  "show_steps": {
+    "physics-001": [
+      {
+        "question": "what and why",
+        "line": "A heavier object is pulled harder by gravity, but it is also harder to get moving. These two effects cancel exactly.",
+        "variant": "vacuum"
+      },
+      {
+        "question": "how",
+        "line": "On Earth, air pushes back much more on a feather than on a hammer, which is why the feather falls slowly.",
+        "variant": "with_air"
+      },
+      {
+        "question": "when",
+        "line": "Take the air away and they fall together.",
+        "variant": "vacuum"
+      },
+      {
+        "question": "where, when and who",
+        "line": "Apollo 15 (1971): Commander David Scott dropped a geologic hammer and a feather together on the Moon, where there is almost no air, as a live television demonstration.",
+        "variant": "air_vs_vacuum"
+      },
+      {
+        "question": "what really decides it",
+        "line": "Air push grows as you fall faster, until it matches the pull of gravity. Then you stop speeding up and fall at a steady speed.",
+        "variant": "terminal_speed"
+      },
+      {
+        "question": "where it is used",
+        "line": "Parachutes work because a large area gives a lot of air push, so the falling speed levels off at a much lower value.",
+        "variant": "terminal_speed"
+      }
+    ],
+    "chem-001": [
+      {
+        "question": "what and where",
+        "line": "Baking soda and vinegar react and make new substances. One of them is carbon dioxide gas, and the bubbles you see are that gas escaping.",
+        "variant": "open"
+      },
+      {
+        "question": "how",
+        "line": "The gas escapes into the air.",
+        "variant": "balance_open"
+      },
+      {
+        "question": "how",
+        "line": "In a sealed system the mass stays the same.",
+        "variant": "balance_sealed"
+      },
+      {
+        "question": "why",
+        "line": "The reaction keeps producing carbon dioxide gas in a fixed space.",
+        "variant": "sealed"
+      },
+      {
+        "question": "what if",
+        "line": "In a sealed tube the pressure can pop the lid off, so eye protection is advised.",
+        "variant": "sealed_pop"
+      },
+      {
+        "question": "where it is used",
+        "line": "Baking: sodium hydrogencarbonate with an acid releases carbon dioxide that makes mixtures rise.",
+        "variant": "open"
+      }
+    ]
+  }
+}

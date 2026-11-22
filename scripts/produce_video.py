@@ -2,7 +2,7 @@
 
 Output goes to output/<topic_id>/<format>_<variant>/ (not stored in Git). The finished files are in final/.
 Quality 'draft' is quick (half size, 12 frames a second) and is never for publishing.
-Quality 'full' uses the sizes and frame rates in config/rendering.json.
+Quality 'full' uses the sizes and frame rates in the rendering section of config/config.json.
 Nothing here publishes anything.
 """
 import json
@@ -37,8 +37,8 @@ def run(root, topic_id, video_format, out_dir, quality="draft", narration=None):
         record = load_topic_record(root, topic_id)
     except FileNotFoundError:
         return False, [f"No topic record at topics/records/{topic_id}.json"]
-    with open(Path(root) / "config" / "rendering.json", encoding="utf-8") as handle:
-        rendering = json.load(handle)
+    with open(Path(root) / "config" / "config.json", encoding="utf-8") as handle:
+        rendering = json.load(handle)["rendering"]
     science = validate_topic_id(root, topic_id)
     if science["status"] == "failed":
         return False, ["Science check failed; nothing produced."] + science["errors"]
@@ -119,8 +119,8 @@ def main():
     if video_format not in ("short", "long", "both"):
         print(f"Unknown video format: {video_format}")
         return 1
-    with open("config/rendering.json", encoding="utf-8") as handle:
-        configured = json.load(handle).get("narration", {}).get("provider", "none")
+    with open("config/config.json", encoding="utf-8") as handle:
+        configured = json.load(handle)["rendering"].get("narration", {}).get("provider", "none")
     narration = os.environ.get("NARRATION_PROVIDER") or configured
     ok, lines = run(".", topic_id, video_format, os.environ.get("OUTPUT_DIR", "output"), quality, narration)
     text = "\n".join(lines)

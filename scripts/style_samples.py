@@ -27,8 +27,8 @@ NOTE = {"vector_pop": "bold vector cartoon", "vintage": "retro poster on paper",
 
 def run(root, out_dir, styles=None, topics=TOPICS):
     """Returns (ok, report_lines)."""
-    with open(Path(root) / "config" / "rendering.json", encoding="utf-8") as handle:
-        rendering = json.load(handle)
+    with open(Path(root) / "config" / "config.json", encoding="utf-8") as handle:
+        rendering = json.load(handle)["rendering"]
     out = Path(out_dir)
     lines, ok, compare = [], True, []
     for style in styles or list(themes.THEMES):
@@ -67,7 +67,7 @@ def run(root, out_dir, styles=None, topics=TOPICS):
         "Style samples\n\nEach folder is one visual style. Open COMPARE.png first: every style's YouTube thumbnail "
         "side by side (rows follow this order: " + ", ".join(sorted({c[0] for c in compare}, key=lambda n: [c[0] for c in compare].index(n)))
         + ").\nThen look at each style's scenes.png to see how the video looks.\nTo choose one, set \"theme\" in the "
-        "\"style\" section of config/rendering.json.\n\n" + "\n".join(lines) + "\n", encoding="utf-8")
+        "\"style\" section of the rendering part of config/config.json.\n\n" + "\n".join(lines) + "\n", encoding="utf-8")
     return ok, lines
 
 

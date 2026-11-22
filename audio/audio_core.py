@@ -289,7 +289,7 @@ def get_provider(name, voice="af_heart", language="en-us", blend=None):
 
 
 
-DEFAULT_PATH = Path(__file__).resolve().parents[1] / "config" / "pronunciations.json"
+DEFAULT_PATH = Path(__file__).resolve().parents[1] / "config" / "config.json"      # section "pronunciations"
 POWERS = {"2": "squared", "3": "cubed"}
 
 
@@ -299,6 +299,8 @@ def load_pronunciations(path=None):
         return {"phrases": {}, "words": {}}
     with open(path, encoding="utf-8") as handle:
         data = json.load(handle)
+    if path.name == "config.json":
+        data = data.get("pronunciations", {})
     return {"phrases": data.get("phrases", {}), "words": data.get("words", {})}
 
 
@@ -461,7 +463,7 @@ def to_ass(cues, width, height, portrait, font="DejaVu Sans", outlined=False):
 
 
 
-VOICE_STYLE_DEFAULT_PATH = Path(__file__).resolve().parents[1] / "config" / "voices.json"
+VOICE_STYLE_DEFAULT_PATH = Path(__file__).resolve().parents[1] / "config" / "config.json"      # section "voices"
 
 
 class VoiceStyleError(Exception):
@@ -471,7 +473,8 @@ class VoiceStyleError(Exception):
 def load_voices(path=None):
     path = Path(path) if path else VOICE_STYLE_DEFAULT_PATH
     with open(path, encoding="utf-8") as handle:
-        return json.load(handle)
+        data = json.load(handle)
+    return data["voices"] if path.name == "config.json" else data
 
 
 def get_profile(name, voices=None):

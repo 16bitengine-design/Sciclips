@@ -51,7 +51,7 @@ class FakeEngine:
 
 
 def rendering():
-    return json.loads((ROOT / "config" / "rendering.json").read_text())
+    return json.loads((ROOT / "config" / "config.json").read_text())["rendering"]
 
 
 def make(topic="chem-001"):

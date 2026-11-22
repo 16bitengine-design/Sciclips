@@ -8,9 +8,7 @@ import sys
 from pathlib import Path
 
 JSON_FILES = [
-    "config/settings.json",
-    "config/publishing.json",
-    "config/rendering.json",
+    "config/config.json",
     "topics/topic_queue.json",
     "topics/approved_topics.json",
     "records/production_history.json",
@@ -35,31 +33,35 @@ def validate(root="."):
         except json.JSONDecodeError as err:
             problems.append(f"Invalid JSON in {rel}: {err}")
 
-    settings = data.get("config/settings.json")
+    config = data.get("config/config.json") or {}
+    for section in ("settings", "publishing", "rendering", "voices", "pronunciations", "show_steps"):
+        if "config/config.json" in data and section not in config:
+            problems.append(f"config.json: missing the '{section}' section")
+    settings = config.get("settings")
     if settings is not None:
         if settings.get("operating_mode") not in settings.get("allowed_modes", []):
-            problems.append("settings.json: operating_mode is not an allowed mode")
+            problems.append("config.json (settings): operating_mode is not an allowed mode")
         if settings.get("never_switch_to_paid_service") is not True:
-            problems.append("settings.json: never_switch_to_paid_service must be true")
+            problems.append("config.json (settings): never_switch_to_paid_service must be true")
         if settings.get("operating_mode") != "AUTOMATIC" and settings.get(
             "automatic_publishing_enabled"
         ):
             problems.append(
-                "settings.json: automatic_publishing_enabled is true but mode is not AUTOMATIC"
+                "config.json (settings): automatic_publishing_enabled is true but mode is not AUTOMATIC"
             )
 
-    publishing = data.get("config/publishing.json")
+    publishing = config.get("publishing")
     if publishing is not None:
         names = publishing.get("secret_names", {})
         for key in ("api_key", "youtube_account_id", "tiktok_account_id"):
             if key not in names:
-                problems.append(f"publishing.json: secret_names is missing '{key}'")
+                problems.append(f"config.json (publishing): secret_names is missing '{key}'")
 
-    rendering = data.get("config/rendering.json")
+    rendering = config.get("rendering")
     if rendering is not None:
         for fmt in ("short", "long"):
             if fmt not in rendering:
-                problems.append(f"rendering.json: missing '{fmt}' section")
+                problems.append(f"config.json (rendering): missing '{fmt}' section")
 
     queue = data.get("topics/topic_queue.json")
     if queue is not None:

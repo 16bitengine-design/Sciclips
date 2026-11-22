@@ -23,9 +23,9 @@ def _to_m4a(wav, out):
 
 def run(root, out_dir, names=None, provider_factory=None):
     """Returns (ok, report_lines). provider_factory(blend) -> provider; the default is real Kokoro."""
-    voices = voice_style.load_voices(Path(root) / "config" / "voices.json")
+    voices = voice_style.load_voices(Path(root) / "config" / "config.json")
     factory = provider_factory or (lambda blend: narration.KokoroProvider(blend=blend))
-    pron = load_pronunciations(Path(root) / "config" / "pronunciations.json")
+    pron = load_pronunciations(Path(root) / "config" / "config.json")
     text = speakable(voices["sample_text"], pron)
     wanted = names or sorted(voices["profiles"])
     out = Path(out_dir)
@@ -51,7 +51,7 @@ def run(root, out_dir, names=None, provider_factory=None):
     (out / "READ_ME.txt").write_text(
         "Voice samples\n\nEach profile has two files: NAME.m4a (the voice with the radio sound) and NAME_plain.m4a "
         "(the same voice without it).\nListen to them, pick one, then set \"profile\" in the narration section of "
-        "config/rendering.json to its name.\n\n" + "\n".join(lines) + "\n", encoding="utf-8")
+        "the rendering part of config/config.json to its name.\n\n" + "\n".join(lines) + "\n", encoding="utf-8")
     return ok, lines
 
 

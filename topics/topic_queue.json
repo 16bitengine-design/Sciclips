@@ -62,7 +62,7 @@
       "title": "Why is the sky blue?",
       "category": "physics",
       "template": "principle",
-      "status": "queued"
+      "status": "published"
     },
     {
       "id": "earth-002",
@@ -88,6 +88,27 @@
     {
       "id": "chem-003",
       "title": "Why does iron rust?",
+      "category": "chemistry",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "astro-003",
+      "title": "Why do stars twinkle?",
+      "category": "astronomy",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "bio-002",
+      "title": "Why do leaves change colour in the fall?",
+      "category": "biology",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "chem-004",
+      "title": "Why is the ocean salty?",
       "category": "chemistry",
       "template": "principle",
       "status": "queued"

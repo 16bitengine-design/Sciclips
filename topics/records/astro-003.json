@@ -1,0 +1,637 @@
+{
+  "id": "astro-003",
+  "title": "Why do stars twinkle?",
+  "category": "astronomy",
+  "subject_area": "starlight and the atmosphere",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "If stars shine steadily, why do they seem to flicker when we look at them from the ground?",
+  "template": "principle",
+  "principle_statement": "Stars do not really twinkle: their light is bent by moving pockets of warmer and cooler air in Earth's atmosphere, so the star seems to flicker.",
+  "domain_of_validity": "Stars seen from the ground through Earth's atmosphere; seen from space, stars do not twinkle.",
+  "scientific_explanation": {
+    "level_1": "Stars do not really twinkle. A star shines steadily. But its light has to travel through many miles of air before it reaches your eyes. The air is full of moving pockets that are warmer or cooler, and each one bends the light a little. The path of the light keeps shifting, and we see that unsteady shifting as twinkling. Seen from the Moon, where there is no air, stars do not twinkle at all.",
+    "level_2": "A ray of starlight bends slightly each time it enters warmer or cooler air, and that happens often as the ray crosses the atmosphere. Each temperature zone is like a bubble of warmer or cooler air, and the bubbles rise and fall, so the path of the starlight constantly and randomly shifts. Stars are so far away that they look like points, so their light reaches your eyes in a very narrow beam. As that thin beam twitches, the star twinkles. Planets are close enough to show disks, so a thicker bundle of light reaches your eyes and the twinkles average out.",
+    "level_3": "Light changes direction when it passes between air of different temperature and density, which is called refraction. The air keeps moving, so the refraction changes from moment to moment, and a point source such as a star seems to shift in position and brightness. A planet's disk is made of many points, and each one shifts a little differently, so the average changes little and the planet looks steadier. The time light takes to cross a layer of air is the thickness of the layer divided by the speed of light, t = d / c. In space there is no air to bend the light, so stars shine steadily."
+  },
+  "supporting_evidence": [
+    "Seen from the Moon, where there is no atmosphere, stars do not twinkle at all.",
+    "Planets are close enough to show disks, so they twinkle much less than stars."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Curiosities: Why do stars appear to twinkle in the night sky?",
+      "publisher": "University of Wisconsin-Madison News",
+      "url": "https://news.wisc.edu/curiosities-why-do-stars-appear-to-twinkle-in-the-night-sky/",
+      "date_published": "2010-11-01",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    },
+    {
+      "id": "s2",
+      "title": "StarChild Question of the Month for October 2000: Why do stars twinkle?",
+      "publisher": "NASA Goddard Space Flight Center (StarChild)",
+      "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/questions/question26.html",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Stars twinkle because we view them through our atmosphere: starlight bends slightly each time it enters warmer or cooler air, and we see that unsteady shifting as twinkling.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Starlight passes through many miles of air, and each temperature zone is like a bubble of warmer or cooler air that rises and falls, so the path of the starlight constantly and randomly shifts.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Seen from the Moon, where there is no atmosphere, stars do not twinkle at all.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Stars are so far away that they look like points, so their light reaches our eyes in a very narrow beam, and as that thin beam twitches the star twinkles.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "Planets are close enough to show disks, so a thicker bundle of light rays reaches our eyes and the twinkles from different points average out, which is why planets generally twinkle much less than stars.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The time light takes to cross a layer of air equals the thickness of the layer divided by the speed of light.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Time for light to cross a layer of air",
+      "latex": "t = d / c",
+      "dimension_check": {
+        "lhs": "s",
+        "rhs": "m m^-1 s"
+      }
+    }
+  ],
+  "assumptions": [
+    "Starlight passes through the whole atmosphere.",
+    "The air is always moving and has warmer and cooler pockets.",
+    "Stars look like points, while planets show disks."
+  ],
+  "variables": [
+    {
+      "symbol": "t",
+      "name": "time to cross the layer",
+      "unit": "s"
+    },
+    {
+      "symbol": "d",
+      "name": "thickness of the layer of air",
+      "unit": "m"
+    },
+    {
+      "symbol": "c",
+      "name": "speed of light",
+      "unit": "m s^-1"
+    }
+  ],
+  "practical_applications": [
+    "Telling a planet from a star: a steady point of light is probably a planet.",
+    "Placing big telescopes on high mountains or in space to avoid the twinkle.",
+    "Explaining why the Moon and space telescopes show steady stars."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Stars flicker because they are flickering lights themselves.",
+      "correction": "A star shines steadily. The flicker comes from the air that its light passes through."
+    },
+    {
+      "statement": "Planets twinkle as much as stars do.",
+      "correction": "Planets show disks, so many light rays reach our eyes and the twinkles average out. Planets generally twinkle much less than stars."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if you looked at the stars from the Moon?",
+      "summary": "The stars would shine steadily.",
+      "correct": "Expect steady stars where there is no atmosphere.",
+      "overlooked": "Assuming stars twinkle wherever you look at them.",
+      "what_changes": "There is no air between you and the stars.",
+      "consequences": "Starlight would not be bent by moving air, so the stars would not twinkle at all.",
+      "why": "Twinkling comes from starlight bending in the atmosphere.",
+      "prevention": "Remember that the air, not the star, makes the flicker.",
+      "claim_ids": [
+        "c1",
+        "c3"
+      ]
+    },
+    {
+      "title": "What if a star were close enough to show a disk?",
+      "summary": "Its twinkles would average out.",
+      "correct": "Expect a steadier light from something that shows a disk.",
+      "overlooked": "Assuming every point of light twinkles equally.",
+      "what_changes": "The source shows a disk instead of a point.",
+      "consequences": "A thicker bundle of light reaches our eyes, and the twinkles from different points average out, as they do for planets.",
+      "why": "Each part of the disk twinkles differently, so the average changes little.",
+      "prevention": "Look for steady points of light: they are probably planets.",
+      "claim_ids": [
+        "c4",
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Dark outdoor spaces at night",
+      "Walking while looking up at the sky"
+    ],
+    "safety_equipment": [
+      "A flashlight",
+      "An adult when observing the sky at night"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Moving air bends starlight, so a steady star seems to flicker."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Refraction in the atmosphere, why planets twinkle less, and why telescopes go up mountains or into space."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 30,
+            "y": 14,
+            "w": 9,
+            "h": 9,
+            "color": "warn",
+            "bob": 1.5
+          },
+          {
+            "type": "ellipse",
+            "x": 128,
+            "y": 90,
+            "w": 7,
+            "h": 7,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 128,
+            "y": 98,
+            "w": 7,
+            "h": 10,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 10,
+            "text": "Stars seem to flicker",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 34,
+            "y": 22,
+            "x2": 122,
+            "y2": 84,
+            "color": "warn",
+            "appear": 0.5,
+            "alpha": 0.5
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 40,
+            "w": 160,
+            "h": 26,
+            "color": "blue",
+            "alpha": 0.15
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 160,
+            "h": 26,
+            "color": "blue",
+            "alpha": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 40,
+            "w": 22,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.25,
+            "bob": 1.0
+          },
+          {
+            "type": "ellipse",
+            "x": 50,
+            "y": 62,
+            "w": 26,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.25,
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 120,
+            "y": 70,
+            "w": 24,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.25,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 30,
+            "y": 14,
+            "w": 9,
+            "h": 9,
+            "color": "warn"
+          },
+          {
+            "type": "line",
+            "x": 32,
+            "y": 22,
+            "x2": 50,
+            "y2": 36,
+            "color": "warn",
+            "appear": 0.1
+          },
+          {
+            "type": "line",
+            "x": 50,
+            "y": 36,
+            "x2": 46,
+            "y2": 52,
+            "color": "warn",
+            "appear": 0.25
+          },
+          {
+            "type": "line",
+            "x": 46,
+            "y": 52,
+            "x2": 70,
+            "y2": 62,
+            "color": "warn",
+            "appear": 0.4
+          },
+          {
+            "type": "line",
+            "x": 70,
+            "y": 62,
+            "x2": 66,
+            "y2": 76,
+            "color": "warn",
+            "appear": 0.55
+          },
+          {
+            "type": "line",
+            "x": 66,
+            "y": 76,
+            "x2": 124,
+            "y2": 88,
+            "color": "warn",
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 128,
+            "y": 90,
+            "w": 7,
+            "h": 7,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 128,
+            "y": 98,
+            "w": 7,
+            "h": 10,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 110,
+            "y": 20,
+            "text": "Warm and cool air",
+            "size": 5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 112,
+            "y": 30,
+            "text": "bend the light",
+            "size": 5,
+            "appear": 0.45
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 40,
+            "y": 40,
+            "w": 9,
+            "h": 9,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 120,
+            "y": 40,
+            "w": 9,
+            "h": 9,
+            "color": "warn",
+            "bob": 2.5
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 22,
+            "text": "In space: steady",
+            "size": 5.5
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 22,
+            "text": "On Earth: it twinkles",
+            "size": 5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 88,
+            "text": "The star is steady",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 36,
+            "y": 30,
+            "w": 9,
+            "h": 9,
+            "color": "warn",
+            "bob": 1.5
+          },
+          {
+            "type": "arrow",
+            "x": 44,
+            "y": 32,
+            "x2": 120,
+            "y2": 32,
+            "color": "warn",
+            "appear": 0.2,
+            "bob": 1.5
+          },
+          {
+            "type": "ellipse",
+            "x": 36,
+            "y": 70,
+            "w": 18,
+            "h": 18,
+            "color": "violet"
+          },
+          {
+            "type": "arrow",
+            "x": 46,
+            "y": 62,
+            "x2": 120,
+            "y2": 62,
+            "color": "violet",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 46,
+            "y": 70,
+            "x2": 120,
+            "y2": 70,
+            "color": "violet",
+            "appear": 0.35
+          },
+          {
+            "type": "arrow",
+            "x": 46,
+            "y": 78,
+            "x2": 120,
+            "y2": 78,
+            "color": "violet",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 130,
+            "y": 32,
+            "text": "Star: thin beam",
+            "size": 4.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 130,
+            "y": 70,
+            "text": "Planet: wide beam",
+            "size": 4.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Planets twinkle far less",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 40,
+            "w": 160,
+            "h": 26,
+            "color": "blue",
+            "alpha": 0.15
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 160,
+            "h": 26,
+            "color": "blue",
+            "alpha": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 40,
+            "w": 22,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.25,
+            "bob": 1.0
+          },
+          {
+            "type": "ellipse",
+            "x": 50,
+            "y": 62,
+            "w": 26,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.25,
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 120,
+            "y": 70,
+            "w": 24,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.25,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 30,
+            "y": 14,
+            "w": 9,
+            "h": 9,
+            "color": "warn"
+          },
+          {
+            "type": "line",
+            "x": 32,
+            "y": 22,
+            "x2": 56,
+            "y2": 40,
+            "color": "warn",
+            "appear": 0.1
+          },
+          {
+            "type": "line",
+            "x": 56,
+            "y": 40,
+            "x2": 42,
+            "y2": 58,
+            "color": "warn",
+            "appear": 0.3
+          },
+          {
+            "type": "line",
+            "x": 42,
+            "y": 58,
+            "x2": 78,
+            "y2": 70,
+            "color": "warn",
+            "appear": 0.5
+          },
+          {
+            "type": "line",
+            "x": 78,
+            "y": 70,
+            "x2": 124,
+            "y2": 88,
+            "color": "warn",
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 128,
+            "y": 90,
+            "w": 7,
+            "h": 7,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 128,
+            "y": 98,
+            "w": 7,
+            "h": 10,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 12,
+            "text": "Bent again and again",
+            "size": 5.5,
+            "appear": 0.4
+          }
+        ]
+      }
+    }
+  }
+}

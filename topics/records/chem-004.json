@@ -1,0 +1,770 @@
+{
+  "id": "chem-004",
+  "title": "Why is the ocean salty?",
+  "category": "chemistry",
+  "subject_area": "dissolved salts and minerals",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "Rivers are fresh water, so why is the ocean salty?",
+  "template": "principle",
+  "principle_statement": "Salts and minerals dissolved from rocks on land and from vents in the seafloor flow into the ocean and stay there, so the ocean has become salty.",
+  "domain_of_validity": "Seawater on Earth; the amount of salt in a place changes with rain, rivers, evaporation and ice.",
+  "scientific_explanation": {
+    "level_1": "Rain falls on the land and wears away the rocks, and it carries tiny bits of salts and minerals into streams and rivers. Rivers do not taste salty, because rain keeps refilling them with fresh water. But all the rivers run into the ocean, and the ocean keeps the salts they bring. Over a very long time the ocean has become salty.",
+    "level_2": "Rainwater is slightly acidic, so it erodes rocks, and it carries salts and minerals as dissolved ions into streams and rivers and then the ocean. A second source is hydrothermal vents: seawater seeps into the seafloor, is heated, dissolves minerals and flows back out through the vents. Some dissolved ions are used by ocean life or removed from the water, but others are not, so their concentration builds up over time.",
+    "level_3": "Concentration is the mass of dissolved salt divided by the volume of the water, c = m / V, so adding salt to the ocean without adding the same amount of water makes it saltier. Rivers and streams carry about four billion tons of dissolved salts to the ocean every year. The primeval seas were probably only slightly salty, and they became saltier as rain broke up rocks and carried their minerals to the ocean. Hydrothermal vents also matter: the entire volume of the oceans could circulate through them every 10 to 20 million years."
+  },
+  "supporting_evidence": [
+    "Over time the ocean has become saltier as rain fell and ran over the land, breaking up rocks and carrying their minerals to the sea.",
+    "The entire volume of the oceans could circulate through hydrothermal vents every 10 to 20 million years."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Why is the ocean salty?",
+      "publisher": "NOAA National Ocean Service",
+      "url": "https://oceanservice.noaa.gov/facts/whysalty.html",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Why is the ocean salty, but rivers flowing into it are not?",
+      "publisher": "NOAA National Ocean Service",
+      "url": "https://oceanservice.noaa.gov/facts/riversnotsalty.html",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s3",
+      "title": "Why is the ocean salty?",
+      "publisher": "USGS Water Science School",
+      "url": "https://www.usgs.gov/water-science-school/science/why-ocean-salty",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Rocks on land are the major source of the salts in seawater: rainwater is slightly acidic, so it erodes rocks and carries salts and minerals as dissolved ions to streams, rivers and the ocean.",
+      "source_ids": [
+        "s1",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Rivers do not taste salty because rain keeps replenishing their fresh water, but the ocean collects the salt and minerals from all the rivers that flow into it.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Rivers carry an estimated four billion tons of dissolved salts to the ocean every year.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Hydrothermal vents in the seafloor are another source of salts: seawater seeps into the rocks of the oceanic crust, is heated, dissolves minerals and flows back out into the ocean.",
+      "source_ids": [
+        "s1",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "Some dissolved ions are used by ocean life, but others are not removed, so their concentrations increase over time.",
+      "source_ids": [
+        "s1",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The concentration of dissolved salt equals the mass of salt divided by the volume of water.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Concentration of dissolved salt",
+      "latex": "c = m / V",
+      "dimension_check": {
+        "lhs": "kg m^-3",
+        "rhs": "kg m^-3"
+      }
+    }
+  ],
+  "assumptions": [
+    "Rain keeps freshwater flowing in rivers.",
+    "The ocean collects the salts that rivers and vents add.",
+    "Concentration depends on the mass of salt and the volume of water."
+  ],
+  "variables": [
+    {
+      "symbol": "c",
+      "name": "concentration of salt",
+      "unit": "kg m^-3"
+    },
+    {
+      "symbol": "m",
+      "name": "mass of dissolved salt",
+      "unit": "kg"
+    },
+    {
+      "symbol": "V",
+      "name": "volume of water",
+      "unit": "m^3"
+    }
+  ],
+  "practical_applications": [
+    "Understanding why sea water cannot be drunk.",
+    "Explaining why some lakes with no outlet become salty.",
+    "Understanding how ocean chemistry is shaped by rocks and vents."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Rivers have no salt in them at all.",
+      "correction": "Rivers carry some dissolved salts, but rain keeps their water fresh, and they flow into the ocean, which collects the salt and minerals from all of them."
+    },
+    {
+      "statement": "The ocean has always been as salty as it is now.",
+      "correction": "The primeval seas were probably only slightly salty. The ocean became saltier over time as rain broke up rocks and carried their minerals to the sea."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if there were no hydrothermal vents?",
+      "summary": "The ocean would still get salts from rivers.",
+      "correct": "Remember that salts come from two sources: runoff from the land and vents in the seafloor.",
+      "overlooked": "Assuming all the salt comes from rivers.",
+      "what_changes": "The vents in the seafloor are removed.",
+      "consequences": "The ocean would still collect the salts that rivers carry, but it would lose one of its two sources of minerals.",
+      "why": "Salt in the ocean comes from runoff from the land and from openings in the seafloor.",
+      "prevention": "Count both sources when you explain the salt.",
+      "claim_ids": [
+        "c1",
+        "c4"
+      ]
+    },
+    {
+      "title": "What if the ocean could remove every dissolved ion?",
+      "summary": "The ocean would not get saltier over time.",
+      "correct": "Expect salts to build up only when ions are not removed from the water.",
+      "overlooked": "Assuming all the dissolved ions build up in the same way.",
+      "what_changes": "Ocean life and other processes remove all the ions that arrive.",
+      "consequences": "The salt concentration would stop rising, instead of building up as it does now.",
+      "why": "Some ions are used by ocean life, but others are not removed, so their concentrations increase.",
+      "prevention": "Ask which ions are removed and which are not.",
+      "claim_ids": [
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Drinking sea water",
+      "Slippery rocks at the shore"
+    ],
+    "safety_equipment": [
+      "Fresh drinking water",
+      "A responsible adult near the sea"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Rain wears rock, rivers carry the salts, and the ocean collects them."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "The two sources of ocean salt, why rivers stay fresh, and why the ocean keeps getting saltier."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "polygon",
+            "points": [
+              [
+                8,
+                72
+              ],
+              [
+                38,
+                34
+              ],
+              [
+                68,
+                72
+              ]
+            ],
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 88,
+            "w": 90,
+            "h": 10,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 122,
+            "y": 78,
+            "w": 82,
+            "h": 36,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "arrow",
+            "x": 26,
+            "y": 12,
+            "x2": 30,
+            "y2": 30,
+            "color": "blue",
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 40,
+            "y": 8,
+            "x2": 44,
+            "y2": 28,
+            "color": "blue",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Why is the sea salty?",
+            "size": 5.5,
+            "appear": 0.4,
+            "color": "text"
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "polygon",
+            "points": [
+              [
+                8,
+                72
+              ],
+              [
+                38,
+                34
+              ],
+              [
+                68,
+                72
+              ]
+            ],
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 88,
+            "w": 90,
+            "h": 10,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 122,
+            "y": 78,
+            "w": 82,
+            "h": 36,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "arrow",
+            "x": 26,
+            "y": 8,
+            "x2": 30,
+            "y2": 30,
+            "color": "blue",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 42,
+            "y": 8,
+            "x2": 46,
+            "y2": 30,
+            "color": "blue",
+            "appear": 0.15
+          },
+          {
+            "type": "text",
+            "x": 34,
+            "y": 56,
+            "text": "Rain wears rock",
+            "size": 5,
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 46,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "dx": 64,
+            "dy": 26,
+            "from": 0.3,
+            "to": 0.9
+          },
+          {
+            "type": "ellipse",
+            "x": 40,
+            "y": 56,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "dx": 70,
+            "dy": 22,
+            "from": 0.4,
+            "to": 0.9
+          },
+          {
+            "type": "ellipse",
+            "x": 52,
+            "y": 50,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "dx": 58,
+            "dy": 28,
+            "from": 0.5,
+            "to": 0.95
+          },
+          {
+            "type": "text",
+            "x": 86,
+            "y": 40,
+            "text": "Rivers carry the salts",
+            "size": 5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 122,
+            "y": 72,
+            "text": "Ocean collects them",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 34,
+            "y": 62,
+            "w": 36,
+            "h": 46,
+            "color": "blue",
+            "alpha": 0.4
+          },
+          {
+            "type": "ellipse",
+            "x": 26,
+            "y": 74,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "bob": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 40,
+            "y": 80,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "bob": 0.5
+          },
+          {
+            "type": "rect",
+            "x": 110,
+            "y": 62,
+            "w": 64,
+            "h": 46,
+            "color": "blue",
+            "alpha": 0.6
+          },
+          {
+            "type": "ellipse",
+            "x": 88,
+            "y": 50,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 58,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.34
+          },
+          {
+            "type": "ellipse",
+            "x": 112,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.38
+          },
+          {
+            "type": "ellipse",
+            "x": 124,
+            "y": 62,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.42
+          },
+          {
+            "type": "ellipse",
+            "x": 134,
+            "y": 50,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.46
+          },
+          {
+            "type": "ellipse",
+            "x": 96,
+            "y": 72,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 108,
+            "y": 78,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.54
+          },
+          {
+            "type": "ellipse",
+            "x": 120,
+            "y": 70,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.58
+          },
+          {
+            "type": "ellipse",
+            "x": 132,
+            "y": 80,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.62
+          },
+          {
+            "type": "ellipse",
+            "x": 92,
+            "y": 86,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.66
+          },
+          {
+            "type": "ellipse",
+            "x": 116,
+            "y": 88,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 136,
+            "y": 66,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.74
+          },
+          {
+            "type": "text",
+            "x": 34,
+            "y": 28,
+            "text": "River: little salt",
+            "size": 5
+          },
+          {
+            "type": "text",
+            "x": 110,
+            "y": 28,
+            "text": "Ocean: salt collects",
+            "size": 5,
+            "appear": 0.4
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 70,
+            "w": 160,
+            "h": 60,
+            "color": "blue",
+            "alpha": 0.55
+          },
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 44,
+            "y": 60,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.16
+          },
+          {
+            "type": "ellipse",
+            "x": 68,
+            "y": 50,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.22
+          },
+          {
+            "type": "ellipse",
+            "x": 92,
+            "y": 62,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.28
+          },
+          {
+            "type": "ellipse",
+            "x": 116,
+            "y": 54,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.34
+          },
+          {
+            "type": "ellipse",
+            "x": 140,
+            "y": 60,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.4
+          },
+          {
+            "type": "ellipse",
+            "x": 30,
+            "y": 76,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.46
+          },
+          {
+            "type": "ellipse",
+            "x": 56,
+            "y": 84,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.52
+          },
+          {
+            "type": "ellipse",
+            "x": 82,
+            "y": 74,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.58
+          },
+          {
+            "type": "ellipse",
+            "x": 108,
+            "y": 86,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.64
+          },
+          {
+            "type": "ellipse",
+            "x": 134,
+            "y": 78,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 150,
+            "y": 90,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "appear": 0.76
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Salt builds up over time",
+            "size": 5.5,
+            "appear": 0.3
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 12,
+            "color": "muted"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                70,
+                88
+              ],
+              [
+                76,
+                64
+              ],
+              [
+                84,
+                64
+              ],
+              [
+                90,
+                88
+              ]
+            ],
+            "color": "panel2"
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 62,
+            "x2": 80,
+            "y2": 36,
+            "color": "bad",
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 70,
+            "y": 62,
+            "x2": 62,
+            "y2": 40,
+            "color": "bad",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 90,
+            "y": 62,
+            "x2": 98,
+            "y2": 40,
+            "color": "bad",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "A second source: vents",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 26,
+            "text": "Hot water adds minerals",
+            "size": 5.5,
+            "appear": 0.5
+          }
+        ]
+      }
+    }
+  }
+}

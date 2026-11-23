@@ -1,0 +1,526 @@
+{
+  "id": "bio-002",
+  "title": "Why do leaves change colour in the fall?",
+  "category": "biology",
+  "subject_area": "plant pigments and seasons",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "Where do the reds, oranges and yellows come from, if leaves were green all summer?",
+  "template": "principle",
+  "principle_statement": "Leaves are green because of chlorophyll; when the days get shorter the leaf stops making it, the green fades and the other colours already in the leaf show.",
+  "domain_of_validity": "Leaves of broadleaf trees in places with a cold season; weather changes how early and how strongly the colours appear.",
+  "scientific_explanation": {
+    "level_1": "In spring and summer a leaf is full of a green chemical called chlorophyll, which helps the tree make food from sunlight. In the fall the days get shorter and the nights get longer. This tells the leaf to stop making chlorophyll. The green fades, and the yellows, oranges and reds in the leaf show through.",
+    "level_2": "Leaves have four main kinds of pigment. Chlorophyll is green, xanthophylls are yellow, carotenoids are orange and anthocyanins are red. All summer the leaf keeps making chlorophyll, and its green hides the other colours. As summer fades into fall, the shorter days tell the leaf to prepare for winter and to stop making chlorophyll. Once the green is gone, the other colours become visible. Weather, such as colder temperatures and more rain and snow, changes how early the leaves change and how long they keep their colours.",
+    "level_3": "The amount of chlorophyll in a leaf changes by the amount made minus the amount broken down, C = P - B. In summer production keeps up with breakdown, so the leaf stays green. In the fall, as the nights get longer, production slows and then stops while chlorophyll is destroyed, so the change C is negative and the green fades. Carotenoids are always present in the leaf, so the yellow and gold colours are fairly steady from year to year, while a drought or an early frost can make leaves fall before they have time to change colour."
+  },
+  "supporting_evidence": [
+    "In the fall, trees put on a show: leaves that were green all summer turn bright red, orange and yellow.",
+    "Cooler high places often show their fall colours before the warmer valleys."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Why Do Leaves Change Color?",
+      "publisher": "NOAA National Environmental Satellite, Data, and Information Service",
+      "url": "https://www.nesdis.noaa.gov/about/k-12-education/understanding-our-planet/why-do-leaves-change-color",
+      "date_published": "2025-08-26",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Why Do Leaves Change Color? (SciJinks)",
+      "publisher": "NOAA National Environmental Satellite, Data, and Information Service",
+      "url": "https://www.nesdis.noaa.gov/about/k-12-education/scijinks/why-do-leaves-change-color",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s3",
+      "title": "Why Leaves Change Color",
+      "publisher": "USDA Forest Service (hosted by the Massachusetts Department of Conservation and Recreation)",
+      "url": "https://www.mass.gov/doc/why-leaves-change-color/download",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Leaves are green because they make chlorophyll, which helps plants make energy and sugars from sunlight in a process called photosynthesis.",
+      "source_ids": [
+        "s1",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "As the days get shorter and the nights longer in the fall, leaves stop making chlorophyll, and as the green fades the other colours in the leaf become visible.",
+      "source_ids": [
+        "s1",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Besides chlorophyll, leaves have xanthophylls that look yellow, carotenoids that look orange and anthocyanins that look red.",
+      "source_ids": [
+        "s1",
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Carotenoids are always present in leaves, so the yellow and gold colours stay fairly constant from year to year.",
+      "source_ids": [
+        "s3"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "Weather such as colder temperatures and more rain and snow can change how early the leaves change colour and how long they keep it, and a drought or an early frost can make leaves fall before they change colour.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The amount of chlorophyll in a leaf changes by the amount made minus the amount broken down.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Change in chlorophyll",
+      "latex": "C = P - B",
+      "dimension_check": {
+        "lhs": "kg",
+        "rhs": "kg"
+      }
+    }
+  ],
+  "assumptions": [
+    "Day length is the main signal for the leaf.",
+    "The leaf has chlorophyll and other pigments at the same time.",
+    "Weather changes the timing and the strength of the colours."
+  ],
+  "variables": [
+    {
+      "symbol": "C",
+      "name": "change in the amount of chlorophyll",
+      "unit": "kg"
+    },
+    {
+      "symbol": "P",
+      "name": "chlorophyll made",
+      "unit": "kg"
+    },
+    {
+      "symbol": "B",
+      "name": "chlorophyll broken down",
+      "unit": "kg"
+    }
+  ],
+  "practical_applications": [
+    "Predicting when the fall colours will be at their best.",
+    "Understanding why some trees go yellow and others red.",
+    "Explaining how trees get ready for winter."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Leaves make brand new colours in the fall.",
+      "correction": "The yellow and orange pigments are in the leaf all along. They are hidden by the green until the chlorophyll fades."
+    },
+    {
+      "statement": "Cold weather alone changes the colour of leaves.",
+      "correction": "The shorter days and longer nights tell the leaf to stop making chlorophyll. Weather changes how early and how long the colours last."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the days did not get shorter?",
+      "summary": "The leaf would keep making chlorophyll and stay green.",
+      "correct": "Expect the green to last longer when the signal of shorter days is missing.",
+      "overlooked": "Assuming leaves change colour whatever the daylight.",
+      "what_changes": "The nights stay as short as in summer.",
+      "consequences": "The leaf would keep making chlorophyll, so the green would not fade and the other colours would stay hidden.",
+      "why": "The shorter days are the signal for the leaf to stop making chlorophyll.",
+      "prevention": "Remember that day length is the signal, not only the temperature.",
+      "claim_ids": [
+        "c2"
+      ]
+    },
+    {
+      "title": "What if there is a drought or an early frost?",
+      "summary": "Leaves may fall before they change colour.",
+      "correct": "Expect a dull fall colour or early leaf fall after extreme weather.",
+      "overlooked": "Assuming leaves always change colour before they fall.",
+      "what_changes": "The weather is more extreme than usual.",
+      "consequences": "Leaves can fall off the trees before they have had time to change colour.",
+      "why": "Extreme weather changes can have an effect on the leaves and how long they stay on the tree.",
+      "prevention": "Watch the weather as well as the daylight.",
+      "claim_ids": [
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Walking on wet leaves",
+      "Climbing trees"
+    ],
+    "safety_equipment": [
+      "A responsible adult",
+      "Sturdy shoes for walking outdoors"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Leaves lose their green, and the other colours were there all along."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "The four pigments, why shorter days start the change, and how weather changes the show."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 78,
+            "w": 6,
+            "h": 40,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 12,
+            "color": "panel2"
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 46,
+            "w": 56,
+            "h": 40,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 46,
+            "w": 56,
+            "h": 40,
+            "color": "warn",
+            "appear": 0.6,
+            "alpha": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Why do leaves change?",
+            "size": 5.5,
+            "appear": 0.3
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 28,
+            "y": 32,
+            "w": 7,
+            "h": 7,
+            "color": "good"
+          },
+          {
+            "type": "text",
+            "x": 52,
+            "y": 32,
+            "text": "Chlorophyll",
+            "size": 5
+          },
+          {
+            "type": "ellipse",
+            "x": 28,
+            "y": 46,
+            "w": 7,
+            "h": 7,
+            "color": "warn"
+          },
+          {
+            "type": "text",
+            "x": 52,
+            "y": 46,
+            "text": "Carotenoids",
+            "size": 5,
+            "appear": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 28,
+            "y": 60,
+            "w": 7,
+            "h": 7,
+            "color": "bad"
+          },
+          {
+            "type": "text",
+            "x": 54,
+            "y": 60,
+            "text": "Anthocyanins",
+            "size": 5,
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 118,
+            "y": 50,
+            "w": 50,
+            "h": 30,
+            "color": "good"
+          },
+          {
+            "type": "ellipse",
+            "x": 118,
+            "y": 50,
+            "w": 50,
+            "h": 30,
+            "color": "warn",
+            "appear": 0.55,
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 128,
+            "y": 54,
+            "w": 22,
+            "h": 14,
+            "color": "bad",
+            "appear": 0.8,
+            "alpha": 0.7
+          },
+          {
+            "type": "text",
+            "x": 118,
+            "y": 22,
+            "text": "Green hides the rest",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 118,
+            "y": 82,
+            "text": "Green fades, others show",
+            "size": 5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 60,
+            "y": 40,
+            "w": 100,
+            "h": 10,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 50,
+            "y": 64,
+            "w": 60,
+            "h": 10,
+            "color": "violet",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 60,
+            "y": 28,
+            "text": "Summer day",
+            "size": 5.5
+          },
+          {
+            "type": "text",
+            "x": 50,
+            "y": 52,
+            "text": "Fall day",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Shorter days: the signal",
+            "size": 5.5,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 88,
+            "text": "Not only the cold",
+            "size": 5.5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 78,
+            "w": 6,
+            "h": 40,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 12,
+            "color": "panel2"
+          },
+          {
+            "type": "ellipse",
+            "x": 64,
+            "y": 44,
+            "w": 34,
+            "h": 28,
+            "color": "warn",
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 98,
+            "y": 40,
+            "w": 34,
+            "h": 28,
+            "color": "bad",
+            "appear": 0.4,
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 56,
+            "w": 34,
+            "h": 24,
+            "color": "warn",
+            "appear": 0.6,
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 52,
+            "y": 58,
+            "w": 22,
+            "h": 18,
+            "color": "bad",
+            "appear": 0.7,
+            "alpha": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "A colourful tree",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 140,
+            "y": 30,
+            "w": 6,
+            "h": 6,
+            "color": "warn",
+            "dy": 44,
+            "dx": -6,
+            "from": 0.5,
+            "to": 0.95
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "text": "Chlorophyll change",
+            "size": 6.5,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 42,
+            "text": "= made - broken down",
+            "size": 7,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 64,
+            "text": "Fall: nothing is made",
+            "size": 6,
+            "appear": 0.55
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 84,
+            "text": "The green fades away",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

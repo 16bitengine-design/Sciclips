@@ -162,8 +162,9 @@ def make_ask():
 def fetch(url):
     import urllib.request
     request = urllib.request.Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (compatible; SciclipsScout/1.0)",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36 SciclipsScout/1.0",
         "Accept": "text/html,application/xhtml+xml,text/plain;q=0.9,*/*;q=0.5",
+        "Accept-Language": "en-US,en;q=0.9",
     })
     last_error = None
     for attempt in range(3):
@@ -273,6 +274,10 @@ def main():
     root = Path('.')
     rendering = json.loads((root / 'config' / 'config.json').read_text(encoding='utf-8'))['rendering']
     topic_scout.REQUIRE_PICTURES = True    # automatic topics must come with their own picture plan
+    from scripts import sync_queue          # records written by hand count too: queue them before counting
+    synced = sync_queue.sync(root)
+    if synced and (synced[0] or synced[1]):
+        print('Queue synced with the topic records: added ' + (', '.join(synced[0]) or 'nothing') + '; marked published: ' + (', '.join(synced[1]) or 'nothing'))
     try:
         lines = replenish_topic_bank(root, make_ask(), fetch, rendering, tries=2, search=search_trusted_sources)
     except topic_scout.ScoutError as error:

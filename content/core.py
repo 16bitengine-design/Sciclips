@@ -1163,7 +1163,7 @@ def download(fetch, urls, search=None, query=None):
         try:
             text = fetch(url)
         except Exception as error:
-            problems.append(f"could not read {url} ({type(error).__name__})")
+            problems.append(f"could not read {url} ({type(error).__name__}{' ' + str(error.code) if getattr(error, 'code', None) else ''})")
             return
         if len(text) < MIN_PAGE_CHARS:
             problems.append(f"the page at {url} had too little text")

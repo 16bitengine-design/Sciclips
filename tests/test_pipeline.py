@@ -958,3 +958,16 @@ def test_a_model_claim_without_a_source_does_not_need_a_page_quote():
     record = {"sources": [{"id": "s1", "url": "https://www.nasa.gov/a"}],
               "claims": [{"id": "c1", "kind": "mathematical_model", "text": "d = v t", "source_ids": []}]}
     ts.verify_claims(lambda _m: json.dumps({"results": []}), record, {"https://www.nasa.gov/a": "x " * 50})
+
+
+def test_a_dead_link_report_names_the_http_status():
+    import urllib.error
+
+    def fetch(url):
+        raise urllib.error.HTTPError(url, 403, "Forbidden", None, None)
+    try:
+        ts.download(fetch, ["https://www.nasa.gov/a", "https://www.noaa.gov/b"])
+    except ts.ScoutError as error:
+        assert "could not read https://www.nasa.gov/a" in str(error) and "403" in str(error)
+    else:
+        raise AssertionError("should have been dropped")

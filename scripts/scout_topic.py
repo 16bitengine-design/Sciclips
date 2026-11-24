@@ -270,12 +270,28 @@ def replenish_topic_bank(root, ask, fetch_page, rendering, tries=4, search=None)
     return lines
 
 
+def queue_summary(root):
+    """One line per status, with the topic ids, so the log shows exactly what the queue holds."""
+    try:
+        topics = json.loads((Path(root) / 'topics' / 'topic_queue.json').read_text(encoding='utf-8'))['topics']
+    except (OSError, ValueError, KeyError):
+        return 'Queue: could not be read.'
+    records = sorted(p.stem for p in (Path(root) / 'topics' / 'records').glob('*.json'))
+    groups = {}
+    for item in topics:
+        groups.setdefault(item.get('status', '?'), []).append(item.get('id', '?'))
+    parts = [f"{status} {len(ids)} ({', '.join(ids)})" for status, ids in sorted(groups.items())]
+    missing = [r for r in records if r not in {t.get('id') for t in topics}]
+    return f"Queue: {'; '.join(parts)}. Records on disk: {len(records)}. Records not in the queue: {', '.join(missing) or 'none'}."
+
+
 def main():
     root = Path('.')
     rendering = json.loads((root / 'config' / 'config.json').read_text(encoding='utf-8'))['rendering']
     topic_scout.REQUIRE_PICTURES = True    # automatic topics must come with their own picture plan
     from scripts import sync_queue          # records written by hand count too: queue them before counting
     synced = sync_queue.sync(root)
+    print(queue_summary(root))
     if synced and (synced[0] or synced[1]):
         print('Queue synced with the topic records: added ' + (', '.join(synced[0]) or 'nothing') + '; marked published: ' + (', '.join(synced[1]) or 'nothing'))
     try:

@@ -94,6 +94,17 @@
       "youtube_buffer_post_id": "6b04c6a707fee37ee60c64c6",
       "tiktok_url": "Buffer post 6b04c6a907fee37ee60c66ef",
       "schedule_slot": "2026-11-23|0 12 * * *"
+    },
+    {
+      "topic_id": "earth-002",
+      "format": "short",
+      "variant": "explainer",
+      "published_at": "2026-11-24T03:37:35.610Z",
+      "run_kind": "schedule",
+      "youtube_url": "https://www.youtube.com/watch?v=puWCHAm3b2Q",
+      "youtube_buffer_post_id": "6b05067df0d7b1e0deab7d3e",
+      "tiktok_url": "Buffer post 6b0506806734c08a26ab86c9",
+      "schedule_slot": "2026-11-24|0 17 * * *"
     }
   ]
 }

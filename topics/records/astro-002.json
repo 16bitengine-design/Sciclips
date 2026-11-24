@@ -1,0 +1,778 @@
+{
+  "id": "astro-002",
+  "title": "Why do we have day and night?",
+  "category": "astronomy",
+  "subject_area": "Earth's rotation",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "Why does the Sun seem to rise and set every day?",
+  "template": "principle",
+  "principle_statement": "Earth spins on its axis once every 24 hours, so each place on Earth turns toward the Sun for day and away from it for night.",
+  "domain_of_validity": "Earth's daily rotation as seen from the ground; near the poles, day and night also depend on the time of year.",
+  "scientific_explanation": {
+    "level_1": "Earth is spinning like a top, and one full spin takes about 24 hours. The Sun always lights up half of Earth. The place where you live turns toward the Sun, and it is day. Hours later it has turned away from the Sun, and it is night. The Sun is not really moving across the sky. You are moving with the spinning Earth.",
+    "level_2": "Earth rotates around its axis, an imaginary line through the North and South Poles, once every 24 hours. At any moment half of Earth is lit by the Sun and half is in darkness. Places facing the Sun have daytime, and places facing away have nighttime. Because Earth spins, the Sun appears to move across the sky from east to west. Near the North and South Poles there can be continuous daylight or darkness, depending on the time of year.",
+    "level_3": "At the equator Earth's surface moves at about 2,200 kilometres per hour, which is just over 1,000 miles per hour. It covers a distance d equal to Earth's circumference in a time t of 24 hours, so v = d / t. We cannot feel this motion. A globe lit by a flashlight shows the same effect: as the globe turns, a point on it passes from the lit side to the dark side and back."
+  },
+  "supporting_evidence": [
+    "Shine a flashlight on a globe and spin it slowly: a spot on the globe moves from light to dark and back again.",
+    "At the equator Earth spins at about 2,200 kilometres per hour, yet we cannot feel it."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Why is there day and night?",
+      "publisher": "NASA Goddard Space Flight Center (StarChild)",
+      "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/questions/question31.html",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "What Is Earth?",
+      "publisher": "NASA STEM Team",
+      "url": "https://www.nasa.gov/learning-resources/for-kids-and-students/what-is-earth/",
+      "date_published": "2017-10-04",
+      "date_updated": "2026-11-18",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Earth rotates on its axis once every 24 hours, and the Sun appears to move across the sky because Earth rotates.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "At all times half of Earth is lit by the Sun and half is in darkness; areas facing the Sun have daytime and areas facing away have nighttime.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "If you shine a light on a globe and spin it, a place on the globe turns toward and away from the light, which makes day and night.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "At the equator Earth spins at about 2,200 kilometres per hour, which is just over 1,000 miles per hour, and people cannot feel this motion.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "The North Pole and South Pole have continuous daylight or darkness depending on the time of year.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "Speed equals distance divided by time, so a spin of Earth's circumference in 24 hours gives the speed of the equator.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Speed from distance and time",
+      "latex": "v = d / t",
+      "dimension_check": {
+        "lhs": "m s^-1",
+        "rhs": "m s^-1"
+      }
+    }
+  ],
+  "assumptions": [
+    "Earth spins steadily on its axis.",
+    "The Sun lights half of Earth at any moment.",
+    "Near the equator, day and night are about equal, and near the poles they depend on the season."
+  ],
+  "variables": [
+    {
+      "symbol": "v",
+      "name": "speed of the equator's surface",
+      "unit": "m s^-1"
+    },
+    {
+      "symbol": "d",
+      "name": "distance travelled in one spin",
+      "unit": "m"
+    },
+    {
+      "symbol": "t",
+      "name": "time for one spin",
+      "unit": "s"
+    }
+  ],
+  "practical_applications": [
+    "Setting a 24-hour clock and the length of a day.",
+    "Planning when to be awake, work and sleep around daylight.",
+    "Explaining why time zones exist."
+  ],
+  "misconceptions": [
+    {
+      "statement": "The Sun travels around Earth every day.",
+      "correction": "The Sun only appears to move across the sky, because Earth rotates on its axis once every 24 hours."
+    },
+    {
+      "statement": "We would feel Earth spinning, because it moves so fast.",
+      "correction": "At the equator Earth moves at about 2,200 kilometres per hour, but the motion is steady, so people cannot feel it."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if Earth stopped spinning?",
+      "summary": "The same side would face the Sun all the time.",
+      "correct": "Remember that half of Earth is always lit, and spinning moves each place through day and night.",
+      "overlooked": "Assuming day and night would still alternate.",
+      "what_changes": "Earth stops rotating on its axis.",
+      "consequences": "The same half of Earth would stay lit, and places on it would have day without a break while the other half had constant night.",
+      "why": "Day and night come from places turning toward and away from the Sun as Earth spins.",
+      "prevention": "Remember that the spin is what changes day to night.",
+      "claim_ids": [
+        "c1",
+        "c2"
+      ]
+    },
+    {
+      "title": "What if you stood at the North Pole?",
+      "summary": "Day and night would not alternate every 24 hours.",
+      "correct": "Expect continuous daylight or darkness depending on the time of year.",
+      "overlooked": "Assuming every place has day and night every 24 hours.",
+      "what_changes": "Your place is at the pole instead of a place nearer the equator.",
+      "consequences": "The Sun would not rise and set each day, and the sky would stay light or dark depending on the time of year.",
+      "why": "Near the poles the day and night pattern depends on the season.",
+      "prevention": "Look up the day length for the place you are visiting.",
+      "claim_ids": [
+        "c2",
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Looking straight at the Sun",
+      "Dark outdoor spaces at night"
+    ],
+    "safety_equipment": [
+      "Never look at the Sun directly",
+      "A flashlight and a globe for a safe indoor demonstration"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Earth spins once every 24 hours, so each place turns toward and away from the Sun."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Why the Sun seems to move, how fast Earth spins, and how day length changes near the poles."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 16,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 38,
+            "x2": 44,
+            "y2": 38,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 50,
+            "x2": 44,
+            "y2": 50,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 62,
+            "x2": 44,
+            "y2": 62,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 50,
+            "w": 36,
+            "h": 36,
+            "color": "blue"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                100.0,
+                32.0
+              ],
+              [
+                109.0,
+                34.41
+              ],
+              [
+                115.59,
+                41.0
+              ],
+              [
+                118.0,
+                50.0
+              ],
+              [
+                115.59,
+                59.0
+              ],
+              [
+                109.0,
+                65.59
+              ],
+              [
+                100.0,
+                68.0
+              ]
+            ],
+            "color": "panel2",
+            "alpha": 0.75
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Day and night: why?",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 84,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 70,
+            "y": 62,
+            "text": "You",
+            "size": 5,
+            "appear": 0.5
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 16,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 38,
+            "x2": 44,
+            "y2": 38,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 50,
+            "x2": 44,
+            "y2": 50,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 62,
+            "x2": 44,
+            "y2": 62,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 50,
+            "w": 36,
+            "h": 36,
+            "color": "blue"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                100.0,
+                32.0
+              ],
+              [
+                109.0,
+                34.41
+              ],
+              [
+                115.59,
+                41.0
+              ],
+              [
+                118.0,
+                50.0
+              ],
+              [
+                115.59,
+                59.0
+              ],
+              [
+                109.0,
+                65.59
+              ],
+              [
+                100.0,
+                68.0
+              ]
+            ],
+            "color": "panel2",
+            "alpha": 0.75
+          },
+          {
+            "type": "arrow",
+            "x": 88,
+            "y": 24,
+            "x2": 112,
+            "y2": 24,
+            "color": "violet",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 14,
+            "text": "Earth spins",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 84,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.4
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 33,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.6
+          },
+          {
+            "type": "ellipse",
+            "x": 116,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.8
+          },
+          {
+            "type": "text",
+            "x": 72,
+            "y": 70,
+            "text": "Day",
+            "size": 6,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 128,
+            "y": 70,
+            "text": "Night",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 16,
+            "y": 70,
+            "w": 22,
+            "h": 22,
+            "color": "warn",
+            "dy": -40,
+            "from": 0.1,
+            "to": 0.9
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 62,
+            "w": 36,
+            "h": 36,
+            "color": "blue"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                100.0,
+                44.0
+              ],
+              [
+                109.0,
+                46.41
+              ],
+              [
+                115.59,
+                53.0
+              ],
+              [
+                118.0,
+                62.0
+              ],
+              [
+                115.59,
+                71.0
+              ],
+              [
+                109.0,
+                77.59
+              ],
+              [
+                100.0,
+                80.0
+              ]
+            ],
+            "color": "panel2",
+            "alpha": 0.75
+          },
+          {
+            "type": "arrow",
+            "x": 88,
+            "y": 36,
+            "x2": 112,
+            "y2": 36,
+            "color": "violet",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Sun only seems to move",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 110,
+            "y": 92,
+            "text": "Earth is what spins",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 16,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 38,
+            "x2": 44,
+            "y2": 38,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 50,
+            "x2": 44,
+            "y2": 50,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 62,
+            "x2": 44,
+            "y2": 62,
+            "color": "warn",
+            "alpha": 0.7,
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 50,
+            "w": 36,
+            "h": 36,
+            "color": "blue"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                100.0,
+                32.0
+              ],
+              [
+                109.0,
+                34.41
+              ],
+              [
+                115.59,
+                41.0
+              ],
+              [
+                118.0,
+                50.0
+              ],
+              [
+                115.59,
+                59.0
+              ],
+              [
+                109.0,
+                65.59
+              ],
+              [
+                100.0,
+                68.0
+              ]
+            ],
+            "color": "panel2",
+            "alpha": 0.75
+          },
+          {
+            "type": "ellipse",
+            "x": 84,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 33,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.4
+          },
+          {
+            "type": "ellipse",
+            "x": 116,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "One spin = 24 hours",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Day + night in one spin",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 22,
+            "y": 50,
+            "w": 22,
+            "h": 8,
+            "color": "muted"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                34,
+                46
+              ],
+              [
+                34,
+                54
+              ],
+              [
+                76,
+                70
+              ],
+              [
+                76,
+                30
+              ]
+            ],
+            "color": "warn",
+            "alpha": 0.25,
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 50,
+            "w": 36,
+            "h": 36,
+            "color": "blue"
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                100.0,
+                32.0
+              ],
+              [
+                109.0,
+                34.41
+              ],
+              [
+                115.59,
+                41.0
+              ],
+              [
+                118.0,
+                50.0
+              ],
+              [
+                115.59,
+                59.0
+              ],
+              [
+                109.0,
+                65.59
+              ],
+              [
+                100.0,
+                68.0
+              ]
+            ],
+            "color": "panel2",
+            "alpha": 0.75
+          },
+          {
+            "type": "ellipse",
+            "x": 84,
+            "y": 50,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Flashlight and a globe",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Spin the globe slowly",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      }
+    }
+  }
+}

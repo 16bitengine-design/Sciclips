@@ -5,7 +5,7 @@ The zip holds the new or changed files under their normal paths, plus an optiona
 Safety rules:
  - nothing outside the repository is ever written, and nothing in .git is touched;
  - files under .github/ are NOT applied (a workflow's own token may not change workflow files): they are listed so they can be copied by hand;
- - the state files in records/ are never deleted.
+ - the state files in records/ are never deleted, and existing topic records, the topic queue and the records/ state files are never overwritten.
 After applying, update.zip is removed so it cannot be applied twice. The workflow then runs the tests and saves only if they all pass.
 """
 import json
@@ -16,6 +16,9 @@ from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parents[1]
 MANUAL_PREFIX = ".github/"
+# live data the repository itself keeps up to date: an update never replaces these when they already exist
+# (unless the manifest lists the file under "overwrite")
+PROTECTED = ("records/", "topics/records/", "topics/topic_queue.json")
 
 
 def _clean(name):
@@ -42,6 +45,8 @@ def apply(root=ROOT, zip_path=None):
                 refused.append(name)
             elif target.startswith(MANUAL_PREFIX):
                 manual.append(target)
+            elif target.startswith(PROTECTED) and (root / target).exists() and target not in manifest.get("overwrite", []):
+                refused.append(f"{target} (kept: it already exists)")
             else:
                 destination = root / target
                 destination.parent.mkdir(parents=True, exist_ok=True)

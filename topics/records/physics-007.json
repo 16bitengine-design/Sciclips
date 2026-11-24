@@ -1,0 +1,774 @@
+{
+  "id": "physics-007",
+  "title": "How does a rainbow form?",
+  "category": "physics",
+  "subject_area": "light and water droplets",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "How can sunlight and rain make a band of colours in the sky?",
+  "template": "principle",
+  "principle_statement": "A rainbow forms when sunlight enters raindrops, bends, reflects off the back of each drop and bends again as it leaves, which spreads the light into its colours.",
+  "domain_of_validity": "Sunlight shining on water droplets in the air, seen with the Sun behind the viewer.",
+  "scientific_explanation": {
+    "level_1": "A rainbow is made when sunlight shines through raindrops. The light bends as it goes into each drop, bounces off the back, and bends again on the way out. Different colours bend by different amounts, so white sunlight is spread out into a band of colours. You see a rainbow when the Sun is behind you and there are raindrops in front of you.",
+    "level_2": "Sunlight is made of many colours, or wavelengths. When it enters a water droplet it slows down and bends, because water is denser than air. Violet, the shortest visible wavelength, bends the most, and red, the longest, bends the least. The light reflects once off the inside of the drop and bends again as it leaves, so the colours leave in slightly different directions. This puts red on top and violet on the bottom of the main rainbow. A fainter second rainbow comes from two reflections inside the drops, and its colours are in reverse order.",
+    "level_3": "Refraction is the bending of light when it changes speed between air and water. Because the amount of bending depends on wavelength, white light is split into colours. For the primary rainbow, with one internal reflection, red light leaves at about 42 degrees. For the secondary rainbow, with two internal reflections, red light leaves at about 50 degrees, so the secondary bow appears above the primary one. For light, the speed equals the frequency times the wavelength, c = f L, so violet light, with the shortest wavelength, has the highest frequency. A full rainbow is a circle, but from the ground we see only the part above the horizon."
+  },
+  "supporting_evidence": [
+    "Sunlight spread out by a glass prism shows the same band of colours as a rainbow.",
+    "From an airplane, in the right conditions, a rainbow can be seen as a complete circle."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "What Causes a Rainbow?",
+      "publisher": "NOAA National Environmental Satellite, Data, and Information Service",
+      "url": "https://www.nesdis.noaa.gov/about/k-12-education/optical-phenomena/what-causes-rainbow",
+      "date_published": "2025-09-02",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Rainbows (Water and Light)",
+      "publisher": "USGS Water Science School",
+      "url": "https://www.usgs.gov/water-science-school/science/rainbows-water-and-light",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "A rainbow forms when sunlight enters a water droplet, slowing down and bending as it goes from air to denser water, reflects off the inside of the droplet and separates into its colours, and the colours leave the drop to make the rainbow.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Violet, the shortest visible wavelength, bends the most inside the droplet, and red, the longest, bends the least, so the light is separated into all its colours.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "To see a rainbow, water droplets must be in the air, the Sun must be behind the viewer, and the clouds must have cleared away from the Sun; a rainbow does not exist in a particular place but appears when the Sun, the droplets and the viewer's position are right.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "The primary rainbow comes from one reflection inside the droplet, while the fainter secondary rainbow comes from two reflections, with its red light leaving at about 50 degrees instead of 42 degrees and its colours in reverse order.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "A full rainbow is a complete circle, but from the ground only part of it is seen; from an airplane in the right conditions a whole circular rainbow can be seen.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "For a light wave, the speed equals the frequency times the wavelength, so light with a shorter wavelength has a higher frequency.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Wave speed from frequency and wavelength",
+      "latex": "c = f L",
+      "dimension_check": {
+        "lhs": "m s^-1",
+        "rhs": "s^-1 m"
+      }
+    }
+  ],
+  "assumptions": [
+    "Sunlight contains all the visible colours.",
+    "The raindrops are roughly spherical and the Sun is behind the viewer.",
+    "Each colour is bent by a slightly different amount."
+  ],
+  "variables": [
+    {
+      "symbol": "c",
+      "name": "speed of the light wave",
+      "unit": "m s^-1"
+    },
+    {
+      "symbol": "f",
+      "name": "frequency of the light",
+      "unit": "s^-1"
+    },
+    {
+      "symbol": "L",
+      "name": "wavelength of the light",
+      "unit": "m"
+    }
+  ],
+  "practical_applications": [
+    "Understanding how prisms and lenses split light.",
+    "Finding where to look for a rainbow when it rains and the Sun is out.",
+    "Explaining why a double rainbow has its colours in reverse order."
+  ],
+  "misconceptions": [
+    {
+      "statement": "A rainbow is an object in the sky that you could walk up to.",
+      "correction": "A rainbow does not exist in a particular place. It appears only when the Sun, the droplets and the viewer's position are just right."
+    },
+    {
+      "statement": "A rainbow is only an arch.",
+      "correction": "A full rainbow is a complete circle. From the ground we see only part of it."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the Sun is in front of you instead of behind you?",
+      "summary": "You would not see a rainbow.",
+      "correct": "Remember that the Sun must be behind the viewer, with the droplets in front.",
+      "overlooked": "Assuming a rainbow can be seen in any direction.",
+      "what_changes": "The Sun is on the same side as the raindrops you are looking at.",
+      "consequences": "The light that makes the rainbow is not sent back toward your eyes, so you do not see one.",
+      "why": "A rainbow appears only when the Sun is behind the viewer and the droplets are in front.",
+      "prevention": "Turn your back to the Sun and look at the rain.",
+      "claim_ids": [
+        "c1",
+        "c3"
+      ]
+    },
+    {
+      "title": "What if the light reflects twice inside the drops?",
+      "summary": "A second, fainter rainbow appears above the first.",
+      "correct": "Expect a secondary rainbow with its colours in reverse order, red below.",
+      "overlooked": "Assuming there can only be one rainbow.",
+      "what_changes": "The sunlight reflects a second time inside each water droplet.",
+      "consequences": "A fainter secondary rainbow appears above the primary one, with red on the bottom and violet on the top.",
+      "why": "The light leaves the drop at a different angle, about 50 degrees instead of 42 degrees for red.",
+      "prevention": "Look above the main rainbow for a fainter second one.",
+      "claim_ids": [
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Looking straight at the Sun",
+      "Wet slippery ground"
+    ],
+    "safety_equipment": [
+      "Never look at the Sun directly",
+      "Use a glass prism or a garden hose with the Sun behind you to make a safe rainbow"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Raindrops bend, bounce and spread sunlight into its colours."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Refraction, reflection, primary and secondary rainbows, and why a rainbow is really a circle."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 16,
+            "y": 18,
+            "w": 18,
+            "h": 18,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 40,
+            "w": 6,
+            "h": 8,
+            "color": "blue",
+            "alpha": 0.6,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 126,
+            "y": 54,
+            "w": 6,
+            "h": 8,
+            "color": "blue",
+            "alpha": 0.6,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 142,
+            "y": 36,
+            "w": 6,
+            "h": 8,
+            "color": "blue",
+            "alpha": 0.6,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 118,
+            "y": 70,
+            "w": 6,
+            "h": 8,
+            "color": "blue",
+            "alpha": 0.6,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 136,
+            "y": 78,
+            "w": 6,
+            "h": 8,
+            "color": "blue",
+            "alpha": 0.6,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 98,
+            "y": 62,
+            "w": 6,
+            "h": 8,
+            "color": "blue",
+            "alpha": 0.6,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 30,
+            "y": 70,
+            "w": 7,
+            "h": 7,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 30,
+            "y": 80,
+            "w": 7,
+            "h": 12,
+            "color": "blue"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Sun behind, rain ahead",
+            "size": 5.5,
+            "appear": 0.4
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 50,
+            "w": 40,
+            "h": 40,
+            "color": "blue",
+            "alpha": 0.5
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 40,
+            "x2": 92,
+            "y2": 46,
+            "color": "text",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 96,
+            "y": 60,
+            "x2": 40,
+            "y2": 66,
+            "color": "bad",
+            "appear": 0.4
+          },
+          {
+            "type": "arrow",
+            "x": 96,
+            "y": 62,
+            "x2": 40,
+            "y2": 72,
+            "color": "warn",
+            "appear": 0.45
+          },
+          {
+            "type": "arrow",
+            "x": 96,
+            "y": 64,
+            "x2": 40,
+            "y2": 78,
+            "color": "good",
+            "appear": 0.5
+          },
+          {
+            "type": "arrow",
+            "x": 96,
+            "y": 66,
+            "x2": 40,
+            "y2": 84,
+            "color": "blue",
+            "appear": 0.55
+          },
+          {
+            "type": "arrow",
+            "x": 96,
+            "y": 68,
+            "x2": 40,
+            "y2": 90,
+            "color": "violet",
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 60,
+            "y": 30,
+            "text": "Light bends in",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 20,
+            "text": "Bounces off the back",
+            "size": 5,
+            "appear": 0.35
+          },
+          {
+            "type": "text",
+            "x": 100,
+            "y": 96,
+            "text": "Colours spread out",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 110.0,
+            "y": 50.0,
+            "w": 5,
+            "h": 5,
+            "color": "bad",
+            "appear": 0.05
+          },
+          {
+            "type": "ellipse",
+            "x": 105.98,
+            "y": 35.0,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.08
+          },
+          {
+            "type": "ellipse",
+            "x": 95.0,
+            "y": 24.02,
+            "w": 5,
+            "h": 5,
+            "color": "accent",
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 80.0,
+            "y": 20.0,
+            "w": 5,
+            "h": 5,
+            "color": "good",
+            "appear": 0.12
+          },
+          {
+            "type": "ellipse",
+            "x": 65.0,
+            "y": 24.02,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 54.02,
+            "y": 35.0,
+            "w": 5,
+            "h": 5,
+            "color": "violet",
+            "appear": 0.17
+          },
+          {
+            "type": "ellipse",
+            "x": 50.0,
+            "y": 50.0,
+            "w": 5,
+            "h": 5,
+            "color": "bad",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "A rainbow is not a thing",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Depends where you stand",
+            "size": 5.5,
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 74,
+            "w": 7,
+            "h": 7,
+            "color": "text",
+            "appear": 0.5
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 110.0,
+            "y": 46.0,
+            "w": 5,
+            "h": 5,
+            "color": "bad",
+            "appear": 0.05
+          },
+          {
+            "type": "ellipse",
+            "x": 105.98,
+            "y": 31.0,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.08
+          },
+          {
+            "type": "ellipse",
+            "x": 95.0,
+            "y": 20.02,
+            "w": 5,
+            "h": 5,
+            "color": "accent",
+            "appear": 0.1
+          },
+          {
+            "type": "ellipse",
+            "x": 80.0,
+            "y": 16.0,
+            "w": 5,
+            "h": 5,
+            "color": "good",
+            "appear": 0.12
+          },
+          {
+            "type": "ellipse",
+            "x": 65.0,
+            "y": 20.02,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "appear": 0.15
+          },
+          {
+            "type": "ellipse",
+            "x": 54.02,
+            "y": 31.0,
+            "w": 5,
+            "h": 5,
+            "color": "violet",
+            "appear": 0.17
+          },
+          {
+            "type": "ellipse",
+            "x": 50.0,
+            "y": 46.0,
+            "w": 5,
+            "h": 5,
+            "color": "bad",
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 54.02,
+            "y": 61.0,
+            "w": 5,
+            "h": 5,
+            "color": "warn",
+            "appear": 0.22
+          },
+          {
+            "type": "ellipse",
+            "x": 65.0,
+            "y": 71.98,
+            "w": 5,
+            "h": 5,
+            "color": "accent",
+            "appear": 0.25
+          },
+          {
+            "type": "ellipse",
+            "x": 80.0,
+            "y": 76.0,
+            "w": 5,
+            "h": 5,
+            "color": "good",
+            "appear": 0.28
+          },
+          {
+            "type": "ellipse",
+            "x": 95.0,
+            "y": 71.98,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 105.98,
+            "y": 61.0,
+            "w": 5,
+            "h": 5,
+            "color": "violet",
+            "appear": 0.33
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 80,
+            "w": 160,
+            "h": 40,
+            "color": "panel2"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Full circle, part hidden",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "From a plane you see all",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 30,
+            "w": 14,
+            "h": 6,
+            "color": "bad",
+            "appear": 0.1
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 36,
+            "w": 14,
+            "h": 6,
+            "color": "warn",
+            "appear": 0.18
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 42,
+            "w": 14,
+            "h": 6,
+            "color": "accent",
+            "appear": 0.26
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 48,
+            "w": 14,
+            "h": 6,
+            "color": "good",
+            "appear": 0.34
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 54,
+            "w": 14,
+            "h": 6,
+            "color": "blue",
+            "appear": 0.42
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 60,
+            "w": 14,
+            "h": 6,
+            "color": "violet",
+            "appear": 0.5
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 30,
+            "w": 14,
+            "h": 6,
+            "color": "violet",
+            "appear": 0.1
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 36,
+            "w": 14,
+            "h": 6,
+            "color": "blue",
+            "appear": 0.18
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 42,
+            "w": 14,
+            "h": 6,
+            "color": "good",
+            "appear": 0.26
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 48,
+            "w": 14,
+            "h": 6,
+            "color": "accent",
+            "appear": 0.34
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 54,
+            "w": 14,
+            "h": 6,
+            "color": "warn",
+            "appear": 0.42
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 60,
+            "w": 14,
+            "h": 6,
+            "color": "bad",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 20,
+            "text": "Main bow",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 78,
+            "text": "Red on top",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 20,
+            "text": "Second bow",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 78,
+            "text": "Red below",
+            "size": 5.5,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 92,
+            "text": "Two bounces flip colours",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

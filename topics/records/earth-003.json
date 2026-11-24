@@ -1,0 +1,753 @@
+{
+  "id": "earth-003",
+  "title": "How does the water cycle work?",
+  "category": "earth-science",
+  "subject_area": "water on Earth",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "Where does rain come from, and where does the water go afterwards?",
+  "template": "principle",
+  "principle_statement": "Earth's water is always moving and changing form: the Sun's energy evaporates it, it condenses into clouds, falls as precipitation, and runs or soaks back toward the oceans.",
+  "domain_of_validity": "The natural global water cycle, without direct human use of water.",
+  "scientific_explanation": {
+    "level_1": "The water on Earth keeps moving in a big circle. The Sun warms the oceans, and some water turns into an invisible gas called water vapor. High in the sky it is cold, so the vapor turns back into tiny drops that make clouds. When the drops grow heavy, they fall as rain or snow. The water then runs downhill or soaks into the ground, and much of it ends up back in the ocean.",
+    "level_2": "Evaporation turns liquid and frozen water into water vapor, using the Sun's energy, and most of it comes from the oceans. Warm air carries the vapor upward, where the cold makes it condense into tiny droplets that form clouds. When droplets combine into heavier drops, precipitation falls as rain, snow or hail. Most of the rain runs off the land into streams and rivers, and some seeps into the ground. Plants also release water through their leaves.",
+    "level_3": "The water cycle is a system of storage and flow. For any place, the change in the stored water S equals the water flowing in, I, minus the water flowing out, O, so S = I - O. Over the oceans evaporation is greater than precipitation, while over land precipitation usually exceeds evaporation, and the difference returns to the oceans through runoff and groundwater discharge. A water molecule that evaporates spends about 10 days in the air."
+  },
+  "supporting_evidence": [
+    "A water molecule spends about 10 days in the air after it evaporates.",
+    "Over 96 percent of Earth's water is in the oceans, and about 68 percent of Earth's fresh water is locked up in ice, snow and glaciers."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Interactive Water Cycle Diagram for Kids (Intermediate)",
+      "publisher": "USGS Water Science School",
+      "url": "https://water.usgs.gov/edu/watercycle-kids-int.html",
+      "date_published": null,
+      "date_updated": "2025-04-02",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Evaporation and the Water Cycle",
+      "publisher": "USGS Water Science School",
+      "url": "https://www.usgs.gov/special-topics/water-science-school/science/evaporation-and-water-cycle",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "The water cycle describes how Earth's water changes between liquid, solid and gas and moves on, above and in the Earth, and this is always happening everywhere.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Evaporation turns liquid and frozen water into water vapor using the Sun's energy, and most of the water that evaporates comes from the oceans.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "As warm air carrying water vapor rises into the cold sky, the vapor condenses into tiny liquid droplets that form clouds.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "When cloud droplets combine into heavier drops it can rain, snow or hail, and where precipitation falls as snow it can stay on the ground for months and melt in spring.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "Most rain stays on the land surface and runs downhill into streams, rivers, lakes and the oceans, while some seeps into the ground to recharge groundwater.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "For any place, the change in stored water equals the water flowing in minus the water flowing out.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Water balance",
+      "latex": "S = I - O",
+      "dimension_check": {
+        "lhs": "L",
+        "rhs": "L"
+      }
+    }
+  ],
+  "assumptions": [
+    "The Sun supplies the energy that drives evaporation.",
+    "The water balance is for a natural place without human water use.",
+    "Water changes between liquid, solid and gas."
+  ],
+  "variables": [
+    {
+      "symbol": "S",
+      "name": "change in stored water",
+      "unit": "L"
+    },
+    {
+      "symbol": "I",
+      "name": "water flowing in",
+      "unit": "L"
+    },
+    {
+      "symbol": "O",
+      "name": "water flowing out",
+      "unit": "L"
+    }
+  ],
+  "practical_applications": [
+    "Understanding where rain, rivers and drinking water come from.",
+    "Predicting floods from heavy rain and spring snowmelt.",
+    "Explaining why the oceans do not run dry."
+  ],
+  "misconceptions": [
+    {
+      "statement": "There are rivers flowing under the ground.",
+      "correction": "Water under the ground does move all the time, but it moves through spaces and cracks in the soil and rock, not in underground rivers."
+    },
+    {
+      "statement": "Water on Earth gets used up.",
+      "correction": "Earth's water keeps changing form and moving through the water cycle, so it is always moving and always everywhere."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the Sun's heat disappeared?",
+      "summary": "Evaporation would stop working.",
+      "correct": "Remember that the Sun's heat is what lets liquid water evaporate and moves the winds that carry clouds.",
+      "overlooked": "Assuming the water cycle runs on its own.",
+      "what_changes": "The Sun's energy is removed.",
+      "consequences": "The main way water gets from the land and oceans back into the sky would stop working.",
+      "why": "The Sun's heat breaks the bonds that hold liquid water together so it can become vapor.",
+      "prevention": "Remember the Sun is what makes the water cycle work.",
+      "claim_ids": [
+        "c1",
+        "c2"
+      ]
+    },
+    {
+      "title": "What if the precipitation falls as snow?",
+      "summary": "Rivers rise months later, when the snow melts.",
+      "correct": "Expect snow to wait on the ground and melt in spring.",
+      "overlooked": "Assuming rivers rise right after it snows.",
+      "what_changes": "Precipitation falls as snow instead of rain.",
+      "consequences": "Snow builds up through the winter and can melt together in spring, so rivers rise later and floods are possible downstream.",
+      "why": "Snow stays frozen until the weather warms up.",
+      "prevention": "Watch the spring snowmelt in places with a lot of winter snow.",
+      "claim_ids": [
+        "c4",
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Slippery wet ground",
+      "Deep or fast-moving water"
+    ],
+    "safety_equipment": [
+      "A towel",
+      "A responsible adult near any water"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Water keeps moving: it evaporates, forms clouds, falls and runs back to the ocean."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Evaporation, condensation, precipitation, runoff and groundwater, and how snow delays the cycle."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 36,
+            "y": 86,
+            "w": 72,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.6
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                112,
+                84
+              ],
+              [
+                136,
+                52
+              ],
+              [
+                160,
+                84
+              ]
+            ],
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 146,
+            "y": 14,
+            "w": 16,
+            "h": 16,
+            "color": "warn"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Water is always moving",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 78,
+            "x2": 30,
+            "y2": 54,
+            "color": "blue",
+            "appear": 0.6
+          },
+          {
+            "type": "arrow",
+            "x": 44,
+            "y": 78,
+            "x2": 44,
+            "y2": 54,
+            "color": "blue",
+            "appear": 0.7
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 36,
+            "y": 86,
+            "w": 72,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.6
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                112,
+                84
+              ],
+              [
+                136,
+                52
+              ],
+              [
+                160,
+                84
+              ]
+            ],
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 146,
+            "y": 14,
+            "w": 16,
+            "h": 16,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 78,
+            "x2": 30,
+            "y2": 40,
+            "color": "blue",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 44,
+            "y": 78,
+            "x2": 44,
+            "y2": 40,
+            "color": "blue",
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 37,
+            "y": 32,
+            "text": "Evaporation",
+            "size": 5,
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 76,
+            "y": 24,
+            "w": 28,
+            "h": 12,
+            "color": "text",
+            "alpha": 0.9,
+            "appear": 0.4
+          },
+          {
+            "type": "ellipse",
+            "x": 88,
+            "y": 20,
+            "w": 20,
+            "h": 10,
+            "color": "text",
+            "alpha": 0.9,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 76,
+            "y": 10,
+            "text": "Condensation",
+            "size": 5,
+            "appear": 0.4
+          },
+          {
+            "type": "arrow",
+            "x": 84,
+            "y": 36,
+            "x2": 90,
+            "y2": 60,
+            "color": "blue",
+            "appear": 0.6
+          },
+          {
+            "type": "arrow",
+            "x": 94,
+            "y": 36,
+            "x2": 100,
+            "y2": 60,
+            "color": "blue",
+            "appear": 0.65
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 40,
+            "text": "Rain or snow",
+            "size": 5,
+            "appear": 0.6
+          },
+          {
+            "type": "arrow",
+            "x": 128,
+            "y": 66,
+            "x2": 104,
+            "y2": 82,
+            "color": "blue",
+            "appear": 0.8
+          },
+          {
+            "type": "text",
+            "x": 112,
+            "y": 94,
+            "text": "Runoff",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 160,
+            "h": 56,
+            "color": "muted",
+            "alpha": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 52,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 40,
+            "y": 60,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 62,
+            "y": 54,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 88,
+            "y": 62,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 112,
+            "y": 56,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 136,
+            "y": 64,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 28,
+            "y": 72,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 52,
+            "y": 78,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 76,
+            "y": 74,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 80,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 124,
+            "y": 76,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 146,
+            "y": 80,
+            "w": 5,
+            "h": 5,
+            "color": "blue",
+            "bob": 0.8
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Not underground rivers",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 32,
+            "text": "Water fills tiny spaces",
+            "size": 5.5,
+            "appear": 0.5
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 92,
+            "w": 170,
+            "h": 16,
+            "color": "panel2"
+          },
+          {
+            "type": "rect",
+            "x": 36,
+            "y": 86,
+            "w": 72,
+            "h": 12,
+            "color": "blue",
+            "alpha": 0.6
+          },
+          {
+            "type": "polygon",
+            "points": [
+              [
+                112,
+                84
+              ],
+              [
+                136,
+                52
+              ],
+              [
+                160,
+                84
+              ]
+            ],
+            "color": "muted"
+          },
+          {
+            "type": "ellipse",
+            "x": 146,
+            "y": 14,
+            "w": 16,
+            "h": 16,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 76,
+            "y": 24,
+            "w": 28,
+            "h": 12,
+            "color": "text",
+            "alpha": 0.9,
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 88,
+            "y": 20,
+            "w": 20,
+            "h": 10,
+            "color": "text",
+            "alpha": 0.9,
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 78,
+            "x2": 30,
+            "y2": 42,
+            "color": "blue",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 92,
+            "y": 36,
+            "x2": 100,
+            "y2": 60,
+            "color": "blue",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 128,
+            "y": 66,
+            "x2": 104,
+            "y2": 82,
+            "color": "blue",
+            "appear": 0.5
+          },
+          {
+            "type": "arrow",
+            "x": 98,
+            "y": 86,
+            "x2": 62,
+            "y2": 86,
+            "color": "blue",
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Back to the ocean",
+            "size": 5.5,
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 98,
+            "text": "The cycle goes on",
+            "size": 5,
+            "appear": 0.85
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 30,
+            "w": 26,
+            "h": 26,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 46,
+            "x2": 50,
+            "y2": 80,
+            "color": "warn",
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 46,
+            "x2": 80,
+            "y2": 80,
+            "color": "warn",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 46,
+            "x2": 110,
+            "y2": 80,
+            "color": "warn",
+            "appear": 0.4
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 90,
+            "w": 170,
+            "h": 16,
+            "color": "blue",
+            "alpha": 0.6
+          },
+          {
+            "type": "text",
+            "x": 124,
+            "y": 20,
+            "text": "The Sun powers",
+            "size": 6,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 124,
+            "y": 30,
+            "text": "the water cycle",
+            "size": 6,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 72,
+            "text": "Sun's heat",
+            "size": 5,
+            "appear": 0.3
+          }
+        ]
+      }
+    }
+  }
+}

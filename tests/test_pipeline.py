@@ -971,3 +971,26 @@ def test_a_dead_link_report_names_the_http_status():
         assert "could not read https://www.nasa.gov/a" in str(error) and "403" in str(error)
     else:
         raise AssertionError("should have been dropped")
+
+
+def test_an_update_never_overwrites_live_data_that_already_exists(tmp_path):
+    (tmp_path / "topics" / "records").mkdir(parents=True)
+    (tmp_path / "records").mkdir()
+    (tmp_path / "topics" / "records" / "physics-001.json").write_text("LIVE")
+    (tmp_path / "topics" / "topic_queue.json").write_text("LIVE QUEUE")
+    (tmp_path / "records" / "auto_state.json").write_text("LIVE STATE")
+    make_zip(tmp_path / "update.zip", {"topics/records/physics-001.json": "NEW", "topics/records/physics-009.json": "BRAND NEW",
+                                       "topics/topic_queue.json": "NEW QUEUE", "records/auto_state.json": "NEW STATE", "code.py": "x"})
+    written, deleted, manual, refused = au.apply(tmp_path)
+    assert sorted(written) == ["code.py", "topics/records/physics-009.json"] and len(refused) == 3
+    assert (tmp_path / "topics" / "records" / "physics-001.json").read_text() == "LIVE"
+    assert (tmp_path / "topics" / "topic_queue.json").read_text() == "LIVE QUEUE"
+    assert (tmp_path / "records" / "auto_state.json").read_text() == "LIVE STATE"
+
+
+def test_the_manifest_can_explicitly_overwrite_a_protected_file(tmp_path):
+    (tmp_path / "topics" / "records").mkdir(parents=True)
+    (tmp_path / "topics" / "records" / "physics-001.json").write_text("OLD")
+    make_zip(tmp_path / "update.zip", {"topics/records/physics-001.json": "FIXED"}, {"overwrite": ["topics/records/physics-001.json"]})
+    assert au.apply(tmp_path)[0] == ["topics/records/physics-001.json"]
+    assert (tmp_path / "topics" / "records" / "physics-001.json").read_text() == "FIXED"

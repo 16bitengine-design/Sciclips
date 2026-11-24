@@ -112,6 +112,27 @@
       "category": "chemistry",
       "template": "principle",
       "status": "queued"
+    },
+    {
+      "id": "astro-002",
+      "title": "Why do we have day and night?",
+      "category": "astronomy",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "earth-003",
+      "title": "How does the water cycle work?",
+      "category": "earth-science",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "physics-007",
+      "title": "How does a rainbow form?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
     }
   ]
 }

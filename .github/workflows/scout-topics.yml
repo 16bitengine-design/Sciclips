@@ -9,7 +9,7 @@ on:
       - "content/ai_writer.py"
       - "content/topic_scout.py"
       - "research/source_collector.py"
-      - "tests/test_scout.py"
+      - "tests/test_pipeline.py"
       - "config/config.json"
   schedule:
     - cron: "0 2,8,14,20 * * *"   # Every six hours: 05:00, 11:00, 17:00 and 23:00 Uganda time
@@ -39,7 +39,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run the science and script tests (the scout does not run if any fail)
-        run: python -m pytest tests/test_stage3.py tests/test_stage4.py tests/test_chemistry.py tests/test_ai_writer.py tests/test_scout.py -q
+        run: python -m pytest tests/test_content.py tests/test_pipeline.py -q
 
       - name: Look for a new topic
         env:

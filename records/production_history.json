@@ -105,6 +105,17 @@
       "youtube_buffer_post_id": "6b05067df0d7b1e0deab7d3e",
       "tiktok_url": "Buffer post 6b0506806734c08a26ab86c9",
       "schedule_slot": "2026-11-24|0 17 * * *"
+    },
+    {
+      "topic_id": "physics-006",
+      "format": "short",
+      "variant": "explainer",
+      "published_at": "2026-11-25T01:13:28.554Z",
+      "run_kind": "schedule",
+      "youtube_url": "https://www.youtube.com/watch?v=tA452k4jhac",
+      "youtube_buffer_post_id": "6b063636a2fd17422e76112a",
+      "tiktok_url": "Buffer post 6b063639f0b405190acc235a",
+      "schedule_slot": "2026-11-25|0 17 * * *"
     }
   ]
 }

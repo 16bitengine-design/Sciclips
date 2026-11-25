@@ -1,8 +1,6 @@
 {
   "paused": false,
-  "consecutive_failures": 1,
-  "attempts": {
-    "physics-006": 1
-  },
-  "last_run": "2026-11-24"
+  "consecutive_failures": 0,
+  "attempts": {},
+  "last_run": "2026-11-25"
 }

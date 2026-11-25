@@ -116,6 +116,17 @@
       "youtube_buffer_post_id": "6b063636a2fd17422e76112a",
       "tiktok_url": "Buffer post 6b063639f0b405190acc235a",
       "schedule_slot": "2026-11-25|0 17 * * *"
+    },
+    {
+      "topic_id": "chem-002",
+      "format": "short",
+      "variant": "explainer",
+      "published_at": "2026-11-25T20:52:10.830Z",
+      "run_kind": "schedule",
+      "youtube_url": "https://www.youtube.com/watch?v=qFRuP1_jqRw",
+      "youtube_buffer_post_id": "6b074a79bffb0dd07331463b",
+      "tiktok_url": "Buffer post 6b074a7c3610f1bc91680a29",
+      "schedule_slot": "2026-11-25|0 12 * * *"
     }
   ]
 }

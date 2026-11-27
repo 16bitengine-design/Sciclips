@@ -133,6 +133,41 @@
       "category": "physics",
       "template": "principle",
       "status": "queued"
+    },
+    {
+      "id": "astro-004",
+      "title": "Why does the Sun shine?",
+      "category": "astronomy",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "bio-003",
+      "title": "How does your heart pump blood around your body?",
+      "category": "biology",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "chem-005",
+      "title": "What does pH tell us about a liquid?",
+      "category": "chemistry",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "earth-004",
+      "title": "What causes earthquakes?",
+      "category": "earth-science",
+      "template": "principle",
+      "status": "queued"
+    },
+    {
+      "id": "physics-008",
+      "title": "Why can't we hear sound in space?",
+      "category": "physics",
+      "template": "principle",
+      "status": "queued"
     }
   ]
 }

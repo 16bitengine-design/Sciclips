@@ -1,0 +1,705 @@
+{
+  "id": "chem-005",
+  "title": "What does pH tell us about a liquid?",
+  "category": "chemistry",
+  "subject_area": "acids and bases",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "What makes a liquid an acid or a base, and what do the numbers on the pH scale mean?",
+  "template": "principle",
+  "principle_statement": "pH is a number from 0 to 14 that tells how acidic or basic a water-based liquid is: below 7 is acidic, 7 is neutral and above 7 is basic.",
+  "domain_of_validity": "Liquids with water in them; strong acids and bases can be dangerous, so this topic is about the idea, not a home experiment.",
+  "scientific_explanation": {
+    "level_1": "Some liquids are acids, some are bases, and some are neither. pH is a number that tells you which. The scale runs from 0 to 14. Pure water sits in the middle at 7, which is neutral. A number below 7 means the liquid is acidic, like lemon juice. A number above 7 means it is basic, like soapy detergent. The further from 7, the stronger it is.",
+    "level_2": "pH measures how acidic or basic a liquid that has water in it is. Water that has more free hydrogen ions is acidic, and water that has more free hydroxyl ions is basic. Pure water is neutral, with a pH of 7.0. Vinegar and lemon juice are acidic, while laundry detergents and ammonia are basic. Each whole step on the scale is ten times stronger than the next, so a pH of 4 is ten times more acidic than a pH of 5.",
+    "level_3": "The pH scale is logarithmic. Because each whole number is a factor of ten, a mine-drainage water five pH units below neutral is 100,000 times more acidic than neutral water. The concentration of hydrogen ions, c = n / V, rises as the pH falls. Rainfall is generally a little acidic, with a pH a bit below 6."
+  },
+  "supporting_evidence": [
+    "Pure water has a pH of 7, which is neutral.",
+    "Vinegar and lemon juice are acidic, while laundry detergents and ammonia are basic."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "pH and Water",
+      "publisher": "USGS Water Science School",
+      "url": "https://www.usgs.gov/water-science-school/science/ph-and-water",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "What is pH?",
+      "publisher": "U.S. Environmental Protection Agency",
+      "url": "https://www.epa.gov/goldkingmine/what-ph",
+      "date_published": "2015-08-11",
+      "date_updated": "2026-11-03",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "pH measures how acidic or basic a water-based liquid is on a scale from 0 to 14, where 7 is neutral, a pH below 7 is acidic and a pH above 7 is basic.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Water with more free hydrogen ions is acidic, and water with more free hydroxyl ions is basic.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Pure water is neutral, with a pH of 7.0; vinegar and lemon juice are acidic, while laundry detergents and ammonia are basic.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Each whole pH value is ten times stronger than the next, so a pH of 4 is ten times more acidic than a pH of 5, and a mine drainage water five units below neutral is 100,000 times more acidic.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "mathematical_model",
+      "text": "The concentration of hydrogen ions equals the amount of hydrogen ions divided by the volume of the liquid.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Concentration of hydrogen ions",
+      "latex": "c = n / V",
+      "dimension_check": {
+        "lhs": "mol L^-1",
+        "rhs": "mol L^-1"
+      }
+    }
+  ],
+  "assumptions": [
+    "The liquid is a solution with water in it.",
+    "pH is measured on a logarithmic scale.",
+    "Temperature and other substances in the water can change its pH."
+  ],
+  "variables": [
+    {
+      "symbol": "c",
+      "name": "concentration of hydrogen ions",
+      "unit": "mol L^-1"
+    },
+    {
+      "symbol": "n",
+      "name": "amount of hydrogen ions",
+      "unit": "mol"
+    },
+    {
+      "symbol": "V",
+      "name": "volume of the liquid",
+      "unit": "L"
+    }
+  ],
+  "practical_applications": [
+    "Checking whether water in a stream or a pool is safe for life.",
+    "Understanding why lemon juice tastes sour and soap feels slippery.",
+    "Knowing why strong acids and bases need careful handling."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Acids and bases are only found in laboratories.",
+      "correction": "Many everyday things are acids or bases: vinegar and lemon juice are acidic, and laundry detergents and ammonia are basic."
+    },
+    {
+      "statement": "A pH of 4 is only a little more acidic than a pH of 5.",
+      "correction": "Each whole pH value is ten times stronger than the next, so a pH of 4 is ten times more acidic than a pH of 5."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if you add lemon juice to pure water?",
+      "summary": "The water becomes acidic.",
+      "correct": "Expect the pH to fall below 7 as acid is added.",
+      "overlooked": "Assuming pure water stays neutral after adding an acid.",
+      "what_changes": "Lemon juice adds more free hydrogen ions.",
+      "consequences": "The mixture is no longer neutral, and its pH drops below 7.",
+      "why": "Water with more free hydrogen ions is acidic.",
+      "prevention": "Check the pH after mixing liquids.",
+      "claim_ids": [
+        "c1",
+        "c2",
+        "c3"
+      ]
+    },
+    {
+      "title": "What if two liquids are three pH units apart?",
+      "summary": "One is a thousand times more acidic than the other.",
+      "correct": "Count ten times for every whole step on the scale.",
+      "overlooked": "Assuming the difference is only three times.",
+      "what_changes": "The pH values differ by three.",
+      "consequences": "The more acidic liquid is 10 times 10 times 10, or 1,000 times, more acidic.",
+      "why": "Each whole pH value is ten times stronger than the next.",
+      "prevention": "Remember that pH is a logarithmic scale.",
+      "claim_ids": [
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Strong acids and bases can burn skin and eyes",
+      "Mixing cleaning products"
+    ],
+    "safety_equipment": [
+      "Never taste or mix unknown liquids",
+      "A responsible adult and eye protection for any practical work"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "pH is a scale from 0 to 14 that tells how acidic or basic a liquid is."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Hydrogen and hydroxyl ions, the pH scale, why each step is ten times, and everyday acids and bases."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 62,
+            "w": 34,
+            "h": 40,
+            "color": "blue",
+            "alpha": 0.35
+          },
+          {
+            "type": "ellipse",
+            "x": 70,
+            "y": 70,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "bob": 1.0
+          },
+          {
+            "type": "ellipse",
+            "x": 88,
+            "y": 62,
+            "w": 4,
+            "h": 4,
+            "color": "text",
+            "bob": 1.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "What does pH tell us?",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Acid, base or neutral?",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 62,
+            "w": 34,
+            "h": 40,
+            "color": "bad",
+            "alpha": 0.35
+          },
+          {
+            "type": "ellipse",
+            "x": 30,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 40,
+            "y": 56,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 50,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 32,
+            "y": 66,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 44,
+            "y": 70,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 52,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 36,
+            "y": 78,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 48,
+            "y": 80,
+            "w": 4,
+            "h": 4,
+            "color": "bad",
+            "bob": 1.2
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 62,
+            "w": 34,
+            "h": 40,
+            "color": "blue",
+            "alpha": 0.35
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 120,
+            "y": 56,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 130,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 112,
+            "y": 66,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 124,
+            "y": 70,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 132,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 116,
+            "y": 78,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 128,
+            "y": 80,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.2
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 28,
+            "text": "More H+: acidic",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 28,
+            "text": "More OH-: basic",
+            "size": 5.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Pure water: neutral, 7",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 22,
+            "y": 56,
+            "w": 12,
+            "h": 10,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 70,
+            "y": 56,
+            "w": 120,
+            "h": 10,
+            "color": "bad",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 22,
+            "y": 40,
+            "text": "pH 5",
+            "size": 5.5
+          },
+          {
+            "type": "text",
+            "x": 70,
+            "y": 40,
+            "text": "pH 4",
+            "size": 5.5,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "One step is ten times",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 84,
+            "text": "pH 4: 10 times as acidic",
+            "size": 5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 20,
+            "y": 84,
+            "w": 20,
+            "h": 8,
+            "color": "bad"
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 84,
+            "w": 20,
+            "h": 8,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 60,
+            "y": 84,
+            "w": 20,
+            "h": 8,
+            "color": "accent"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 84,
+            "w": 20,
+            "h": 8,
+            "color": "good"
+          },
+          {
+            "type": "rect",
+            "x": 100,
+            "y": 84,
+            "w": 20,
+            "h": 8,
+            "color": "blue"
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 84,
+            "w": 20,
+            "h": 8,
+            "color": "violet"
+          },
+          {
+            "type": "rect",
+            "x": 140,
+            "y": 84,
+            "w": 20,
+            "h": 8,
+            "color": "violet"
+          },
+          {
+            "type": "text",
+            "x": 30,
+            "y": 74,
+            "text": "Lemon juice",
+            "size": 4.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 74,
+            "text": "Pure water",
+            "size": 4.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 132,
+            "y": 74,
+            "text": "Detergent",
+            "size": 4.5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 30,
+            "y": 30,
+            "text": "Acidic",
+            "size": 6,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 30,
+            "text": "Neutral",
+            "size": 6,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 132,
+            "y": 30,
+            "text": "Basic",
+            "size": 6,
+            "appear": 0.6
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 20,
+            "y": 66,
+            "w": 20,
+            "h": 8,
+            "color": "bad"
+          },
+          {
+            "type": "rect",
+            "x": 40,
+            "y": 66,
+            "w": 20,
+            "h": 8,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 60,
+            "y": 66,
+            "w": 20,
+            "h": 8,
+            "color": "accent"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 66,
+            "w": 20,
+            "h": 8,
+            "color": "good"
+          },
+          {
+            "type": "rect",
+            "x": 100,
+            "y": 66,
+            "w": 20,
+            "h": 8,
+            "color": "blue"
+          },
+          {
+            "type": "rect",
+            "x": 120,
+            "y": 66,
+            "w": 20,
+            "h": 8,
+            "color": "violet"
+          },
+          {
+            "type": "rect",
+            "x": 140,
+            "y": 66,
+            "w": 20,
+            "h": 8,
+            "color": "violet"
+          },
+          {
+            "type": "text",
+            "x": 20,
+            "y": 54,
+            "text": "0",
+            "size": 6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 54,
+            "text": "7",
+            "size": 6,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 150,
+            "y": 54,
+            "text": "14",
+            "size": 6,
+            "appear": 0.4
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 80,
+            "w": 6,
+            "h": 6,
+            "color": "text",
+            "dx": -50,
+            "from": 0.3,
+            "to": 0.9
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 18,
+            "text": "Lower pH: more acidic",
+            "size": 6,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Higher pH: more basic",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

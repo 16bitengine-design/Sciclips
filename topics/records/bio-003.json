@@ -1,0 +1,613 @@
+{
+  "id": "bio-003",
+  "title": "How does your heart pump blood around your body?",
+  "category": "biology",
+  "subject_area": "the circulatory system",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "How does one small muscle keep blood moving through the lungs and the whole body?",
+  "template": "principle",
+  "principle_statement": "The heart is a four-chambered pump: the right side sends oxygen-poor blood to the lungs, the left side sends oxygen-rich blood to the body, and valves keep the flow in one direction.",
+  "domain_of_validity": "The normal human heart; this is how the heart works, not medical advice.",
+  "scientific_explanation": {
+    "level_1": "Your heart is a muscle in the middle of your chest, and its job is to push blood around your body. It has four rooms. Blood comes into the two top rooms and is pushed out by the two bottom rooms. The right side sends blood to the lungs to pick up oxygen. The left side then sends the oxygen-rich blood to the rest of your body. Little doors called valves make sure the blood only goes one way.",
+    "level_2": "The heart has four chambers: two atria on top that collect blood and two ventricles below that pump it out. A wall divides the right side from the left. Oxygen-poor blood from the body enters the right atrium through the vena cava, and the right ventricle pumps it to the lungs, which add oxygen. The oxygen-rich blood returns to the left atrium and goes to the left ventricle, which generates the high pressure needed to pump it through the aorta to the whole body. Four valves open and close in time with the pumping and stop blood from flowing backward.",
+    "level_3": "The heart is two pumps in one. The right side drives the loop through the lungs, and the left side drives the loop through the body, so the left ventricle must generate the higher pressure. The volume of blood pumped each second is the volume per beat times the beats per second, Q = V f. The four valves, the tricuspid, mitral, pulmonary and aortic, work as one-way doors that open and close as the chambers contract and relax, so the blood moves forward only."
+  },
+  "supporting_evidence": [
+    "Blood leaving the left side of the heart for the body travels through a large artery called the aorta.",
+    "The valves are like one-way doors that stop blood from flowing backward in the heart."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "How Blood Flows through the Heart",
+      "publisher": "National Heart, Lung, and Blood Institute (NIH)",
+      "url": "https://www.nhlbi.nih.gov/health/heart/blood-flow",
+      "date_published": null,
+      "date_updated": "2025-06-25",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "How the Heart Works: What the Heart Looks Like",
+      "publisher": "National Heart, Lung, and Blood Institute (NIH)",
+      "url": "https://www.nhlbi.nih.gov/health/heart/anatomy",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "The heart sits in the center of the chest near the lungs, and it has four hollow chambers surrounded by muscle, with valves separating the chambers.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "The upper chambers, the atria, collect the blood that flows into the heart, and the lower chambers, the ventricles, pump the blood out to the lungs and the body, with a wall of tissue dividing the right side from the left.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Oxygen-poor blood from the body enters the right atrium through the vena cava, flows to the right ventricle, and is pumped to the lungs, where it picks up oxygen.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "Oxygen-rich blood returns from the lungs to the left atrium and flows to the left ventricle, which generates the high pressure needed to pump the blood through the aorta to the whole body.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "The four heart valves open and shut in time with the pumping of the chambers and stop the blood from flowing backward.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The volume of blood pumped each second equals the volume pumped per beat times the number of beats per second.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Blood pumped per second",
+      "latex": "Q = V f",
+      "dimension_check": {
+        "lhs": "L s^-1",
+        "rhs": "L s^-1"
+      }
+    }
+  ],
+  "assumptions": [
+    "The heart muscle contracts and relaxes in a regular rhythm.",
+    "The valves open and close at the right moments.",
+    "Blood moves forward only."
+  ],
+  "variables": [
+    {
+      "symbol": "Q",
+      "name": "volume of blood pumped per second",
+      "unit": "L s^-1"
+    },
+    {
+      "symbol": "V",
+      "name": "volume pumped in one beat",
+      "unit": "L"
+    },
+    {
+      "symbol": "f",
+      "name": "heartbeats per second",
+      "unit": "s^-1"
+    }
+  ],
+  "practical_applications": [
+    "Understanding why the pulse speeds up when you run.",
+    "Explaining why the heart has a left side and a right side.",
+    "Understanding why valves matter for keeping blood moving forward."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Blood goes from the body straight to the left side of the heart.",
+      "correction": "Oxygen-poor blood goes first to the right side of the heart, then to the lungs, and comes back to the left side before it is pumped to the body."
+    },
+    {
+      "statement": "Blood sloshes back and forth inside the heart.",
+      "correction": "The valves open and shut in time with the pumping and stop blood from flowing backward."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if a valve did not close properly?",
+      "summary": "Some blood could flow backward.",
+      "correct": "Remember that valves keep the blood flowing in one direction.",
+      "overlooked": "Assuming the heart moves blood forward by muscle alone.",
+      "what_changes": "A valve no longer shuts tightly.",
+      "consequences": "Blood can flow backward or the flow through the heart is not as smooth as it should be.",
+      "why": "The valves stop blood from flowing backward by opening and shutting in time with the pumping.",
+      "prevention": "Remember that valves are the one-way doors of the heart.",
+      "claim_ids": [
+        "c5"
+      ]
+    },
+    {
+      "title": "What if blood skipped the lungs?",
+      "summary": "It would reach the body without more oxygen.",
+      "correct": "Remember that the lungs add the oxygen and the heart pumps the blood there first.",
+      "overlooked": "Assuming the heart itself puts oxygen into the blood.",
+      "what_changes": "The loop through the lungs is left out.",
+      "consequences": "Oxygen-poor blood would travel around the body without picking up oxygen.",
+      "why": "The right side pumps blood to the lungs, where it picks up oxygen, before it returns to the left side.",
+      "prevention": "Follow the blood: body, right side, lungs, left side, body.",
+      "claim_ids": [
+        "c3",
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Running hard without a break",
+      "Loud music through headphones"
+    ],
+    "safety_equipment": [
+      "Warm up before exercise",
+      "A responsible adult"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "The heart is two pumps in one: right to the lungs, left to the body."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "The four chambers, the loop through the lungs, the valves and how much blood the heart moves."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 62,
+            "y": 34,
+            "w": 24,
+            "h": 20,
+            "color": "blue",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 60,
+            "y": 62,
+            "w": 26,
+            "h": 28,
+            "color": "blue",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 98,
+            "y": 34,
+            "w": 24,
+            "h": 20,
+            "color": "bad",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 62,
+            "w": 28,
+            "h": 32,
+            "color": "bad",
+            "alpha": 0.8
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 22,
+            "x2": 80,
+            "y2": 82,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 62,
+            "y": 47,
+            "w": 10,
+            "h": 3,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 98,
+            "y": 47,
+            "w": 10,
+            "h": 3,
+            "color": "warn"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 8,
+            "text": "How does the heart pump?",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Four rooms, one pump",
+            "size": 5.5,
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 3,
+            "h": 3,
+            "color": "warn",
+            "bob": 1.5
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 62,
+            "y": 34,
+            "w": 24,
+            "h": 20,
+            "color": "blue",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 60,
+            "y": 62,
+            "w": 26,
+            "h": 28,
+            "color": "blue",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 98,
+            "y": 34,
+            "w": 24,
+            "h": 20,
+            "color": "bad",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 62,
+            "w": 28,
+            "h": 32,
+            "color": "bad",
+            "alpha": 0.8
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 22,
+            "x2": 80,
+            "y2": 82,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 62,
+            "y": 47,
+            "w": 10,
+            "h": 3,
+            "color": "warn"
+          },
+          {
+            "type": "rect",
+            "x": 98,
+            "y": 47,
+            "w": 10,
+            "h": 3,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 18,
+            "y": 30,
+            "w": 16,
+            "h": 26,
+            "color": "accent",
+            "alpha": 0.4
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 10,
+            "x2": 52,
+            "y2": 26,
+            "color": "blue",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 62,
+            "y": 43,
+            "x2": 62,
+            "y2": 51,
+            "color": "blue",
+            "appear": 0.25
+          },
+          {
+            "type": "arrow",
+            "x": 48,
+            "y": 60,
+            "x2": 26,
+            "y2": 40,
+            "color": "blue",
+            "appear": 0.4
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 24,
+            "x2": 88,
+            "y2": 28,
+            "color": "bad",
+            "appear": 0.55
+          },
+          {
+            "type": "arrow",
+            "x": 98,
+            "y": 44,
+            "x2": 98,
+            "y2": 51,
+            "color": "bad",
+            "appear": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 114,
+            "y": 68,
+            "x2": 140,
+            "y2": 88,
+            "color": "bad",
+            "appear": 0.85
+          },
+          {
+            "type": "text",
+            "x": 44,
+            "y": 6,
+            "text": "Oxygen-poor blood",
+            "size": 4.5,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 6,
+            "text": "Oxygen-rich blood",
+            "size": 4.5,
+            "appear": 0.55
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 50,
+            "y": 50,
+            "w": 26,
+            "h": 26,
+            "color": "blue",
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 110,
+            "y": 50,
+            "w": 26,
+            "h": 26,
+            "color": "bad",
+            "alpha": 0.8
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 50,
+            "w": 6,
+            "h": 16,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 60,
+            "y": 46,
+            "x2": 100,
+            "y2": 46,
+            "color": "good",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 100,
+            "y": 62,
+            "x2": 62,
+            "y2": 62,
+            "color": "muted",
+            "appear": 0.5,
+            "alpha": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Valves: one-way doors",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 78,
+            "text": "Blood cannot go back",
+            "size": 5.5,
+            "appear": 0.6
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 42,
+            "y": 54,
+            "w": 30,
+            "h": 30,
+            "color": "blue",
+            "alpha": 0.8,
+            "bob": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 118,
+            "y": 54,
+            "w": 36,
+            "h": 36,
+            "color": "bad",
+            "alpha": 0.8,
+            "bob": 1.2
+          },
+          {
+            "type": "arrow",
+            "x": 60,
+            "y": 54,
+            "x2": 74,
+            "y2": 54,
+            "color": "blue",
+            "appear": 0.2
+          },
+          {
+            "type": "arrow",
+            "x": 92,
+            "y": 54,
+            "x2": 70,
+            "y2": 54,
+            "color": "bad",
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 42,
+            "y": 24,
+            "text": "Right: to lungs",
+            "size": 5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 118,
+            "y": 24,
+            "text": "Left: to body",
+            "size": 5,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Two pumps in one",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Left pushes harder",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "text": "Blood per second",
+            "size": 6.5,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 42,
+            "text": "= per beat x beats/s",
+            "size": 7,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 64,
+            "text": "Faster or stronger beat",
+            "size": 6,
+            "appear": 0.55
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "means more blood moved",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

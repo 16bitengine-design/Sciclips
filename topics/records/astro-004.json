@@ -1,0 +1,543 @@
+{
+  "id": "astro-004",
+  "title": "Why does the Sun shine?",
+  "category": "astronomy",
+  "subject_area": "stars and nuclear fusion",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "What keeps the Sun glowing, and where does all its heat and light come from?",
+  "template": "principle",
+  "principle_statement": "The Sun shines because, deep in its core, hydrogen nuclei fuse into helium and turn a little of their mass into a huge amount of energy.",
+  "domain_of_validity": "The Sun and similar stars; this describes the main energy source in the core of the Sun.",
+  "scientific_explanation": {
+    "level_1": "The Sun is a gigantic ball of hydrogen, so big that almost a thousand Jupiters would fit inside it. All that hydrogen is pulled together by gravity, so the pressure deep inside is enormous. In the core, hydrogen atoms smash together so hard that they stick and make a new kind of atom, helium. This is called nuclear fusion, and it releases a huge amount of energy as heat and light. That energy is why the Sun shines.",
+    "level_2": "Deep in the Sun's core, protons collide with enough speed to stick together and form a helium nucleus. A helium nucleus is only 99.3 percent as heavy as the four protons that made it. The missing mass is turned into energy. Every second the Sun converts about 4 million tons of its material into heat and light. This energy also stops the Sun from collapsing under its own gravity.",
+    "level_3": "The mass-energy relation is E = m c^2, where E is the energy in joules, m is the mass that is lost in kilograms and c is the speed of light in metres per second. Because c^2 is enormous, a tiny loss of mass gives a huge amount of energy. In the 19th century people thought the Sun was powered by chemical reactions, but those could keep it shining for only about a thousand years. Fusion of hydrogen into helium can keep the Sun shining for about 10 billion years."
+  },
+  "supporting_evidence": [
+    "The Sun has been giving Earth a steady amount of heat and light for about 4.5 billion years.",
+    "In just a few millionths of a second the Sun releases more energy than all the people on Earth use in a year."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "Where Does the Sun's Energy Come From?",
+      "publisher": "NASA Space Place (Jet Propulsion Laboratory)",
+      "url": "https://spaceplace.nasa.gov/sun-heat/sp/",
+      "date_published": null,
+      "date_updated": "2022-08-29",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "What makes stars shine",
+      "publisher": "NASA Goddard Space Flight Center (StarChild)",
+      "url": "https://starchild.gsfc.nasa.gov/docs/StarChild/questions/question13.html",
+      "date_published": "1999-09-01",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "The Sun is a huge ball of hydrogen whose gravity makes the pressure and density in its core so great that hydrogen nuclei collide hard enough to fuse into helium, which is called nuclear fusion and releases energy.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "It would take almost 1,000 Jupiters to fill up the Sun, and that much hydrogen pulled together by gravity gives intense pressure in the core.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Every second a star like our Sun converts about 4 million tons of its material into heat and light through nuclear fusion.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "A helium nucleus is only 99.3 percent as heavy as the four protons that make it, and the missing mass is converted into energy that makes the star shine and keeps it from collapsing under its own gravity.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "In the 19th century people thought chemical reactions powered the Sun, but a star powered by chemical energy would shine for only about a thousand years, so a much bigger energy source, nuclear fusion, was needed.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The energy released equals the mass that is lost times the speed of light squared.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Mass-energy relation",
+      "latex": "E = m c^2",
+      "dimension_check": {
+        "lhs": "J",
+        "rhs": "kg m^2 s^-2"
+      }
+    }
+  ],
+  "assumptions": [
+    "Hydrogen nuclei in the core collide fast enough to fuse.",
+    "A small fraction of the mass is turned into energy.",
+    "Gravity holds the Sun together and keeps the core under great pressure."
+  ],
+  "variables": [
+    {
+      "symbol": "E",
+      "name": "energy released",
+      "unit": "J"
+    },
+    {
+      "symbol": "m",
+      "name": "mass that is converted",
+      "unit": "kg"
+    },
+    {
+      "symbol": "c",
+      "name": "speed of light",
+      "unit": "m s^-1"
+    }
+  ],
+  "practical_applications": [
+    "Understanding why the Sun can shine for billions of years.",
+    "Explaining where the Sun's light and heat that reach Earth come from.",
+    "Understanding how stars make helium from hydrogen."
+  ],
+  "misconceptions": [
+    {
+      "statement": "The Sun is a giant fire that burns.",
+      "correction": "A fire is a chemical reaction. The Sun is powered by nuclear fusion, which gives far more energy and can last billions of years."
+    },
+    {
+      "statement": "Fusion makes energy out of nothing.",
+      "correction": "A little mass is turned into energy: a helium nucleus is 99.3 percent as heavy as the four protons that make it."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if the Sun were as small as Jupiter?",
+      "summary": "It would not shine as a star.",
+      "correct": "Remember that the Sun's huge mass gives the pressure that makes fusion happen.",
+      "overlooked": "Assuming any ball of hydrogen would shine.",
+      "what_changes": "The amount of hydrogen is far smaller.",
+      "consequences": "There would not be enough gravity and pressure for fusion, so it would be only a ball of hydrogen and would not shine like a star.",
+      "why": "Fusion needs the intense pressure of a very large mass of hydrogen.",
+      "prevention": "Compare the mass of a star with the mass of a planet.",
+      "claim_ids": [
+        "c1",
+        "c2"
+      ]
+    },
+    {
+      "title": "What if the Sun were powered by chemical reactions?",
+      "summary": "It would run out in about a thousand years.",
+      "correct": "Expect a much bigger energy source, nuclear fusion, for a star that lasts billions of years.",
+      "overlooked": "Assuming the Sun burns like a fire.",
+      "what_changes": "The energy source is chemical instead of nuclear.",
+      "consequences": "The Sun would shine for only about a thousand years instead of billions of years.",
+      "why": "Chemical reactions release far less energy from the same mass than fusion does.",
+      "prevention": "Remember that fusion, not fire, powers the Sun.",
+      "claim_ids": [
+        "c4",
+        "c5"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Looking straight at the Sun",
+      "Heat and sunburn outdoors"
+    ],
+    "safety_equipment": [
+      "Never look at the Sun directly",
+      "A responsible adult outdoors"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Hydrogen fuses into helium in the Sun's core, and a little mass becomes a lot of energy."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Fusion in the core, E = mc squared, why fire could not power the Sun, and how long the Sun can shine."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 60,
+            "y": 50,
+            "w": 60,
+            "h": 60,
+            "color": "warn"
+          },
+          {
+            "type": "ellipse",
+            "x": 60,
+            "y": 50,
+            "w": 22,
+            "h": 22,
+            "color": "bad",
+            "appear": 0.4,
+            "alpha": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 134,
+            "y": 50,
+            "w": 6,
+            "h": 6,
+            "color": "blue",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Why does the Sun shine?",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 124,
+            "y": 66,
+            "text": "Jupiter",
+            "size": 4.5,
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 92,
+            "text": "Almost 1,000 would fit",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 62,
+            "h": 62,
+            "color": "warn",
+            "alpha": 0.35
+          },
+          {
+            "type": "ellipse",
+            "x": 62,
+            "y": 36,
+            "w": 6,
+            "h": 6,
+            "color": "text",
+            "dx": 14,
+            "dy": 14,
+            "from": 0.2,
+            "to": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 98,
+            "y": 36,
+            "w": 6,
+            "h": 6,
+            "color": "text",
+            "dx": -14,
+            "dy": 14,
+            "from": 0.2,
+            "to": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 62,
+            "y": 64,
+            "w": 6,
+            "h": 6,
+            "color": "text",
+            "dx": 14,
+            "dy": -14,
+            "from": 0.2,
+            "to": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 98,
+            "y": 64,
+            "w": 6,
+            "h": 6,
+            "color": "text",
+            "dx": -14,
+            "dy": -14,
+            "from": 0.2,
+            "to": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 50,
+            "w": 16,
+            "h": 16,
+            "color": "accent",
+            "appear": 0.75
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 38,
+            "x2": 80,
+            "y2": 18,
+            "color": "warn",
+            "appear": 0.85
+          },
+          {
+            "type": "arrow",
+            "x": 92,
+            "y": 50,
+            "x2": 116,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.85
+          },
+          {
+            "type": "arrow",
+            "x": 68,
+            "y": 50,
+            "x2": 44,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.85
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 8,
+            "text": "4 protons collide",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "1 helium + energy",
+            "size": 5.5,
+            "appear": 0.85
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "polygon",
+            "points": [
+              [
+                24,
+                70
+              ],
+              [
+                30,
+                44
+              ],
+              [
+                36,
+                70
+              ],
+              [
+                30,
+                62
+              ]
+            ],
+            "color": "bad",
+            "bob": 1.0
+          },
+          {
+            "type": "text",
+            "x": 30,
+            "y": 84,
+            "text": "Fire: about 1,000 years",
+            "size": 4.5,
+            "appear": 0.3
+          },
+          {
+            "type": "ellipse",
+            "x": 116,
+            "y": 52,
+            "w": 26,
+            "h": 26,
+            "color": "warn",
+            "appear": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 116,
+            "y": 52,
+            "w": 12,
+            "h": 12,
+            "color": "bad",
+            "appear": 0.6
+          },
+          {
+            "type": "text",
+            "x": 116,
+            "y": 84,
+            "text": "Fusion: 10 billion yrs",
+            "size": 4.5,
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Not a fire: fusion",
+            "size": 5.5,
+            "appear": 0.2
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 60,
+            "y": 40,
+            "w": 44,
+            "h": 10,
+            "color": "text"
+          },
+          {
+            "type": "rect",
+            "x": 59.7,
+            "y": 64,
+            "w": 43.7,
+            "h": 10,
+            "color": "accent",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 60,
+            "y": 28,
+            "text": "4 protons",
+            "size": 5.5
+          },
+          {
+            "type": "text",
+            "x": 60,
+            "y": 52,
+            "text": "1 helium nucleus",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "99.3 percent as heavy",
+            "size": 6,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "The rest becomes energy",
+            "size": 6,
+            "appear": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 100,
+            "y": 56,
+            "x2": 140,
+            "y2": 56,
+            "color": "warn",
+            "appear": 0.8
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "text": "E = m c^2",
+            "size": 10,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 42,
+            "text": "energy = mass x c^2",
+            "size": 6,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 64,
+            "text": "Tiny mass, huge energy",
+            "size": 6.5,
+            "appear": 0.55
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "4 million tons a second",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

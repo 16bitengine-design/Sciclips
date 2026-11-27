@@ -1,0 +1,603 @@
+{
+  "id": "earth-004",
+  "title": "What causes earthquakes?",
+  "category": "earth-science",
+  "subject_area": "plate tectonics and faults",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "What makes the ground suddenly shake, and where does the energy come from?",
+  "template": "principle",
+  "principle_statement": "Earthquakes happen when stress builds up in Earth's crust until the rock breaks and snaps to a new position, releasing the stored energy as seismic waves.",
+  "domain_of_validity": "Earthquakes caused by breaks along faults in the crust; some also come from volcanoes or explosions.",
+  "scientific_explanation": {
+    "level_1": "The ground we stand on is part of Earth's crust, a hard shell of rock. Slow forces push and pull on the crust, and it bends, a little like a ruler being bent. When the stress is too much, the rock breaks and snaps to a new position. That sudden break releases energy as waves that travel through the ground. That shaking is an earthquake.",
+    "level_2": "An earthquake is a vibration of Earth's surface that follows a sudden release of energy in the crust. Moving plates stress the crust, which first bends and then, when the stress is greater than the strength of the rocks, breaks and snaps to a new position, like a stretched rubber band breaking. The break makes seismic waves, which travel outward along the surface and through the Earth. The place where the energy starts is the focus, and the point on the surface right above it is the epicenter. Breaks happen along faults, which are fractures in the crust where blocks of rock have slipped, and earthquakes tend to happen again along the same faults.",
+    "level_3": "Seismic waves move at different speeds in different materials, so how far they have travelled depends on their speed and the time, d = v t. Faults are of three main kinds: normal faults, caused by pulling; thrust faults, caused by squeezing; and strike-slip faults, in which blocks slide sideways past each other. Plate tectonics is the source of most earthquakes. A fault that has just had an earthquake may still hold stress, so another can follow, and an earthquake under the ocean floor can send out a tsunami."
+  },
+  "supporting_evidence": [
+    "Earthquakes beneath the ocean floor sometimes generate immense sea waves called tsunamis.",
+    "A fault that has recently had an earthquake may still hold stress, and another earthquake can follow."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "How Earthquakes Happen",
+      "publisher": "U.S. Geological Survey",
+      "url": "https://pubs.usgs.gov/gip/earthq1/how.html",
+      "date_published": null,
+      "date_updated": "2016-11-30",
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    },
+    {
+      "id": "s2",
+      "title": "Understanding Earthquakes",
+      "publisher": "Missouri Department of Natural Resources",
+      "url": "https://dnr.mo.gov/land-geology/hazards/earthquakes/science/understanding-earthquakes",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "agency_web_page"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "An earthquake is the vibration of Earth's surface that follows a release of energy in the Earth's crust, and most destructive quakes are caused by sudden dislocations of the crust.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "The crust may first bend and then, when the stress exceeds the strength of the rocks, break and snap to a new position, like a stretched rubber band that breaks, releasing the stored energy.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "The break generates seismic waves that travel outward along the surface and through the Earth at speeds that depend on the material, and earthquakes beneath the ocean floor sometimes generate tsunamis.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "A fault is a fracture in the crust along which two blocks have slipped, faults are normal, thrust or strike-slip depending on how they move, and earthquakes tend to happen again along faults.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "established_fact",
+      "text": "Plate tectonics is the source of most earthquakes.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c6",
+      "kind": "mathematical_model",
+      "text": "The distance seismic waves travel equals their speed times the time they travel.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Distance from speed and time",
+      "latex": "d = v t",
+      "dimension_check": {
+        "lhs": "m",
+        "rhs": "m s^-1 s"
+      }
+    }
+  ],
+  "assumptions": [
+    "Stress builds up slowly in the crust.",
+    "The rock breaks along a fault.",
+    "Seismic waves speed depends on the material."
+  ],
+  "variables": [
+    {
+      "symbol": "d",
+      "name": "distance the waves travel",
+      "unit": "m"
+    },
+    {
+      "symbol": "v",
+      "name": "speed of the waves",
+      "unit": "m s^-1"
+    },
+    {
+      "symbol": "t",
+      "name": "time the waves travel",
+      "unit": "s"
+    }
+  ],
+  "practical_applications": [
+    "Understanding where earthquakes are likely to happen.",
+    "Explaining why buildings in earthquake areas are built to be flexible.",
+    "Understanding how scientists find where an earthquake started."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Earthquakes are always caused by volcanoes.",
+      "correction": "Most destructive earthquakes are caused by sudden breaks of the crust. Energy can also come from a volcanic eruption, but that is not the usual cause."
+    },
+    {
+      "statement": "After an earthquake all the stress on a fault is gone.",
+      "correction": "Even if a fault has just had an earthquake, there is no guarantee that all the stress has been relieved, and another earthquake can follow."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if stress builds up on a fault for many years?",
+      "summary": "The rock eventually breaks and snaps.",
+      "correct": "Expect the stored energy to be released suddenly when the stress is greater than the rock's strength.",
+      "overlooked": "Assuming the crust can bend forever without breaking.",
+      "what_changes": "Stress keeps growing on the rock around a fault.",
+      "consequences": "The rock suddenly snaps to a new position and releases the stored energy as seismic waves.",
+      "why": "The crust bends until the stress exceeds the strength of the rocks.",
+      "prevention": "Remember that earthquakes release energy that has been stored for a long time.",
+      "claim_ids": [
+        "c1",
+        "c2"
+      ]
+    },
+    {
+      "title": "What if the earthquake happens under the ocean?",
+      "summary": "It may make a tsunami.",
+      "correct": "Expect immense sea waves after a strong earthquake beneath the ocean floor.",
+      "overlooked": "Assuming earthquakes only shake the land.",
+      "what_changes": "The break is beneath the seafloor.",
+      "consequences": "The earthquake can generate a tsunami, immense sea waves that travel across the ocean.",
+      "why": "Earthquakes beneath the ocean floor sometimes generate tsunamis.",
+      "prevention": "Follow tsunami warnings after a strong earthquake near the coast.",
+      "claim_ids": [
+        "c3"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Falling objects during shaking",
+      "Unsafe buildings and cliffs after a quake"
+    ],
+    "safety_equipment": [
+      "Practise Drop, Cover and Hold On with an adult",
+      "A family safety plan"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Rock bends, breaks and snaps, and the stored energy shakes the ground."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "Stress in the crust, faults, seismic waves, focus and epicenter, and tsunamis."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 50,
+            "y": 56,
+            "w": 56,
+            "h": 26,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 110,
+            "y": 56,
+            "w": 56,
+            "h": 26,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 84,
+            "w": 170,
+            "h": 10,
+            "color": "panel2"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 40,
+            "x2": 80,
+            "y2": 72,
+            "color": "bad"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "What is an earthquake?",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Shaking of the ground",
+            "size": 5.5,
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 30,
+            "w": 4,
+            "h": 4,
+            "color": "warn",
+            "bob": 1.5
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 50,
+            "y": 56,
+            "w": 56,
+            "h": 26,
+            "color": "muted",
+            "dy": -6,
+            "from": 0.5,
+            "to": 0.6
+          },
+          {
+            "type": "rect",
+            "x": 110,
+            "y": 56,
+            "w": 56,
+            "h": 26,
+            "color": "muted",
+            "dy": 6,
+            "from": 0.5,
+            "to": 0.6
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 86,
+            "w": 170,
+            "h": 10,
+            "color": "panel2"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 40,
+            "x2": 80,
+            "y2": 72,
+            "color": "bad"
+          },
+          {
+            "type": "arrow",
+            "x": 50,
+            "y": 46,
+            "x2": 50,
+            "y2": 34,
+            "color": "bad",
+            "appear": 0.1
+          },
+          {
+            "type": "arrow",
+            "x": 110,
+            "y": 68,
+            "x2": 110,
+            "y2": 80,
+            "color": "bad",
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 50,
+            "y": 22,
+            "text": "Rock bends",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 110,
+            "y": 22,
+            "text": "Stress builds",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 10,
+            "text": "Then it snaps",
+            "size": 5.5,
+            "appear": 0.55
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 50,
+            "x2": 30,
+            "y2": 30,
+            "color": "warn",
+            "appear": 0.7
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 50,
+            "x2": 130,
+            "y2": 30,
+            "color": "warn",
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Seismic waves spread out",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 50,
+            "y": 56,
+            "w": 56,
+            "h": 26,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 110,
+            "y": 56,
+            "w": 56,
+            "h": 26,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 84,
+            "w": 170,
+            "h": 10,
+            "color": "panel2"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 40,
+            "x2": 80,
+            "y2": 72,
+            "color": "bad"
+          },
+          {
+            "type": "ellipse",
+            "x": 40,
+            "y": 24,
+            "w": 6,
+            "h": 6,
+            "color": "warn",
+            "appear": 0.2
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 24,
+            "w": 6,
+            "h": 6,
+            "color": "warn",
+            "appear": 0.45
+          },
+          {
+            "type": "ellipse",
+            "x": 120,
+            "y": 24,
+            "w": 6,
+            "h": 6,
+            "color": "warn",
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 34,
+            "text": "Quake",
+            "size": 4.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 34,
+            "text": "Aftershock",
+            "size": 4.5,
+            "appear": 0.45
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 34,
+            "text": "Later quake",
+            "size": 4.5,
+            "appear": 0.7
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 8,
+            "text": "Stress can remain",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "A quake may not end it",
+            "size": 5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 30,
+            "w": 160,
+            "h": 6,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 60,
+            "w": 160,
+            "h": 50,
+            "color": "panel2",
+            "alpha": 0.5
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 34,
+            "x2": 80,
+            "y2": 66,
+            "color": "text"
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 70,
+            "w": 9,
+            "h": 9,
+            "color": "bad"
+          },
+          {
+            "type": "ellipse",
+            "x": 80,
+            "y": 28,
+            "w": 7,
+            "h": 7,
+            "color": "warn"
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 70,
+            "x2": 30,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 80,
+            "y": 70,
+            "x2": 130,
+            "y2": 50,
+            "color": "warn",
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 104,
+            "y": 76,
+            "text": "Focus",
+            "size": 5.5,
+            "appear": 0.2
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Epicenter",
+            "size": 6,
+            "appear": 0.4
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 94,
+            "text": "Waves spread outward",
+            "size": 4.5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "text": "d = v t",
+            "size": 10,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 42,
+            "text": "distance = speed x time",
+            "size": 6,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 64,
+            "text": "Speed depends on rock",
+            "size": 5.5,
+            "appear": 0.55
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "Waves cross the Earth",
+            "size": 5.5,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

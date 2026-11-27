@@ -1,0 +1,596 @@
+{
+  "id": "physics-008",
+  "title": "Why can't we hear sound in space?",
+  "category": "physics",
+  "subject_area": "sound waves",
+  "difficulty_level": "introductory",
+  "target_audience": [
+    "general public",
+    "primary school",
+    "secondary school"
+  ],
+  "central_question": "Why is space silent, even when huge explosions happen in it?",
+  "template": "principle",
+  "principle_statement": "Sound is a vibration that has to pass through matter, so where there is almost no matter, as in space, sound cannot travel to our ears.",
+  "domain_of_validity": "Sound in air, water, solids and near-empty space; thin gas and dust can carry sound waves that humans cannot hear.",
+  "scientific_explanation": {
+    "level_1": "Sound is a vibration that moves from one bit of matter to the next, like a wave passing along a row of people. When you talk, you make the air vibrate, and that vibration carries to a friend's ear. Space is mostly empty, so there is almost nothing to vibrate. With nothing to carry it, sound cannot travel, and space is silent.",
+    "level_2": "Sound waves need a medium to move through, such as air, water or a solid like a table. In the empty vacuum of space there is no medium, so sound cannot travel. Space is not completely empty, though: large areas of gas and dust could carry sound waves. But the particles are so spread out that the waves have a very low frequency, which humans cannot hear.",
+    "level_3": "Sound is a mechanical wave, a disturbance passed from particle to particle. For a wave, the speed equals the frequency times the wavelength, v = f L, and the wave needs a medium whose particles can pass the vibration on. Where matter is extremely thin, the sound waves that do exist have such low frequencies that humans cannot hear them. This is why, in space, no sound reaches our ears."
+  },
+  "supporting_evidence": [
+    "On Earth, sound travels to your ears through vibrating air.",
+    "Sound also travels through solids: it can go directly through a table to your ears."
+  ],
+  "sources": [
+    {
+      "id": "s1",
+      "title": "How does sound travel through space?",
+      "publisher": "Smithsonian National Air and Space Museum (How Things Fly)",
+      "url": "https://howthingsfly.si.edu/ask-an-explainer/how-does-sound-travel-through-space",
+      "date_published": "2018-01-30",
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    },
+    {
+      "id": "s2",
+      "title": "Sound Waves and Medium (teacher packet)",
+      "publisher": "NASA eClips",
+      "url": "https://nasaeclips.arc.nasa.gov/resources/download/100",
+      "date_published": null,
+      "date_updated": null,
+      "date_accessed": "2026-11-19",
+      "kind": "education_resource"
+    }
+  ],
+  "claims": [
+    {
+      "id": "c1",
+      "kind": "established_fact",
+      "text": "Sound waves need a medium, matter such as air, water or a solid, to travel through, and the vacuum of deep space, where there is little or no matter, has nothing for the vibrations to move through, so sound does not travel there.",
+      "source_ids": [
+        "s1",
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c2",
+      "kind": "established_fact",
+      "text": "Sound can travel directly through a solid, such as a table, to reach your ears.",
+      "source_ids": [
+        "s2"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c3",
+      "kind": "established_fact",
+      "text": "Space is not completely empty: large areas of gas and dust have the potential to carry sound waves.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c4",
+      "kind": "established_fact",
+      "text": "The particles in space are so spread out that the sound waves they carry have a very low frequency, too low for humans to hear.",
+      "source_ids": [
+        "s1"
+      ],
+      "equation_ids": []
+    },
+    {
+      "id": "c5",
+      "kind": "mathematical_model",
+      "text": "For a sound wave, the speed equals the frequency times the wavelength.",
+      "source_ids": [],
+      "equation_ids": [
+        "e1"
+      ]
+    }
+  ],
+  "equations": [
+    {
+      "id": "e1",
+      "name": "Wave speed from frequency and wavelength",
+      "latex": "v = f L",
+      "dimension_check": {
+        "lhs": "m s^-1",
+        "rhs": "s^-1 m"
+      }
+    }
+  ],
+  "assumptions": [
+    "Sound is a mechanical wave that needs matter.",
+    "Space is nearly, but not completely, empty.",
+    "Human hearing covers only a range of frequencies."
+  ],
+  "variables": [
+    {
+      "symbol": "v",
+      "name": "speed of the wave",
+      "unit": "m s^-1"
+    },
+    {
+      "symbol": "f",
+      "name": "frequency of the wave",
+      "unit": "s^-1"
+    },
+    {
+      "symbol": "L",
+      "name": "wavelength of the wave",
+      "unit": "m"
+    }
+  ],
+  "practical_applications": [
+    "Understanding why sound can pass through walls and water.",
+    "Explaining why space explosions would be silent.",
+    "Understanding why astronomers study space with light and other waves, not with sound."
+  ],
+  "misconceptions": [
+    {
+      "statement": "Sound can travel through nothing at all.",
+      "correction": "Sound is a vibration of matter, so it needs a medium such as air, water or a solid, and there is almost none in space."
+    },
+    {
+      "statement": "Sound needs air in particular.",
+      "correction": "Sound can travel through air, water and solids. What it needs is a medium made of matter."
+    }
+  ],
+  "what_if_scenarios": [
+    {
+      "title": "What if you shouted in space?",
+      "summary": "No one would hear you.",
+      "correct": "Expect silence where there is nothing for the sound to vibrate through.",
+      "overlooked": "Assuming sound travels through empty space.",
+      "what_changes": "There is no air or other matter around you.",
+      "consequences": "The vibrations have nothing to move through, so the sound does not travel to anyone's ears.",
+      "why": "Sound waves need a medium to travel through.",
+      "prevention": "Remember that sound needs matter, not only air.",
+      "claim_ids": [
+        "c1"
+      ]
+    },
+    {
+      "title": "What if there is a thick cloud of gas and dust?",
+      "summary": "It could carry sound waves, but not ones we can hear.",
+      "correct": "Expect a gas and dust cloud to carry sound waves of very low frequency.",
+      "overlooked": "Assuming all of space is completely silent for every kind of wave.",
+      "what_changes": "There is matter to carry the vibration.",
+      "consequences": "Sound waves can travel in the cloud, but their frequency is so low that humans cannot hear them.",
+      "why": "The particles are so spread out that the waves have a very low frequency.",
+      "prevention": "Remember that human hearing has limits.",
+      "claim_ids": [
+        "c3",
+        "c4"
+      ]
+    }
+  ],
+  "safety_considerations": {
+    "risk_level": "low",
+    "hazards": [
+      "Very loud sounds",
+      "Listening with headphones turned up"
+    ],
+    "safety_equipment": [
+      "Keep the volume low",
+      "A responsible adult"
+    ],
+    "supervision_required": true
+  },
+  "short_video_potential": {
+    "suitable": true,
+    "angle": "Sound needs matter to travel through, and space has almost none."
+  },
+  "long_video_potential": {
+    "suitable": true,
+    "angle": "What a medium is, how sound crosses air and solids, and why gas clouds in space carry sound we cannot hear."
+  },
+  "production_status": "queued",
+  "scene_plan": {
+    "views": {
+      "intro": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 16,
+            "y": 50,
+            "w": 8,
+            "h": 16,
+            "color": "violet",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 130,
+            "y": 50,
+            "w": 8,
+            "h": 8,
+            "color": "text"
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 12,
+            "text": "Can sound cross space?",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 90,
+            "text": "Space is almost empty",
+            "size": 5.5,
+            "appear": 0.7
+          },
+          {
+            "type": "ellipse",
+            "x": 60,
+            "y": 50,
+            "w": 3,
+            "h": 3,
+            "color": "blue",
+            "alpha": 0.5,
+            "appear": 0.8
+          },
+          {
+            "type": "ellipse",
+            "x": 100,
+            "y": 50,
+            "w": 3,
+            "h": 3,
+            "color": "blue",
+            "alpha": 0.5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "demo": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 8,
+            "y": 50,
+            "w": 6,
+            "h": 14,
+            "color": "violet",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 40,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 20,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 28,
+            "y": 40,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 28,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 28,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 36,
+            "y": 40,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 36,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 36,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 44,
+            "y": 40,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 44,
+            "y": 52,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 44,
+            "y": 64,
+            "w": 4,
+            "h": 4,
+            "color": "blue",
+            "bob": 1.4
+          },
+          {
+            "type": "ellipse",
+            "x": 70,
+            "y": 50,
+            "w": 7,
+            "h": 7,
+            "color": "text"
+          },
+          {
+            "type": "line",
+            "x": 80,
+            "y": 10,
+            "x2": 80,
+            "y2": 90,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 88,
+            "y": 50,
+            "w": 6,
+            "h": 14,
+            "color": "violet",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 106,
+            "y": 40,
+            "w": 3,
+            "h": 3,
+            "color": "blue",
+            "alpha": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 140,
+            "y": 62,
+            "w": 3,
+            "h": 3,
+            "color": "blue",
+            "alpha": 0.5
+          },
+          {
+            "type": "ellipse",
+            "x": 150,
+            "y": 50,
+            "w": 7,
+            "h": 7,
+            "color": "text"
+          },
+          {
+            "type": "text",
+            "x": 40,
+            "y": 18,
+            "text": "Air: sound travels",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 120,
+            "y": 18,
+            "text": "Space: nothing to move",
+            "size": 5,
+            "appear": 0.5
+          }
+        ]
+      },
+      "problem": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 16,
+            "y": 50,
+            "w": 8,
+            "h": 16,
+            "color": "violet",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 140,
+            "y": 50,
+            "w": 8,
+            "h": 8,
+            "color": "text"
+          },
+          {
+            "type": "arrow",
+            "x": 28,
+            "y": 50,
+            "x2": 64,
+            "y2": 50,
+            "color": "muted",
+            "appear": 0.3,
+            "alpha": 0.6
+          },
+          {
+            "type": "text",
+            "x": 90,
+            "y": 40,
+            "text": "Sound stops",
+            "size": 6,
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 14,
+            "text": "Nothing to carry it",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 88,
+            "text": "Sound is not a ghost",
+            "size": 5.5,
+            "appear": 0.8
+          }
+        ]
+      },
+      "result": {
+        "elements": [
+          {
+            "type": "rect",
+            "x": 80,
+            "y": 60,
+            "w": 130,
+            "h": 8,
+            "color": "muted"
+          },
+          {
+            "type": "rect",
+            "x": 18,
+            "y": 44,
+            "w": 8,
+            "h": 16,
+            "color": "violet",
+            "bob": 1.2
+          },
+          {
+            "type": "ellipse",
+            "x": 146,
+            "y": 44,
+            "w": 8,
+            "h": 8,
+            "color": "text"
+          },
+          {
+            "type": "arrow",
+            "x": 30,
+            "y": 56,
+            "x2": 66,
+            "y2": 56,
+            "color": "good",
+            "appear": 0.3
+          },
+          {
+            "type": "arrow",
+            "x": 90,
+            "y": 56,
+            "x2": 138,
+            "y2": 56,
+            "color": "good",
+            "appear": 0.5
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 22,
+            "text": "Solids carry sound too",
+            "size": 5.5,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 84,
+            "text": "A table passes it on",
+            "size": 5.5,
+            "appear": 0.7
+          }
+        ]
+      },
+      "explain": {
+        "elements": [
+          {
+            "type": "text",
+            "x": 80,
+            "y": 20,
+            "text": "v = f x wavelength",
+            "size": 7,
+            "appear": 0.1
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 42,
+            "text": "Thin gas: very low f",
+            "size": 6,
+            "appear": 0.3
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 64,
+            "text": "Too low for our ears",
+            "size": 6.5,
+            "appear": 0.55
+          },
+          {
+            "type": "text",
+            "x": 80,
+            "y": 86,
+            "text": "So space seems silent",
+            "size": 6,
+            "appear": 0.8
+          }
+        ]
+      }
+    }
+  }
+}

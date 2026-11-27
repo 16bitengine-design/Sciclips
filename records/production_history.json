@@ -138,6 +138,17 @@
       "youtube_buffer_post_id": "6b089a669068b6e079633be8",
       "tiktok_url": "Buffer post 6b089a69c81617797de1147a",
       "schedule_slot": "2026-11-26|0 12 * * *"
+    },
+    {
+      "topic_id": "astro-003",
+      "format": "short",
+      "variant": "explainer",
+      "published_at": "2026-11-27T00:56:46.537Z",
+      "run_kind": "schedule",
+      "youtube_url": "https://www.youtube.com/watch?v=MFOr-1d2MFk",
+      "youtube_buffer_post_id": "6b08d54d07985b96e3ff351b",
+      "tiktok_url": "Buffer post 6b08d54f8899c4e7790364e3",
+      "schedule_slot": "2026-11-27|0 17 * * *"
     }
   ]
 }

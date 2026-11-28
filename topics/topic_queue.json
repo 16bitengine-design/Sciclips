@@ -104,14 +104,14 @@
       "title": "Why do leaves change colour in the fall?",
       "category": "biology",
       "template": "principle",
-      "status": "queued"
+      "status": "failed"
     },
     {
       "id": "chem-004",
       "title": "Why is the ocean salty?",
       "category": "chemistry",
       "template": "principle",
-      "status": "queued"
+      "status": "published"
     },
     {
       "id": "astro-002",
